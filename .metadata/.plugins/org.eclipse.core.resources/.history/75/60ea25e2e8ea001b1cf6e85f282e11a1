@@ -1,9 +1,0 @@
-package WebScraper;
-
-import java.util.Scanner;
-
-public interface ParserSinottico {
-	
-	Sinottico analizzaSinottico(String sinottico); 
-	
-}

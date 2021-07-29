@@ -1,5 +1,0 @@
-package WebScraper;
-
-public class ParserSinotticoImperatoriRomani extends ParserSinotticoWikipedia{
-	
-}

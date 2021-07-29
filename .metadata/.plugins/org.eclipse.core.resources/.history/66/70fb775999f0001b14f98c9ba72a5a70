@@ -127,7 +127,9 @@ public class ParserSinotticoWikipedia implements ParserSinottico {
 					while(riga.charAt(start) != '<' && start <= end){
 					start++;
 						if (riga.charAt(start) == '(') {
-								start = testoTraParentesi(riga, start);
+								while (riga.charAt(start) != ')') {
+									start++;
+								}
 						} 
 					}
 				} else {
@@ -136,14 +138,16 @@ public class ParserSinotticoWikipedia implements ParserSinottico {
 				}
 			} else {
 				if (letteraIniziale == '(') {
-					start = testoTraParentesi(riga, start);	
-				} else if (letteraIniziale == '\n' || letteraIniziale == ')' || letteraIniziale == ' ') {
+					while (riga.charAt(start) != ')') {
+						start++;
+					}	
+				} else if (letteraIniziale == '\n' || letteraIniziale == ')') {
 					start++;
 				} else {
 					String elemento = testoEsternoTag(riga.substring(start));
 					System.out.println("Elemento senza link: " + elemento);
 					if (elemento == null) {
-						System.out.println("Elemento che ha prodotto null: " + riga.substring(start, end));
+//						System.out.println("Elemento che ha prodotto null: " + riga.substring(start, end));
 					}
 					while (riga.charAt(start) != '<' && start <= end) {
 						start++;
@@ -158,18 +162,6 @@ public class ParserSinotticoWikipedia implements ParserSinottico {
 		}
 		
 	}
-	/**
-	 * Parsa la parte della riga racchiusa tra parentesi per escluderla.
-	 * 
-	 * @param riga del sinottico in analisi.
-	 * @param start Posizione attuale del parsing.
-	 * @return Il punto di start aggiornato.
-	 */
-	public int testoTraParentesi(String riga, int start) {
-		while (riga.charAt(start) != ')') {
-			start++;
-		}
-		return start;
-	}
+
 	
 }

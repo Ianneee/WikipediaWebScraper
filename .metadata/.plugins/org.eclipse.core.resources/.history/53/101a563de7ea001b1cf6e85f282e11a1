@@ -1,5 +1,0 @@
-package WebScraper;
-
-public interface ParserSinottico {
-	
-	abstract static Sinottico analizzaSinottico(String sinottico);

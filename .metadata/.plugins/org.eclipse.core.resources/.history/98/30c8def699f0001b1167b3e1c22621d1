@@ -86,8 +86,8 @@ public class WikipediaScraper {
 	public static void main(String[] args) {
 		try {
 		WikipediaScraper ws = new WikipediaScraper("Chrome");
-		ws.openUrl("https://it.wikipedia.org/wiki/Tolomeo_XV");
-//		ws.openUrl("https://it.wikipedia.org/wiki/Settimio_Severo");
+//		ws.openUrl("https://it.wikipedia.org/wiki/Tolomeo_XV");
+		ws.openUrl("https://it.wikipedia.org/wiki/Settimio_Severo");
 //		ws.openUrl("https://it.wikipedia.org/wiki/Dittatore_(storia_romana)");
 //		ws.pageHtml();
 		PaginaWikipedia sin = ws.analizzaPagina();

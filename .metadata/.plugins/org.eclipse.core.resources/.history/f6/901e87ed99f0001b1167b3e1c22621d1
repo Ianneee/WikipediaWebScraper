@@ -137,7 +137,7 @@ public class ParserSinotticoWikipedia implements ParserSinottico {
 			} else {
 				if (letteraIniziale == '(') {
 					start = testoTraParentesi(riga, start);	
-				} else if (letteraIniziale == '\n' || letteraIniziale == ')' || letteraIniziale == ' ') {
+				} else if (letteraIniziale == '\n' || letteraIniziale == ')') {
 					start++;
 				} else {
 					String elemento = testoEsternoTag(riga.substring(start));

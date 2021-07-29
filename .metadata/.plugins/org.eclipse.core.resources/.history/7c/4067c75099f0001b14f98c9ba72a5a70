@@ -137,13 +137,13 @@ public class ParserSinotticoWikipedia implements ParserSinottico {
 			} else {
 				if (letteraIniziale == '(') {
 					start = testoTraParentesi(riga, start);	
-				} else if (letteraIniziale == '\n' || letteraIniziale == ')' || letteraIniziale == ' ') {
+				} else if (letteraIniziale == '\n' || letteraIniziale == ')') {
 					start++;
 				} else {
 					String elemento = testoEsternoTag(riga.substring(start));
 					System.out.println("Elemento senza link: " + elemento);
 					if (elemento == null) {
-						System.out.println("Elemento che ha prodotto null: " + riga.substring(start, end));
+//						System.out.println("Elemento che ha prodotto null: " + riga.substring(start, end));
 					}
 					while (riga.charAt(start) != '<' && start <= end) {
 						start++;
