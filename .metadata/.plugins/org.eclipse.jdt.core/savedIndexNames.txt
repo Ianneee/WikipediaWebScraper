@@ -8,4 +8,3 @@ INDEX VERSION 1.131+D:\Progetto mdp\.metadata\.plugins\org.eclipse.jdt.core
 1974124836.index
 1981210561.index
 3883950653.index
-828757366.index
