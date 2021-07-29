@@ -1,0 +1,26 @@
+package webScraper;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.File;
+
+public class ParserSinotticoWikipediaTester {
+	
+	public static void main(String args[]) {
+		ParserSinotticoWikipedia psw = new ParserSinotticoWikipedia();
+		
+		try {
+			Scanner in = new Scanner(new File("sinottico.txt"));
+			String testo = "";
+			StringBuffer sb = new StringBuffer();
+			while(in.hasNextLine()) {
+				sb.append(in.nextLine());
+			}
+			testo = sb.toString();
+			System.out.println(testo);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}

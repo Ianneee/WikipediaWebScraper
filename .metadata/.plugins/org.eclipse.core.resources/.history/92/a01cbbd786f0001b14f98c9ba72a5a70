@@ -1,0 +1,15 @@
+package webScraper;
+
+public class ClasseTestVariabili {
+	public static void addValue(int n) {
+		n = n*2;
+		System.out.println(n);
+	}
+	
+	public static void main(String args[]) {
+		int numero = 2;
+		addValue(numero);
+		numero++;
+		System.out.println(numero);
+	}
+}

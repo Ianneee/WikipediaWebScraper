@@ -1,0 +1,18 @@
+package WebScraper;
+
+import java.util.Scanner;
+
+public class ParserSinotticoImperatoriRomani extends ParserSinotticoWikipedia{
+	@Override
+	public static Sinottico createSinottico(String sinottico) {
+		Scanner html = new Scanner(sinottico);
+		while (html.hasNextLine()) {
+			String riga = html.nextLine();
+			if (riga.contains("th style=")) {
+				String categoria = nomeCategoria(riga);
+				System.out.println(categoria);
+			}
+		}
+		return null;
+	}
+}

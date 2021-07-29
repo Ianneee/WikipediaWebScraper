@@ -1,0 +1,11 @@
+INDEX VERSION 1.131+D:\Progetto mdp\.metadata\.plugins\org.eclipse.jdt.core
+953345502.index
+1574432764.index
+234330703.index
+4142212627.index
+2118276198.index
+3218717534.index
+1974124836.index
+1981210561.index
+3883950653.index
+828757366.index

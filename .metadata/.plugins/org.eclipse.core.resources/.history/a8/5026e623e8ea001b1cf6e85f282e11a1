@@ -1,0 +1,9 @@
+package WebScraper;
+
+public interface ParserSinotticoWiki extends ParserSinottico {
+	
+	@Override
+	static Sinottico analizzaSinottico(String sinottico) {
+		return null;
+	}
+}

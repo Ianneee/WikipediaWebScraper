@@ -1,0 +1,37 @@
+package WebScraper;
+
+import java.util.Scanner;
+
+public interface ParserSinottico {
+	
+	Sinottico analizzaSinottico(String sinottico); 
+	
+	private static Sinottico createSinottico(String sinottico) {
+		Scanner html = new Scanner(sinottico);
+		while (html.hasNextLine()) {
+			String riga = html.nextLine();
+			if (riga.contains("th style=")) {
+				String categoria = nomeCategoria(riga);
+				System.out.println(categoria);
+			}
+		}
+		return null;
+	}
+	
+	private static String nomeCategoria(String riga) {
+		if (riga.charAt(0) != '<') {
+			int pos = 1;
+			while (riga.charAt(pos) != '<') {
+				pos++;
+			}
+			return riga.substring(0, pos);
+		}
+		int pos = 0;
+		while (riga.charAt(pos) != '>') {
+			pos++;
+		}
+		pos++;
+		return nomeCategoria(riga.substring(pos));
+	}
+	
+}

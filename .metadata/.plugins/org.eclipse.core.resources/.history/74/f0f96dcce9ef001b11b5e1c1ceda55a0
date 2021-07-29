@@ -1,0 +1,208 @@
+package webScraper;
+
+import java.util.Scanner;
+
+public class ParserSinotticoWikipedia implements ParserSinottico {
+
+	@Override
+	public Sinottico analizzaSinottico(String sinottico) {
+		return createSinottico(sinottico);
+	}
+	
+//	protected Sinottico createSinottico(String sinottico) {
+//		Sinottico sin = new Sinottico();
+//		Scanner html = new Scanner(sinottico);
+//		while (html.hasNextLine()) {
+//			String riga = html.nextLine();
+//			if (riga.contains("th style=") || riga.contains("<th>")) {
+//				String categoria = testoEsternoTag(riga);
+//				System.out.println(categoria);
+//				sin.addCategoria(categoria);
+//				
+//				while(riga.contains("<a href")) {
+//					riga = riga.substring(riga.indexOf("<a href"));
+//					String link = estraiLink(riga);
+////					System.out.println(riga);
+//					if (link.contains("/wiki/")) {
+//						//TODO aggiungi a sinottico
+//						String nomeLink = testoEsternoTag(riga);
+//						System.out.println(link + " : " + nomeLink);
+//						int newStart = riga.indexOf(nomeLink) + nomeLink.length() -1;
+//						riga = riga.substring(newStart);
+//					} else {
+//						int start = 0;
+//						while (riga.charAt(start) != '>') {
+//							start++;
+//						}
+//						riga = riga.substring(start);
+//					}
+//				}
+//				
+//			}
+//		}
+//		return null;
+//	}
+	
+	/**
+	 * Analizza il codice Html contenente il sinottico per ogni riga della tabella. Il ciclo finisce quando
+	 * non ci sono più righe, quindi quando non ci sono più tag contententi "tr".
+	 * End+5 è il conteggio per andare oltre al tag di chiusura </tr>
+	 * 
+	 * @param sinottico della pagina Wikipedia.
+	 * @return Classe Sinottico con le informazioni ricavate.
+	 */
+	protected Sinottico createSinottico(String sinottico) {
+		Sinottico sin = new Sinottico();
+		while (sinottico.contains("<tr")) {
+			int start = sinottico.indexOf("<tr");
+			int end = sinottico.indexOf("</tr");
+			Sinottico.Info info = analizzaRiga(sinottico.substring(start, end));
+			sinottico = sinottico.substring(end + 5);
+//			System.out.println("SINOTTICO ----- \n" + sinottico);
+			//TODO aggiungere Info a Sinotico (sin)
+		}
+		return null;
+	}
+	
+	/**
+	 * Estrapola le informazioni della riga della tabella sinottico passata come input.
+	 * La riga viene analizzata solo se sono presenti sia la cella sinistra che destra quindi
+	 * se sono presenti sia il tag "th" che quello "td".
+	 * La prima analisi viene fatta sulla cella sinistra che conterrà il nome della categoria
+	 * dell'informazione.
+	 * 
+	 * @param riga del sinottico.
+	 * @return Sinottico.info con le informazioni della riga.
+	 */
+	private Sinottico.Info analizzaRiga(String riga) {
+		if (riga.contains("<th") && riga.contains("<td")) {
+			String categoria = testoEsternoTag(riga);
+			System.out.println("\nCategoria valida: " + categoria + "\n ------------");
+			analisiCella(riga);
+			//TODO ritornare i risultati
+		}
+		return null;
+	}
+	
+	/**
+	 * In maniera ricorsiva cerco il primo testo fuori dai vari tag di formattazione della riga
+	 * del sinottico passata come input, quello visibile all'utente nella pagina.
+	 * 
+	 * @param riga del sinottico.
+	 * @return Il testo contenuto fuori dai tag.
+	 */
+	protected String testoEsternoTag(String riga) {
+//		System.out.println("porzione di riga in analisi: " + riga + "\n");
+		// La riga ha lunghezza zero e non contiene nessuna informazione utile.
+		if (riga.length() == 0) {
+			return null;
+		}
+		riga = riga.trim();
+		int pos = 0;
+		// Sono fuori dal tag, cerco quindi l'inizio del tag successivo.
+		if (riga.charAt(pos) != '<') {
+			while (pos < riga.length() && riga.charAt(pos) != '<' && riga.charAt(pos) != "(") {
+				pos++;
+			}
+//			pos++;
+//			String result = riga.substring(0, pos).trim();
+//			System.out.println("Risultato: " + riga.substring(0, pos));
+//			System.out.println(result);
+//			return riga.substring(0, pos);
+//			return result;
+			return riga.substring(0, pos).trim();
+		}
+		// Sono dentro ad un tag, cerco la fine di questo.
+		while (riga.charAt(pos) != '>') {
+			pos++;
+		}
+		pos++;
+		return testoEsternoTag(riga.substring(pos));
+	}
+	
+	private void analisiCella(String riga) {
+//		System.out.println(riga);
+		int start = riga.indexOf("<td");
+		int end = riga.indexOf("</td>"); 
+		// Rimozione primo tag <td .. >
+		while (riga.charAt(start) != '>') {
+			start++;
+		}
+		start++;
+		while (start < end) {
+//			int startInterno = start;
+//			
+//			if (riga.charAt(startInterno) == ' ') {
+//				start++;
+//			} else if (riga.charAt(startInterno) == '(') {
+//				start = riga.indexOf(")") +1;
+//			} else if (riga.charAt(startInterno) != '<') {
+//				String elemento = testoEsternoTag(riga.substring(start));
+//				System.out.println(elemento);
+//				start = riga.indexOf(elemento) + elemento.length();
+//			} else if (riga.charAt(startInterno) == '<'){
+//				while (riga.charAt(startInterno) != '>') {
+//					startInterno++;
+//				}
+//				
+//				String subTag = riga.substring(start, startInterno +1);
+//				if (subTag.contains("href")) {
+//					String link = estraiLink(subTag);
+//					start = startInterno +1;
+//					String refLink = testoEsternoTag(riga.substring(start));
+//					System.out.println(link + " : " + refLink);
+//				}
+//			}
+			if (riga.charAt(start) == '<') {
+				int subStart = start;
+				while(riga.charAt(subStart) != '>') {
+					subStart++;
+				}
+				subStart++;
+				String tag = riga.substring(start, subStart);
+//				System.out.println("Riga tag: " + tag);
+				if (tag.contains("href")) {
+					String link = estraiLink(tag);
+					start = subStart;
+					String nomeLink = testoEsternoTag(riga.substring(start));
+					System.out.println(link + " : " + nomeLink);
+					while(riga.charAt(start) != '<' && start <= end){
+					start++;
+					}
+//					start++;					
+//					start = subStart;
+				} else {
+					start = subStart;
+//					System.out.println("SubStringa dopo taglio: " + riga.substring(start));
+				}
+			} else {
+				String elemento = testoEsternoTag(riga.substring(start));
+				System.out.println("Elemento senza link: " + elemento);
+				while (riga.charAt(start) != '<' && start <= end) {
+					start++;
+				}
+//				start++;
+			}
+		}
+		
+	}
+	
+	/**
+	 * Estrae il link indicato dal tag href e gli concatena la parte https://it.wikipedia.org non presente.
+	 * @param riga del sinottico.
+	 * @return il link di Wikipedia valido.
+	 */
+	protected String estraiLink(String riga) {
+		int start = 0;
+		while (riga.charAt(start) != '\"') {
+			start++;
+		}
+		start++;
+		int end = start;
+		while(riga.charAt(end) != '\"') {
+			end++;
+		}
+		return "https://it.wikipedia.org" + riga.substring(start, end);
+	}
+	
+}
