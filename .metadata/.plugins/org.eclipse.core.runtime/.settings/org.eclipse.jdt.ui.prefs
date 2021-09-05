@@ -1,7 +1,0 @@
-content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="webScraper.ParserSinottico"><rhs name\="webScraper.ParserSinotticoWikipedia"/></lhs><lhs name\="webScraper.ParserSinotticoWikipedia"><rhs name\="webScraper.ParserSinotticoWikipedia"/></lhs><lhs name\="java.lang.CharSequence"><rhs name\="java.lang.String"/></lhs><lhs name\="java.lang.constant.Constable"><rhs name\="java.lang.String"/></lhs><lhs name\="java.lang.constant.ConstantDesc"><rhs name\="java.lang.String"/></lhs></history>
-content_assist_number_of_computers=12
-eclipse.preferences.version=1
-org.eclipse.jdt.ui.formatterprofiles.version=21
-spelling_locale_initialized=true
-useAnnotationsPrefPage=true
-useQuickDiffPrefPage=true
