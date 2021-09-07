@@ -23,7 +23,5 @@ public class WikiImperatoriRomaniPaginaTester {
 			 System.out.println(dinastia);
 		 }
 		 
-		 
 	}
-
 }
