@@ -1,6 +1,6 @@
-package alberoGenealogico;
+package alberoGenealogicoLib;
 
-public class AnticoRomano extends Persona {
+public class AnticoRomano extends PersonaEstesa {
 
 	private String urlWikipedia;
 	private String urlFoto;
@@ -104,9 +104,9 @@ public class AnticoRomano extends Persona {
 	
 	public String toString() {
 		return "-------------------------------\n" + 
-		           "Nome del personaggio storico: " + this.getName() + "\n" + 
+		           "Nome del personaggio storico: " + this.getNome() + "\n" + 
 			       "Nome del padre: " + this.getFatherName() + "\n" +
-				   "Numero figli (direzione principale): " + this.countSons() + "\n" + 
+				   "Numero figli (direzione principale): " + this.totaleFigli() + "\n" + 
 				   "Elementi nella direzione secondaria: " + this.countParent() + "\n" +
 				   "Tipo classe: AnticoRomano \n";
 	}

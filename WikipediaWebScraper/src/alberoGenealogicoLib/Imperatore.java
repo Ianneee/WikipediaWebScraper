@@ -1,4 +1,4 @@
-package alberoGenealogico;
+package alberoGenealogicoLib;
 
 public class Imperatore extends AnticoRomano {
 	

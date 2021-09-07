@@ -1,4 +1,4 @@
-package alberoGenealogico;
+package alberoGenealogicoLib;
 
 public class AnticoRomanoTester {
 	public static void main(String[] args) {
@@ -9,12 +9,12 @@ public class AnticoRomanoTester {
 		AnticoRomano Tullio = new AnticoRomano("Tullio");
 		AnticoRomano Livia = new AnticoRomano("Livia");
 		
-		Giulio.addSon(Adriano);
-		Giulio.addSon(Cesare);
-		Cesare.addSon(Tullio);
-		Tullio.addSon(Livia);
+		Giulio.aggiungiFiglio(Adriano);
+		Giulio.aggiungiFiglio(Cesare);
+		Cesare.aggiungiFiglio(Tullio);
+		Tullio.aggiungiFiglio(Livia);
 		
-		Tree.visitPreOrder(Giulio);
+		Persona.visitPreOrder(Giulio);
 		
 	}
 }

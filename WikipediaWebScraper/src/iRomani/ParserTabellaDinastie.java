@@ -187,12 +187,12 @@ public class ParserTabellaDinastie {
 		/**
 		 * Nome dell'imperatore.
 		 */
-		String nomeImperatore;
+		private String nomeImperatore;
 		
 		/**
 		 * Url della pagina Wikipedia dell'imperatore.
 		 */
-		String urlImperatore;
+		private String urlImperatore;
 		
 		/**
 		 * Costruisce un record con le informazioni prelevate dalla cella

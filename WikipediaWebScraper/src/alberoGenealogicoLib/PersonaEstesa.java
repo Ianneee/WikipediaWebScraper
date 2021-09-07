@@ -1,12 +1,12 @@
-package alberoGenealogico;
+package alberoGenealogicoLib;
 
-public class Persona extends Tree{
+public abstract class PersonaEstesa extends Persona{
 	
 	class Tester {
 
 	}
 
-	public Persona(String nome) {
+	public PersonaEstesa(String nome) {
 		super(nome);
 	}
 	
