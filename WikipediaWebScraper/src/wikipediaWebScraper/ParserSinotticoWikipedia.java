@@ -69,13 +69,25 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	}
 	
 	/**
+	 * Metodo statico per estrapolare dalla riga del codice sorgente di Wikipedia il testo
+	 * fuori da un tag Html, se presente.
+	 * Ritorna null se non è presente nessun testo.
+	 * 
+	 * @param riga La riga di codice Html.
+	 * @return Il testo esterno alla riga.
+	 */
+	static public String testoEsternoTag(String riga) {
+		return estraiTestoEsternoTag(riga);
+	}
+	
+	/**
 	 * In maniera ricorsiva cerco il primo testo fuori dai vari tag di formattazione della riga
 	 * del sinottico passata come input, quello visibile all'utente nella pagina.
 	 * 
 	 * @param riga del sinottico.
 	 * @return Il testo contenuto fuori dai tag.
 	 */
-	static public String estraiTestoEsternoTag(String riga) {
+	static private String estraiTestoEsternoTag(String riga) {
 		// Caso base: la riga ha lunghezza zero e quindi non c'è nessun testo all'esterno dei tag.
 		if (riga.length() == 0) {
 			return null;
@@ -99,12 +111,27 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	}
 	
 	/**
+	 * Metodo statico per estrarre il link nel tag <a href= ...> e gli concatena 
+	 * la parte https://it.wikipedia.org che non è non presente.
+	 * Il metodo estrae il link, non controlla la validità della stringa passata, il controllo
+	 * deve essere fatto prima.
+	 * 
+	 * @param riga La stringa contentente il tag da cui reperire il link.
+	 * @return Il link di Wikipedia.
+	 */
+	static public String estrapolaLink(String riga) {
+		return estraiLink(riga);
+	}
+	
+	/**
 	 * Estrae il link nel tag <a href= ...> e gli concatena la parte https://it.wikipedia.org che non è non presente.
+	 * Il metodo estrae il link, non controlla la validità della stringa passata, il controllo
+	 * deve essere fatto prima.
 	 * 
 	 * @param riga del sinottico.
 	 * @return il link di Wikipedia valido.
 	 */
-	static public String estraiLink(String riga) {
+	static private String estraiLink(String riga) {
 		int start = 0;
 		// Cerco la fine di href=
 		while (riga.charAt(start) != '"') {

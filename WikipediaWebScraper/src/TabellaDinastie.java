@@ -34,6 +34,7 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	
 	/**
 	 * Costruisce una TabellaDinastie fornendo il nome della dinastia.
+	 * 
 	 * @param nomeDinastia
 	 */
 	public TabellaDinastie(String nomeDinastia) {
@@ -43,10 +44,29 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	
 	/**
 	 * Imposta l'url della dinastia rappresentata nella tabella.
+	 * 
 	 * @param urlDinastia
 	 */
 	public void setUrlDinastia(String urlDinastia) {
 		this.urlDinastia = urlDinastia;
+	}
+	
+	/**
+	 * Ritorna l'url della pagina della dinastia.
+	 * 
+	 * @return L'url della pagina.
+	 */
+	public String getUrlDinastia() {
+		return urlDinastia;
+	}
+	
+	/**
+	 * Ritorna il nome della dinastia.
+	 * 
+	 * @return Il nome della dinastia.
+	 */
+	public String getNomeDinastia() {
+		return nomeDinastia;
 	}
 	
 	/**
@@ -98,7 +118,7 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	public void addRiga(RigaTabella riga) {
 		// TODO raise errore tipo della riga aggiunta errata
 		
-		if (riga.getClass() == /*rigaEsempio.getClass()*/ Riga.class ) {
+		if (riga.getClass() ==  Riga.class ) {
 			righe.add((Riga) riga);
 		}
 	}
@@ -124,7 +144,6 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	}
 	
 	
-	
 	/**
 	 * La classe rappresenta la riga di una tabella della pagina Wikipedia contenente
 	 * le dinastie degli imperatori romani.
@@ -142,35 +161,38 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 		 * Url della pagina Wikipedia dell'imperatore.
 		 */
 		private String urlPagina;
-
-		/**
-		 * Url di dinastia di appartenza
-		 */
-		private String urlDinastia;
 		
-		private Riga(String nomeImperatore, String urlPagina) {
+		/**
+		 * Costruttore della riga, fornire il nome dell'imperatore e della sua pagina Wikipedia.
+		 * 
+		 * @param nomeImperatore Il nome dell'imperatore.
+		 * @param urlPagina Url della pagine dell'imperatore.
+		 */
+		public Riga(String nomeImperatore, String urlPagina) {
 			this.nomeImperatore = nomeImperatore;
 			this.urlPagina = urlPagina;
-//			this.urlDinastia = urlDinastia;
 		}
 		
-		private Riga() {}
-		
+		/**
+		 * Ritorna il nome dell'imperatore.
+		 * 
+		 * @return Stringa con il nome dell'imperatore.
+		 */
 		public String getNomeImperatore() {
-			return this.nomeImperatore;
+			return nomeImperatore;
 		}
 		
+		/**
+		 * Ritorna stringa con l'url della pagina Wikipedia con l'imperatore.
+		 * @return Stringa con l'url della pagina.
+		 */
 		public String getUrlPagina() {
-			return this.urlPagina;
-		}
-		
-		public String getUrlDinastia() {
-			return this.urlDinastia;
+			return urlPagina;
 		}
 		
 		@Override
 		public String toString() {
-			return nomeImperatore + " | " + urlPagina + " | " + urlDinastia;
+			return nomeImperatore + " | " + urlPagina ;
 		}
 	}
 	

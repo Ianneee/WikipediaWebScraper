@@ -11,8 +11,6 @@ public class PaginaWikipediaBuilderEInfoWikipediaTester {
 //			String sorgente = wn.getHtmlPagina("www.google.it");
 			wn.closeBrowser();
 			
-			Supplier<ParserTabellaWikipedia> parser = ParserSinotticoWikipedia::new; 
-			
 			PaginaWikipedia paginawpd = new PaginaWikipediaBuilder()
 											.titoloPagina(InfoWikipedia.titoloPagina(sorgente))
 											.urlImmagine(InfoWikipedia.urlImmagine(sorgente))

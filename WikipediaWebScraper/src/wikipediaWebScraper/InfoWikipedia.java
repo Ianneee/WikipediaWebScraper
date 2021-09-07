@@ -127,7 +127,7 @@ public class InfoWikipedia {
 	
 	/**
 	 * Restituisce l'oggetto TabellaWikipedia dal sorgente passato.
-	 * Il Supplier deve instanziare un parser che implementa l'interfaccia ParserTabellaWikipedia.
+	 * Il Supplier deve instanziare un parser che implementi l'interfaccia ParserTabellaWikipedia.
 	 * 
 	 * @param sorgente Il codice da analizzare.
 	 * @param parser Il parser per analizzare il sorgente.
