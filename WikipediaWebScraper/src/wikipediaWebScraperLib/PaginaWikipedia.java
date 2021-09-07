@@ -1,4 +1,4 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 /**
  * La classe rappresenta una pagina di Wikipedia Italia e salva le informazioni principali

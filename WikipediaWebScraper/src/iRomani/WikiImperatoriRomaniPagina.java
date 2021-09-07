@@ -1,7 +1,8 @@
-import wikipediaWebScraper.WikipediaWebPage;
-import wikipediaWebScraper.WikipediaNavigator;
+package iRomani;
 import java.util.List;
-import wikipediaWebScraper.BrowserErratoException;
+
+import wikipediaWebScraperLib.WikipediaNavigator;
+import wikipediaWebScraperLib.WikipediaWebPage;
 
 
 /**
@@ -93,19 +94,14 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	 * chiama la classe ParserTabellaDinastie per analizzare il sorgente.	 * 
 	 */
 	private void analisiSorgentePagina() {
-		try {
-			
-			WikipediaNavigator browser = new WikipediaNavigator("chrome");
-//			WikiImperatoriRomaniPagina imperatori = WikiImperatoriRomaniPagina.getInstance();
-			String sorgente = browser.getHtmlPagina(URL_PAGINA);
-			browser.closeBrowser();
-			ParserTabellaDinastie parser = new ParserTabellaDinastie();
-			List<TabellaDinastie> dinastie = parser.analisiSorgente(sorgente);
-			this.dinastie = dinastie;
-			
-		} catch (BrowserErratoException e) {
-			e.printStackTrace();
-		}
+	
+		WikipediaNavigator browser = new WikipediaNavigator();
+		String sorgente = browser.getHtmlPagina(URL_PAGINA);
+		browser.closeBrowser();
+		ParserTabellaDinastie parser = new ParserTabellaDinastie();
+		List<TabellaDinastie> dinastie = parser.analisiSorgente(sorgente);
+		this.dinastie = dinastie;
+	
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 /**
  * Classe astratta che rappresente una pagina di Wikipedia e le sue informazioni basilari.
@@ -24,6 +24,7 @@ public abstract class WikipediaWebPage {
 	
 	/**
 	 * Ritorna il titolo della pagina.
+	 * 
 	 * @return Il titolo.
 	 */
 	public String getTitle() {
@@ -32,6 +33,7 @@ public abstract class WikipediaWebPage {
 	
 	/**
 	 * Ritorna l'url della pagina.
+	 * 
 	 * @return L'url della pagina.
 	 */
 	public String getUrl() {

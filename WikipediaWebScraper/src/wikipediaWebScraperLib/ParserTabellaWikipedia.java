@@ -1,4 +1,4 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 /**
  * Interfaccia per l'analisi di tabelle all'interno del codice Html delle

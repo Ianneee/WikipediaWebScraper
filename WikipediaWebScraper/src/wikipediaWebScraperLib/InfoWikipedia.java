@@ -1,4 +1,4 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 import java.util.function.Supplier;
 
@@ -110,6 +110,7 @@ public class InfoWikipedia {
 	
 	/**
 	 * Restituisce la sezione di codice del sinottico, se presente.
+	 * 
 	 * @param sorgente Sorgente Html della pagina Wikipedia.
 	 * @return Porzione di codice del sinottico.
 	 */

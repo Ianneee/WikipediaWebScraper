@@ -1,3 +1,4 @@
+package iRomani;
 import java.util.List;
 
 public class WikiImperatoriRomaniPaginaTester {
@@ -9,7 +10,7 @@ public class WikiImperatoriRomaniPaginaTester {
 		
 		List<TabellaDinastie> dinastie = pagDinastie.getDinastie();
 		System.out.println("\nElenco delle dinastie e imperatori:");
-		 for (TabellaDinastie tabella : dinastie) {
+		for (TabellaDinastie tabella : dinastie) {
 			 System.out.println("\nDinastia: " + tabella.getNomeDinastia() + " | Url: " + tabella.getUrlDinastia());
 			 System.out.println("Elenco degli imperatori:");
 			 for (TabellaDinastie.Riga riga : tabella) {

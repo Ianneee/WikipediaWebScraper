@@ -1,6 +1,5 @@
-package wikipediaWebScraper;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
+package wikipediaWebScraperLib;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -15,14 +14,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class WikipediaNavigator {
 	private WebDriver webDriver;
 	
-	public WikipediaNavigator(String browser) throws BrowserErratoException {
-		if (browser.toLowerCase().equals("chrome")) {
-			buildChrome();
-		} else if (browser.toLowerCase().equals("firefox")) {
-			buildFireFox();
-		} else {
-		throw new BrowserErratoException("Hai scelto un browser non supportato.");
-		}
+	public WikipediaNavigator() {
+		buildChrome();
 	}
 	
 	/**
@@ -31,13 +24,6 @@ public class WikipediaNavigator {
 	private void buildChrome() {
 		System.setProperty("webdriver.chrome.driver",  "res/chromedriver.exe");
 		webDriver = new ChromeDriver();
-	}
-	
-	/**
-	 * Utilizza Firefox come browser di navigazione.
-	 */
-	private void buildFireFox() {
-		// TODO
 	}
 
 	/**
@@ -51,7 +37,6 @@ public class WikipediaNavigator {
 	public String getHtmlPagina(String url) {
 		if (urlValido(url)) {
 			webDriver.get(url);
-//			webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			return webDriver.getPageSource();
 		}
 		return null;
@@ -59,6 +44,7 @@ public class WikipediaNavigator {
 	
 	/**
 	 * Controlla se l'url fornito è nel formato corretto.
+	 * 
 	 * @param url Url di wikipedia che cominci con https://it.wikipedia.org/wiki/
 	 * @return Boolean di conferma.
 	 */

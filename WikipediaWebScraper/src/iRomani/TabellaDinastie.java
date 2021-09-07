@@ -1,7 +1,9 @@
+package iRomani;
 import java.util.List;
 
-import wikipediaWebScraper.RigaTabella;
-import wikipediaWebScraper.TabellaWikipedia;
+import wikipediaWebScraperLib.RigaTabella;
+import wikipediaWebScraperLib.TabellaWikipedia;
+
 import java.util.Iterator;
 import java.util.ArrayList;
 

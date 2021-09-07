@@ -1,4 +1,4 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 /**
  * Errore che segnala il passaggio di un link Wikipedia in formato errato.

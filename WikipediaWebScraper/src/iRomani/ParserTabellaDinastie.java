@@ -1,5 +1,8 @@
-import wikipediaWebScraper.ParserSinotticoWikipedia;
+package iRomani;
 import java.util.List;
+
+import wikipediaWebScraperLib.ParserSinotticoWikipedia;
+
 import java.util.ArrayList;
 
 /**

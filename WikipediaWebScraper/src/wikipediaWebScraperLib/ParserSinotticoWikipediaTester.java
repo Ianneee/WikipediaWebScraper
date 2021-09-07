@@ -1,8 +1,14 @@
-package wikipediaWebScraper;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
-import java.io.File;
+package wikipediaWebScraperLib;
 
+/**
+ * Classe di test per controllo sinottico. La parte di codice html è stata copiata dalla relativa pagina
+ * Wikipedia.
+ * La classe PaginaWikipediaBuildeEInfoWikipediaTester effettua altri test sulla classe del Parser
+ * aggiungendo casi nulli.
+ * 
+ * * @author Ian Tirso Cini
+ *
+ */
 public class ParserSinotticoWikipediaTester {
 	
 	public static void main(String args[]) {
@@ -121,12 +127,10 @@ public class ParserSinotticoWikipediaTester {
 				+ "\r\n"
 				+ "\r\n"
 				+ "</tbody></table>";
-		
+
 		Sinottico sin = psw.analizzaTabella(sinottico);
 		for (RigaSinottico riga : sin) {
 			System.out.println(riga);
 		}
-		
 	}
-
 }

@@ -1,4 +1,4 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,8 +13,7 @@ import java.util.Iterator;
  * @author Ian Tirso Cini
  * 
  */
-public class RigaSinottico implements RigaTabella, Iterable<RigaSinottico.Informazione>, Comparable<RigaSinottico>{
-	// TODO controllare se serve ancora interfaccia comparable
+public class RigaSinottico implements RigaTabella, Iterable<RigaSinottico.Informazione> {
 	
 	/**
 	 * La categoria ovvero la cella sinistra della riga
@@ -26,6 +25,11 @@ public class RigaSinottico implements RigaTabella, Iterable<RigaSinottico.Inform
 	 */
 	private List<Informazione> cellaDestra;
 	
+	/**
+	 * Costruisce la riga sinottico dalla categoria (l'informazione contenuta nella cella sinistra).
+	 * 
+	 * @param categoria La categoria dell'informazione contenuta nella riga.
+	 */
 	public RigaSinottico(String categoria) {
 		this.categoria = categoria;
 		this.cellaDestra = new ArrayList<>();
@@ -98,11 +102,7 @@ public class RigaSinottico implements RigaTabella, Iterable<RigaSinottico.Inform
 		}
 		return sb.toString();
 	}
-	
-	@Override
-	public int compareTo(RigaSinottico o) {
-		return categoria.compareTo(o.getCategoria());
-	}
+
 	
 	/**
 	 * La classe rappresenta una informazione presente nella cella destra di una riga del sinottico.
@@ -114,7 +114,7 @@ public class RigaSinottico implements RigaTabella, Iterable<RigaSinottico.Inform
 	 * @author Ian Tirso Cini
 	 *
 	 */
-	protected class Informazione {
+	public class Informazione {
 
 		/**
 		 * Il nome dell'informazione.

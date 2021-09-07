@@ -1,7 +1,9 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 /**
- * Builder di oggetti del tipo PaginaWikipedia. Seguire il funzionamente del "builder pattern" nell'utilizzo della classe.
+ * Builder di oggetti del tipo PaginaWikipedia. La classe segue l'utilizzo del design patter "Builder".
+ * Restituisce un oggetto PaginaWikipedia che rappresenta la pagina Wikipedia di cui si sono fornite
+ * le informazioni.
  * 
  * @author Ian Tirso Cini
  *
@@ -30,6 +32,12 @@ public class PaginaWikipediaBuilder {
 	
 	public PaginaWikipediaBuilder() {};
 	
+	/**
+	 * Imposta l'url della pagina Wikipedia.
+	 * 
+	 * @param url L'url della pagina.
+	 * @return Il builder stesso.
+	 */
 	public PaginaWikipediaBuilder url(String url) {
 		this.url = url;
 		return this;
@@ -37,6 +45,7 @@ public class PaginaWikipediaBuilder {
 	
 	/**
 	 * Imposta il titolo della pagina Wikipedia.
+	 * 
 	 * @param titoloPagina Il titolo della pagina.
 	 * @return Il builder stesso.
 	 */
@@ -47,6 +56,7 @@ public class PaginaWikipediaBuilder {
 	
 	/**
 	 * Imposta l'url dell'immagine principale della pagina.
+	 * 
 	 * @param urlImmagine L'url dell'immagine.
 	 * @return Il builder stesso.
 	 */
@@ -57,6 +67,7 @@ public class PaginaWikipediaBuilder {
 	
 	/**
 	 * L'oggetto Sinottico associato alla pagina.
+	 * 
 	 * @param sinottico L'oggetto Sinottico della pagina.
 	 * @return Il builder stesso.
 	 */
@@ -67,10 +78,22 @@ public class PaginaWikipediaBuilder {
 	
 	/**
 	 * Restituisce una PaginaWikipedia con i paramentri scelti.
+	 * 
 	 * @return Un oggetto PaginaWikipedia con i parametri scelti.
 	 */
 	public PaginaWikipedia build() {
 		return new PaginaWikipedia(url, titoloPagina, urlImmagine, sinottico);
+	}
+	
+	/**
+	 * Reset dello stato attuale del builder.
+	 * Tutti i campi vengono settati a null.
+	 */
+	public void reset() {
+		this.url = null;
+		this.titoloPagina = null;
+		this.urlImmagine = null;
+		this.sinottico = null;
 	}
 
 }

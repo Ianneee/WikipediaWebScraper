@@ -1,4 +1,4 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
 /**
  * Interfaccia che rappresenta una riga di una tabella Wikipedia.

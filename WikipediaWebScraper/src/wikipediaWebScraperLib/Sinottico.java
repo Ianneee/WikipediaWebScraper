@@ -1,7 +1,5 @@
-package wikipediaWebScraper;
+package wikipediaWebScraperLib;
 
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
@@ -32,6 +30,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	
 	/**
 	 * Aggiunge una riga già creata.
+	 * 
 	 * @param riga del sinottico.
 	 */
 	@Override
@@ -48,6 +47,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	/**
 	 * Crea una nuova riga inserendo il nome categoria contenuto nella cella sinistra
 	 * della riga.
+	 * 
 	 * @param categoria nella cella sinistra della riga.
 	 */
 	public void creaRiga(String categoria) {
@@ -58,6 +58,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	/** 
 	 * Aggiungi il contenuto della cella destra della riga del sinottico con la 
 	 * ricerca tramite il nome della categoria contenuto nella cella sinistra.
+	 * 
 	 * @param categoria contenuta nella cella sinistra del sinottico.
 	 * @param informazione da aggiungere alla categoria.
 	 */
@@ -74,6 +75,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	 * Aggiungi il contenuto della cella destra a cui è associato anche un link per la corrispettiva
 	 * categoria contenuta nella cella sinistra.
 	 * L'url per essere valido deve cominciare con https://it.wikipedia.org/wiki .
+	 * 
 	 * @param categoria contenuta nella cella sinistra del sinottico.
 	 * @param informazione da aggiungere alla categoria.
 	 * @param url associato a quell'informazione.
@@ -90,6 +92,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	/**
 	 * Aggiungi il link per una specifica informazione già inserita.
 	 * L'url per essere valido deve cominciare con https://it.wikipedia.org/wiki .
+	 * 
 	 * @param categoria contenuta nella cella sinistra del sinottico.
 	 * @param informazione contenuta nella cella destra per la specifica categoria.
 	 * @param url da aggiungere a quell'informazione.
@@ -105,6 +108,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	
 	/**
 	 * Ritorna una specifica riga tramite il nome categoria nella cella destra, se presente.
+	 * 
 	 * @param categoria da cercare.
 	 * @return la riga corrispondente a quella categoria.
 	 */
@@ -120,6 +124,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	
 	/**
 	 * Ritorna tutte le righe contenute nel sinottico.
+	 * 
 	 * @return il set contenente le righe.
 	 */
 	@Override
