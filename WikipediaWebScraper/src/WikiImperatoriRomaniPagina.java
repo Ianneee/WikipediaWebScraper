@@ -124,5 +124,21 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 		return elencoDinastie;
 	}
 	
+	/**
+	 * Ritorna la dinastia desiderata passandone il nome come argomento.
+	 * Se la dinastia non è presente viene ritornato null.
+	 * 
+	 * @param nomeDinastia Il nome della dinastia desiderata.
+	 * @return TabellaDinastie della dinastia cercata.
+	 */
+	public TabellaDinastie getDinastia(String nomeDinastia) {
+		for (TabellaDinastie dinastia : dinastie) {
+			if (dinastia.getNomeDinastia().equals(nomeDinastia)){
+				return dinastia;
+			}
+		}
+		return null;
+	}
+	
 
 }

@@ -143,6 +143,11 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 		return righe.iterator();
 	}
 	
+	@Override
+	public String toString() {
+		return "Nome dinastia: " + nomeDinastia + " | url dinastia: " + urlDinastia;
+ 	}
+	
 	
 	/**
 	 * La classe rappresenta la riga di una tabella della pagina Wikipedia contenente

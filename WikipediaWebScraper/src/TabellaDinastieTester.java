@@ -34,7 +34,6 @@ public class TabellaDinastieTester {
 		TabellaDinastie.Riga rigaNomeErrato = tabella.getRiga("Imperatore 42");
 		System.out.println("\nRiga per nome:\nExpected: null\n" + rigaNomeErrato);
 		
-		
 	}
 
 }

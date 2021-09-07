@@ -23,5 +23,13 @@ public class WikiImperatoriRomaniPaginaTester {
 			 System.out.println(dinastia);
 		 }
 		 
+		 
+		 System.out.println("\nRicerca dinastia per nome: " + elencoDinastie[4]);
+		 TabellaDinastie dinastia = pagDinastie.getDinastia(elencoDinastie[4]);
+		 System.out.println(dinastia);
+		 
+		 System.out.println("\nRicerca dinastia per nome errato");
+		 TabellaDinastie dinastiaErrata = pagDinastie.getDinastia("42");
+		 System.out.println(dinastiaErrata);
 	}
 }
