@@ -19,7 +19,7 @@ public abstract class TabellaWikipedia {
 	 * @param identificativoRiga La chiave di ricerca della riga.
 	 * @return La riga trovata.
 	 */
-	public abstract RigaTabella getRiga(String identificativoRiga);
+	public abstract RigaTabella getRiga(String identificativoRiga) throws RigaNonPresenteException;
 	
 	/**
 	 * Aggiungi una riga alla tabella, riga che implementi l'interfaccia RigaTabella.

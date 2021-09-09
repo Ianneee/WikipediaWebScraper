@@ -1,13 +1,20 @@
 package alberoGenealogicoLib;
 
+import alberoGenealogicoLib.Persona.Sesso;
+
 public class PersonaTester {
+	
 	public static void main(String[] args) {
-		PersonaEstesa ciccio = new PersonaEstesa("ciccio");
-		System.out.println(ciccio.toString());
+		Persona uomo = new Persona("Mario Rossi", Sesso.UOMO);
+		System.out.println(uomo);
+		System.out.println(uomo.getNome());
+		System.out.println(uomo.getSesso());
 		
-		PersonaEstesa franko = new PersonaEstesa("frank");
-		ciccio.aggiungiConiuge(franko);
-		System.out.println(ciccio.toString());
+		Persona donna = new Persona("Maria Rossa", Sesso.DONNA);
+		System.out.println(donna);
+		System.out.println(donna.getNome());
+		System.out.println(donna.getSesso());
+		
 	}
 
 }

@@ -91,7 +91,7 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	
 	/**
 	 * Metodo privato che effettua lo scraping dalla pagina di Wikipedia e
-	 * chiama la classe ParserTabellaDinastie per analizzare il sorgente.	 * 
+	 * chiama la classe ParserTabellaDinastie per analizzare il sorgente.
 	 */
 	private void analisiSorgentePagina() {
 	
@@ -122,19 +122,19 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	
 	/**
 	 * Ritorna la dinastia desiderata passandone il nome come argomento.
-	 * Se la dinastia non è presente viene ritornato null.
+	 * Se la dinastia non è presente viene lanciato un errore DinastiaNonTrovataException.
 	 * 
 	 * @param nomeDinastia Il nome della dinastia desiderata.
 	 * @return TabellaDinastie della dinastia cercata.
+	 * @throws DinastiaNonTrovataException
 	 */
-	public TabellaDinastie getDinastia(String nomeDinastia) {
+	public TabellaDinastie getDinastia(String nomeDinastia) throws DinastiaNonTrovataException {
 		for (TabellaDinastie dinastia : dinastie) {
-			if (dinastia.getNomeDinastia().equals(nomeDinastia)){
+			if (dinastia.getNomeDinastia().toLowerCase().equals(nomeDinastia.toLowerCase())){
 				return dinastia;
 			}
 		}
-		return null;
+		throw new DinastiaNonTrovataException();
 	}
 	
-
 }

@@ -43,13 +43,23 @@ public class SinotticoTester {
 			}
 		}
 		
-		RigaSinottico getRigaTest = sinottico.getRiga("Riga n1");
-		System.out.println("getRiga test - Expected: Riga n1");
-		System.out.println(getRigaTest.getCategoria());
 		
-		RigaSinottico getRigaErrata = sinottico.getRiga("42");
-		System.out.println("\ngetRiga test - Expected: null");
-		System.out.println(getRigaErrata);
+		System.out.println("\ngetRiga test - Expected: Messaggio di errore");
+		try {
+			RigaSinottico getRigaErrata = sinottico.getRiga("42");
+		} catch (RigaNonPresenteException error) {
+			System.out.println(error.getMessage());
+		}
+		
+		try {
+			RigaSinottico getRigaTest = sinottico.getRiga("Riga n1");
+			System.out.println("\ngetRiga test - Expected: Riga n1");
+			System.out.println(getRigaTest.getCategoria());
+		} catch (RigaNonPresenteException error) {
+			System.out.println(error.getMessage());
+		}
+
+
 	}
 
 }

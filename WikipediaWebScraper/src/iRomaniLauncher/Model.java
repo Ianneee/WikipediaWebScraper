@@ -1,6 +1,8 @@
 package iRomaniLauncher;
 
 import iRomani.WikiImperatoriRomaniPagina;
+import iRomani.TabellaDinastie;
+import iRomani.CostruisciAlberoGenealogico;
 
 public class Model {
 	
@@ -14,6 +16,10 @@ public class Model {
 	
 	public String[] getListaDinastie() {
 		return paginaImperatori.getElencoDinastie();
+	}
+	
+	public void alberoGenealogicoDinastia(String nomeDinastia) {
+		// chiamare iromani.algoritmi
 	}
 	
 	public static void main(String[] args) {

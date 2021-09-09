@@ -82,7 +82,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	 */
 	public void addInfoUrlToRiga(String categoria, String informazione, String url) {
 		for (RigaSinottico riga : righe) {
-			if (riga.getCategoria().equals(categoria)) {
+			if (riga.getCategoria().toLowerCase().equals(categoria.toLowerCase())) {
 				riga.addInformazione(informazione, url);
 				break;
 			}
@@ -99,7 +99,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	 */
 	public void addUrlInfoToRiga(String categoria, String informazione, String url) {
 		for (RigaSinottico riga : righe) {
-			if (riga.getCategoria().equals(categoria)) {
+			if (riga.getCategoria().toLowerCase().equals(categoria.toLowerCase())) {
 				riga.addUrl(informazione, url);
 				break;
 			}
@@ -108,18 +108,20 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	
 	/**
 	 * Ritorna una specifica riga tramite il nome categoria nella cella destra, se presente.
+	 * Se la riga non è presente lancia un errore di tipo RigaNonPresenteException.
 	 * 
 	 * @param categoria da cercare.
 	 * @return la riga corrispondente a quella categoria.
+	 * @throws RigaNonPresenteException
 	 */
 	@Override
-	public RigaSinottico getRiga(String categoria) {
+	public RigaSinottico getRiga(String categoria) throws RigaNonPresenteException {
 		for (RigaSinottico riga : righe) {
-			if (riga.getCategoria().equals(categoria)) {
+			if (riga.getCategoria().toLowerCase().equals(categoria.toLowerCase())) {
 				return riga;
 			}
 		}
-		return null;
+		throw new RigaNonPresenteException();
 	}
 	
 	/**
