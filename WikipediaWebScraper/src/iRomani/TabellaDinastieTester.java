@@ -35,6 +35,23 @@ public class TabellaDinastieTester {
 		TabellaDinastie.Riga rigaNomeErrato = tabella.getRiga("Imperatore 42");
 		System.out.println("\nRiga per nome:\nExpected: null\n" + rigaNomeErrato);
 		
+		System.out.println("\nTest getUrlImperatori - Expected: [www.imperatoreuno.com, www.imperatoredue.com]");
+		List<String> urlImperatori = tabella.getUrlImperatori();
+		System.out.println(urlImperatori);
+		
+		System.out.println("\nTest tabella vuota");
+		TabellaDinastie tabellaVuota = new TabellaDinastie("");
+		System.out.println("Test getNomeDinastia - Expected: ");
+		System.out.println(tabellaVuota.getNomeDinastia());
+		System.out.println("Test getUrlDinastia - Expected: null");
+		System.out.println(tabellaVuota.getUrlDinastia());
+		System.out.println("Test getRiga - Expected: null");
+		System.out.println(tabellaVuota.getRiga(42));
+		System.out.println("Test getRighe - Expected: lista vuota");
+		System.out.println(tabellaVuota.getRighe());
+		System.out.println("Test getUrlImperatori - Expected: lista vuota");
+		System.out.println(tabellaVuota.getUrlImperatori());
+		
 	}
 
 }

@@ -48,13 +48,18 @@ public class PaginaWikipedia extends WikipediaWebPage {
 	 * Cerca la riga all'interno del sinottico dal nome della categoria dell'informazione.
 	 * Viene ritornata tutta la riga come oggetto di tipo RigaSinottico.
 	 * Se la riga non è presente viene lanciato un errore RigaNonPresenteException.
+	 * Se la PaginaWikipedia non contiene un sinottico viene ritornato null.
 	 * 
 	 * @param categoria La categoria presente nella cella sinistra della riga.
 	 * @return La RigaSinottico corrispondente.
 	 * @throws RigaNonPresenteException
 	 */
 	public RigaSinottico getRigaSinottico(String categoria) throws RigaNonPresenteException {
-		return sinottico.getRiga(categoria);
+		if (sinottico != null) {
+			return sinottico.getRiga(categoria);
+		} else {
+			return null;
+		}
 	}
 	
 	/**
@@ -62,15 +67,20 @@ public class PaginaWikipedia extends WikipediaWebPage {
 	 * corrispondenti a quella riga.
 	 * Se la categoria non viene trovata tra le righe presenti nel sinottico viene lanciato
 	 * un errore di tipo RigaNonPresenteException.
+	 * Se la PaginaWikipedia non contiene un sinottico viene ritornato null.
 	 * 
 	 * @param categoria La categoria presente nella cella sinistra della riga.
 	 * @return La lista di oggetti Informazione della riga trovata.
 	 * @throws RigaNonPresenteException
 	 */
 	public List<Informazione> getInformazioneSinottico(String categoria) throws RigaNonPresenteException {
-		RigaSinottico riga = sinottico.getRiga(categoria);
-		if (riga != null) {
-			return riga.getInformazioni();
+		if (sinottico != null) {
+			RigaSinottico riga = sinottico.getRiga(categoria);
+			if (riga != null) {
+				return riga.getInformazioni();
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}

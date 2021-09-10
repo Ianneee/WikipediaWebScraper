@@ -13,6 +13,11 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	private String url;
 	
 	/**
+	 * L'url dell'immagine su Wikipedia.
+	 */
+	private String urlImmagine;
+	
+	/**
 	 * Booleano che indica se l'antico romano è stato un imperatore.
 	 */
 	private Boolean isImperatore;
@@ -41,6 +46,24 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	 */
 	public String getUrl() {
 		return url;
+	}
+	
+	/**
+	 * Registra l'url dell'immagine di Wikipedia.
+	 * 
+	 * @param urlImmagine L'url dell'immagine.
+	 */
+	public void setUrlImmagine(String urlImmagine) {
+		this.urlImmagine = urlImmagine;
+	}
+	
+	/**
+	 * Ritorna l'url dell'immagine.
+	 * 
+	 * @return L'url dell'immagine.
+	 */
+	public String getUrlImmagine() {
+		return urlImmagine;
 	}
 	
 	/**

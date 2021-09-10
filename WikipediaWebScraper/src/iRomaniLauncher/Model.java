@@ -1,8 +1,8 @@
 package iRomaniLauncher;
 
 import iRomani.WikiImperatoriRomaniPagina;
-import iRomani.TabellaDinastie;
 import iRomani.CostruisciAlberoGenealogico;
+import iRomani.DinastiaNonTrovataException;
 
 public class Model {
 	
@@ -28,7 +28,12 @@ public class Model {
 		String[] dinastie = pagina.getListaDinastie();
 		
 		for (String dinastia : dinastie) {
-			System.out.println(dinastia);
+			try {
+				CostruisciAlberoGenealogico albero = new CostruisciAlberoGenealogico(dinastia);
+				albero.init();
+			} catch (DinastiaNonTrovataException error) {
+				error.printStackTrace();
+			}
 		}
 	}
 	

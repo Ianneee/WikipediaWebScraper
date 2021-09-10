@@ -106,8 +106,9 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	public TabellaDinastie.Riga getRiga(int numeroRiga) {
 		if (numeroRiga <= righe.size()) {
 			return righe.get(numeroRiga -1);
+		} else {
+			return null;
 		}
-		return null;
 	}
 	
 	/**
@@ -149,6 +150,20 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	public String toString() {
 		return "Nome dinastia: " + nomeDinastia + " | url dinastia: " + urlDinastia;
  	}
+	
+	/**
+	 * Ritorna una lista con gli url alle pagine Wikipedia degli imperatori della 
+	 * dinastia.
+	 * 
+	 * @return Lista con gli url.
+	 */
+	public List<String> getUrlImperatori(){
+		List<String> urlImperatori =  new ArrayList<>();
+		for (Riga riga : righe) {
+			urlImperatori.add(riga.getUrlPagina());
+		}
+		return urlImperatori;
+	}
 	
 	
 	/**

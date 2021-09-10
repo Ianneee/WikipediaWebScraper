@@ -40,6 +40,14 @@ public class AlberoTester {
 		for (Persona figlio : figliCesara) {
 			System.out.println(figlio);
 		}
+		
+		System.out.println("\nTest Capostipite:");
+		System.out.println("Expected: Cesare Cesaroni");
+		System.out.println(albero.getCapostipite());
+		
+		albero.setCapostipite(cesara);
+		System.out.println("Expected: Cesara la Moglie");
+		System.out.println(albero.getCapostipite());
 
 	}
 
