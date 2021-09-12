@@ -29,17 +29,17 @@ public class AlberoTester {
 		
 		albero.getConiugi(cesare);
 		
-		System.out.println("\nI figli di Cesare Cesaroni");
-		List<Persona> figliCesare = albero.getFigli(cesare);
-		for (Persona figlio : figliCesare) {
-			System.out.println(figlio);
-		}
-		
-		System.out.println("\nI figli di Cesara Cesarona");
-		List<Persona> figliCesara = albero.getFigli(cesara);
-		for (Persona figlio : figliCesara) {
-			System.out.println(figlio);
-		}
+//		System.out.println("\nI figli di Cesare Cesaroni");
+//		List<Persona> figliCesare = albero.getFigli(cesare);
+//		for (Persona figlio : figliCesare) {
+//			System.out.println(figlio);
+//		}
+//		
+//		System.out.println("\nI figli di Cesara Cesarona");
+//		List<Persona> figliCesara = albero.getFigli(cesara);
+//		for (Persona figlio : figliCesara) {
+//			System.out.println(figlio);
+//		}
 		
 		System.out.println("\nTest Capostipite:");
 		System.out.println("Expected: Cesare Cesaroni");

@@ -1,4 +1,4 @@
-package iRomani;
+package iRomaniModel;
 
 import wikipediaWebScraperLib.InfoWikipedia;
 import wikipediaWebScraperLib.PaginaWikipedia;
@@ -190,6 +190,7 @@ public class CostruisciAlberoGenealogico {
 		String url = wiki.getUrl();
 		
 		AnticoRomano romano = new AnticoRomano(nome, url);
+		romano.setUrlImmagine(wiki.getUrlImmagine());
 		return romano;
 	}
 	

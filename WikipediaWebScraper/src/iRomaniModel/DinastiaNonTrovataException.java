@@ -1,4 +1,4 @@
-package iRomani;
+package iRomaniModel;
 
 /**
  * Eccezione di dinastia non trovata all'interno della lista.

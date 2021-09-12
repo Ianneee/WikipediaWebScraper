@@ -1,4 +1,4 @@
-package iRomani;
+package iRomaniModel;
 
 import java.util.Objects;
 import wikipediaWebScraperLib.PaginaWikipedia;
@@ -20,7 +20,7 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	/**
 	 * Booleano che indica se l'antico romano è stato un imperatore.
 	 */
-	private Boolean isImperatore;
+	private Boolean isImperatore = false;
 	
 	/**
 	 * La PaginaWikipedia del personaggio storico.
@@ -86,8 +86,8 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	 * 
 	 * @return Booleano che indica se fu un imperatore o no.
 	 */
-	public Boolean getImperatore() {
-		return isImperatore;
+	public Boolean isImperatore() {
+		return this.isImperatore;
 	}
 	
 	/**
@@ -141,6 +141,14 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	@Override
 	public int hashCode() {
 		return Objects.hash(url);
+	}
+	
+	@Override
+	public String toString() {
+		if (isImperatore) {
+			return "Imperatore\n" + super.getNome();
+		}
+		return super.getNome();
 	}
 
 }

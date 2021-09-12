@@ -1,9 +1,10 @@
-package iRomani;
+package iRomaniModel;
 
 public class AnticoRomanoTester {
 	
 	public static void main(String[] args) {
 		AnticoRomano personaggio = new AnticoRomano("Cesare", null);
+		System.out.println(personaggio);
 		
 	}
 

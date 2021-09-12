@@ -30,7 +30,7 @@ public class AlberoGenealogico {
 	/**
 	 * Il grafo con le relazioni di parentela della famiglia.
 	 */
-	private Graph<Persona, DefaultWeightedEdge> albero;
+	private Graph<Persona, Archi> albero;
 	
 	/**
 	 * Il nome della famiglia.
@@ -60,7 +60,7 @@ public class AlberoGenealogico {
 	 */
 	public AlberoGenealogico(String nomeFamiglia) {
 		this.nomeFamiglia = nomeFamiglia;
-		albero = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+		albero = new SimpleDirectedWeightedGraph<>(Archi.class);
 		generazioni = new TreeMap<Integer, List<Persona>>();
 	}
 	
@@ -167,16 +167,16 @@ public class AlberoGenealogico {
 		
 	}
 	
-	public List<Persona> getFigli(Persona persona) {
-		List<Persona> figli = new ArrayList<>();
-		Set<DefaultWeightedEdge> archi = albero.outgoingEdgesOf(persona);
-		for (DefaultWeightedEdge arco : archi) {
-			if (albero.getEdgeWeight(arco) == FIGLIO) {
-				figli.add(albero.getEdgeTarget(arco));
-			}
-		}
-		return figli;
-	}
+//	public List<Persona> getFigli(Persona persona) {
+//		List<Persona> figli = new ArrayList<>();
+//		Set<Archi> archi = albero.outgoingEdgesOf(persona);
+//		for (DefaultWeightedEdge arco : archi) {
+//			if (albero.getEdgeWeight(arco) == FIGLIO) {
+//				figli.add(albero.getEdgeTarget(arco));
+//			}
+//		}
+//		return figli;
+//	}
 	
 	/**
 	 * Ritorna il nome della famiglia.
@@ -192,8 +192,8 @@ public class AlberoGenealogico {
 		return albero.toString();
 	}
 	
-	public Graph<Persona, DefaultWeightedEdge> getAlbero() {
+	public Graph<Persona, Archi> getAlbero() {
 		return albero;
 	}
-
+	
 }

@@ -1,4 +1,4 @@
-package iRomani;
+package iRomaniModel;
 
 import java.util.List;
 import wikipediaWebScraperLib.ParserSinotticoWikipedia;
