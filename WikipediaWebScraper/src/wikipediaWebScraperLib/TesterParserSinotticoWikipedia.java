@@ -9,7 +9,7 @@ package wikipediaWebScraperLib;
  * * @author Ian Tirso Cini
  *
  */
-public class ParserSinotticoWikipediaTester {
+public class TesterParserSinotticoWikipedia {
 	
 	public static void main(String args[]) {
 		ParserSinotticoWikipedia psw = new ParserSinotticoWikipedia();

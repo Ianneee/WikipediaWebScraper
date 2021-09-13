@@ -37,27 +37,39 @@ public class ParserTabellaDinastie {
 	 */
 	public List<TabellaDinastie> analisiSorgente(String sorgente){
 		List<TabellaDinastie> raccoglitoreTabelle = new ArrayList<>();
+		
 		// Punta il codice al nome della prima dinastia nel corpo della pagina
 		int inizioTabella = sorgente.indexOf("<h4>");
 		sorgente = sorgente.substring(inizioTabella);
 		
 		while (true) {
+			
 			int fineTabella = sorgente.indexOf("</table>");
+			
 			TabellaDinastie tabella = analisiHtmlTabella(sorgente.substring(0, fineTabella));
 			raccoglitoreTabelle.add(tabella);
+			
 			sorgente = sorgente.substring(fineTabella + LUNGHEZZA_TAG);
 
 			// Caso particolare per non saltare la dinastia dei Severi
 			if (tabella.getUrlDinastia().equals(GUERRA_CIVILE_1)) {
+				
 				inizioTabella = sorgente.indexOf("<h3>");
+				
 			} else {
+				
 				inizioTabella = sorgente.indexOf("<h4>");
+				
 			}
 			
 			if (inizioTabella != -1) {
+				
 				sorgente = sorgente.substring(inizioTabella);
+				
 			} else {
+				
 				break;
+				
 			}
 		}
 		
@@ -75,23 +87,46 @@ public class ParserTabellaDinastie {
 	 * @return La TabellaDinastie recuperata dalla porzione di codice.
 	 */
 	private TabellaDinastie analisiHtmlTabella(String sorgente) {
+		
 		// Il nome della dinastia è fra il tag <h4> </h4>
 		int fineRigaTitolo = sorgente.indexOf("</h4>");
+		
 		// Se sono nel caso particolare della dinastia dei Severi
 		if (fineRigaTitolo == -1) {
 			fineRigaTitolo = sorgente.indexOf("</h3>");
 		}
+		
 		String riga = sorgente.substring(0, fineRigaTitolo);
 		
 		// Riutilizzo il metodo della classe parserSinottico per estrarre il testo
 		String nomeDinastia = ParserSinotticoWikipedia.testoEsternoTag(riga);
+		nomeDinastia += " " + dataDinastia(riga);
+		
 		TabellaDinastie tabellaDinastia = new TabellaDinastie(nomeDinastia);
 		tabellaDinastia.setUrlDinastia(cercaLink(riga));
+		
 		// La tabella è racchiusa tra i tag <table ...> </table>
 		sorgente = sorgente.substring(sorgente.indexOf("<table class=\"wikitable\""));
 		
 		cercaImperatori(sorgente, tabellaDinastia);
 		return tabellaDinastia;
+	}
+	
+	/**
+	 * Dalla riga contenente il nome della dinastia, estrai la data racchiusa tra le parentesi.
+	 * 
+	 * @param riga La riga con il titolo della dinastia.
+	 * @return La data.
+	 */
+	private String dataDinastia(String riga) {
+
+		int start = riga.indexOf("(");
+
+		riga = riga.substring(start);
+
+		start = riga.indexOf(")");
+		
+		return riga.substring(0, start + 1);
 	}
 
 	/**
@@ -107,16 +142,20 @@ public class ParserTabellaDinastie {
 		}
 		int start = 0;
 		int end = 1;
+		
 		// Cerca la fine del tag
 		while (sorgente.charAt(end) != '>') {
 			end++;
 		}
+		
 		// Estrapolo solo il tag appena parsato
 		String tag = sorgente.substring(start, end);
+		
 		if (tag.contains("href")) {
 			// Riutilizzo il metodo della classe parserSinottico per estrarre il link
 			return ParserSinotticoWikipedia.estrapolaLink(tag);
 		}
+		
 		// Il tag precedente non ha un link, passo ad esaminare ricorsivamente il prossimo
 		return cercaLink(sorgente.substring(end + 1));
 	}
@@ -176,7 +215,6 @@ public class ParserTabellaDinastie {
 						  ParserSinotticoWikipedia.estrapolaLink(codiceRiga));
 	}
 	
-	
 	/**
 	 * Classe interna per salvare le informazioni relative all'imperatore presente
 	 * in una riga della tabella.
@@ -201,8 +239,10 @@ public class ParserTabellaDinastie {
 		 * @param urlImperatore L'url alla pagina Wikipedia dedicata.
 		 */
 		public Record(String nomeImperatore, String urlImperatore) {
+			
 			this.nomeImperatore = nomeImperatore;
 			this.urlImperatore = urlImperatore;
+			
 		}
 		
 		/**

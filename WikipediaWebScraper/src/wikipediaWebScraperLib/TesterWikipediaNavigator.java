@@ -1,6 +1,6 @@
 package wikipediaWebScraperLib;
 
-public class WikipediaNavigatorTester {
+public class TesterWikipediaNavigator {
 	
 	
 	public static void main(String args[]) {

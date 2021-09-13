@@ -1,6 +1,6 @@
 package wikipediaWebScraperLib;
 
-public class RigaSinotticoTester {
+public class TesterRigaSinottico {
 	public static void main(String args[]) {
 		RigaSinottico sinottico = new RigaSinottico("Categoria test");
 			

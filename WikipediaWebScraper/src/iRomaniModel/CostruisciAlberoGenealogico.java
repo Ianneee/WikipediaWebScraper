@@ -49,32 +49,66 @@ public class CostruisciAlberoGenealogico {
 	/**
 	 * Lista con le parole di casi particolari da evitare.
 	 */
-	private List<String> paroleVietate = List.of("adottivi:", "morta a 4 mesi", "nessuno", 
-											"e della nipote", "nessuno", "adottivo", ", nato nel",
-											"217");
+	private List<String> paroleVietate = List.of(
+			"adottivi:", "morta a 4 mesi", "nessuno", "e della nipote", 
+			"nessuno", "adottivo", "adottivo:",", nato nel",
+			"217", ", la madre di", "due figli, uno di nome", "da flaccilla",
+			"da galla"
+			);
+
+	/**
+	 * Pagine Wikipedia da non inserire tra i risultati.
+	 */
+	private List<String> pagineWikiErrate = List.of("217", "Flavia Domitilla");
+	
+	/**
+	 * Dinastia Giulio Cesare
+	 */
+	private final String GIULIO_CESARE = "Gens Iulia (49_a.C.-44_a.C.)";
+	
+	/**
+	 * Dinastia Giulio-Claudia
+	 */
+	private final String GIULIO_CLAUDIA = "Dinastia giulio-claudia (27_a.C.-68_d.C.)";
 	
 	/**
 	 * Inizializza la classe con il nome di una dinastia presente nella pagina Wikipedia
 	 * degli imperatori romani.
 	 * Il nome deve essere scritto come nella suddetta pagina, altrimenti viene lanciata
-	 * l'eccezzione DinastiaNonTrovataException.
+	 * l'eccezione DinastiaNonTrovataException.
 	 * 
 	 * @param nomeDinastia Il nome della dinastia.
 	 * @throws DinastiaNonTrovataException
 	 */
 	public CostruisciAlberoGenealogico(String nomeDinastia) throws DinastiaNonTrovataException{
 		dinastia = WikiImperatoriRomaniPagina.getInstance().getDinastia(nomeDinastia);
+		
+		urlImperatori = new LinkedHashMap<String, Integer>();
+
 		urlImperatori(dinastia.getUrlImperatori());
 		nomeDinastia = dinastia.getNomeDinastia();
+		
+
+		if (dinastia.getNomeDinastia().equals(GIULIO_CESARE)) {
+			
+			TabellaDinastie giulioClaudia = WikiImperatoriRomaniPagina.getInstance().getDinastia(GIULIO_CLAUDIA);
+			urlImperatori(giulioClaudia.getUrlImperatori());
+			
+		}
 	}
 	
 	/**
 	 * Da il via allo scraping delle pagine Wikipedia della dinastia scelta.
 	 */
 	public void init() {
+		// Attiva il browser
 		webSurfer = new WikipediaNavigator();
+		
 		alberiGenealogici = new ArrayList<>();
+		
 		costruisciAlberi();
+		
+		
 		webSurfer.closeBrowser();
 	}
 	
@@ -84,6 +118,7 @@ public class CostruisciAlberoGenealogico {
 	 * @return La lista con gli alberi genealogici.
 	 */
 	public List<AlberoGenealogico> getAlberiGenealogici(){
+
 		if (alberiGenealogici == null) {
 			init();
 		}
@@ -98,10 +133,13 @@ public class CostruisciAlberoGenealogico {
 	 * @param listaUrl Gli url degli imperatori della dinastia.
 	 */
 	private void urlImperatori(List<String> listaUrl) {
-		urlImperatori = new LinkedHashMap<String, Integer>();
+
 		for (String url : listaUrl) {
+			
 			urlImperatori.put(url, 0);
 		}
+//		System.out.println(urlImperatori);
+		
 	}
 	
 	/**
@@ -112,12 +150,18 @@ public class CostruisciAlberoGenealogico {
 	 */
 	private void costruisciAlberi() {
 		urlImperatori.forEach((key, value) -> {
+			
 			if (urlImperatori.get(key) == 0) {
+				
 				// Istanzia un albero genealogico per la dinastia
 				AlberoGenealogico albero = new AlberoGenealogico(nomeDinastia);
+				
 				// Passo l'url dell'imperatore e l'AlberoGenealogico vuoto per la creazione
 				AnticoRomano capostipite = costruzioneAlberoRicorsiva(key, albero, 0);
+				capostipite.setImperatore();
+				
 				// Imposto il capostipite dell'albero genealogico.
+				albero.addPersona(capostipite);
 				albero.setCapostipite(capostipite);
 				alberiGenealogici.add(albero);
 			}
@@ -128,31 +172,46 @@ public class CostruisciAlberoGenealogico {
 		// Da url di wiki preleva il sorgente e costruisce la pagina
 		String sorgente = webSurfer.getHtmlPagina(urlWikipedia);
 		PaginaWikipedia wikiPersonaggio = costruisciPaginaWikipedia(sorgente);
+		
 		// Dalla pagina costruisce l'antico romano
 		AnticoRomano romano = costruisciRomano(wikiPersonaggio);
+		
 		// Controllo se AnticoRomano appena istanziato è stato un imperatore
 		if (urlImperatori.containsKey(romano.getUrl())) {
 			romano.setImperatore();
+			
 			// Nella mappa degli url metto l'imperatore visitato ad 1
 			urlImperatori.replace(romano.getUrl(), 1);
 		}
+		
 		// Cerca i figli dalla PaginaWikipedia e ritorna la lista di questi.
 		List<Informazione> wikiInfoFigli = cercaFigli(wikiPersonaggio);
+		
 		// Se ci sono figli, per ognuno passa l'url a costruzioneAlberoRicorsiva
 		// Al ritorno crea parentela nell'albero con la persona ritornata
 		if (wikiInfoFigli != null) {
+			
 			for(Informazione informazione : wikiInfoFigli) {
-				System.out.println(informazione);
-				if (informazione.getUrl() != null) {
+
+				if (informazione.getUrl() != null && !pagineWikiErrate.contains(informazione.getNomeInfo())) {
+
 					AnticoRomano figlio = costruzioneAlberoRicorsiva(informazione.getUrl(), albero, profondita+1);
-					aggiungiFiglio(albero, romano, figlio);
-				} else if (!paroleVietate.contains(informazione.getNomeInfo().toLowerCase())){
+					
+//					aggiungiFiglio(albero, romano, figlio);
+					albero.addFiglio(romano, figlio);
+
+				} else if (!paroleVietate.contains(informazione.getNomeInfo().toLowerCase()) && 
+						!pagineWikiErrate.contains(informazione.getNomeInfo())){
+					
 					AnticoRomano figlio = new AnticoRomano(informazione.getNomeInfo(), informazione.getNomeInfo());
-					aggiungiFiglio(albero, romano, figlio);
+//					aggiungiFiglio(albero, romano, figlio);
+					albero.addFiglio(romano, figlio);
+					
 					albero.aggiungiAGenerazione(profondita+1, figlio);
 				}
 			}
 		}
+		
 		// Return dell'AnticoRomano creato
 		albero.aggiungiAGenerazione(profondita, romano);
 		return romano;
@@ -166,13 +225,16 @@ public class CostruisciAlberoGenealogico {
 	 * @return L'oggetto PaginaWikipedia corrispondente.
 	 */
 	private static PaginaWikipedia costruisciPaginaWikipedia(String sorgente) {
+		
 		PaginaWikipediaBuilder builder = new PaginaWikipediaBuilder();
+		
 		PaginaWikipedia paginaWiki = builder.
 								     	titoloPagina(InfoWikipedia.titoloPagina(sorgente)).
 									    urlImmagine(InfoWikipedia.urlImmagine(sorgente)).
 									    url(InfoWikipedia.urlPagina(sorgente)).
 										sinottico(InfoWikipedia.sinottico(sorgente)).
 										build();
+		
 		return paginaWiki;
 	}
 	
@@ -183,14 +245,20 @@ public class CostruisciAlberoGenealogico {
 	 * @return L'AnticoRomano costruito dai dati della pagina Wikipedia.
 	 */
 	private AnticoRomano costruisciRomano(PaginaWikipedia wiki) {
+		
 		String nome = wiki.getTitle();
+		
+		// Escludi eventuale testo presente tra parentesi
 		if (nome.contains("(")) {
 			nome = nome.substring(0, nome.indexOf("(")).trim();
 		}
+		
 		String url = wiki.getUrl();
 		
 		AnticoRomano romano = new AnticoRomano(nome, url);
+		
 		romano.setUrlImmagine(wiki.getUrlImmagine());
+		
 		return romano;
 	}
 	
@@ -202,9 +270,13 @@ public class CostruisciAlberoGenealogico {
 	 * @return La lista con i figli.
 	 */
 	private List<Informazione> cercaFigli(PaginaWikipedia wiki) {
+		
 		try {
+			
 			return wiki.getInformazioneSinottico("Figli");
+			
 			} catch (RigaNonPresenteException error){
+				
 			return null;
 		}
 	}
@@ -217,17 +289,6 @@ public class CostruisciAlberoGenealogico {
 	 */
 	private void aggiungiFiglio(AlberoGenealogico albero, AnticoRomano padre, AnticoRomano figlio) {
 		albero.addFiglio(padre, figlio);
-	}
-	
-	
-	// Tester interno
-	public static void main(String[] args) {
-		try {
-			CostruisciAlberoGenealogico albero = new CostruisciAlberoGenealogico("Guerra civile romana");
-			albero.init();
-		} catch (DinastiaNonTrovataException error) {
-			error.printStackTrace();
-		}
 	}
 
 }

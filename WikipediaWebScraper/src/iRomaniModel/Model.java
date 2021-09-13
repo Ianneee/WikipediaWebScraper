@@ -1,36 +1,55 @@
 package iRomaniModel;
 
+import java.util.List;
+import alberoGenealogicoLib.AlberoGenealogico;
+
+/**
+ * Classe model che permette l'interazione con le classi che elaborano i dati
+ * riguardanti il progetto.
+ * 
+ * @author Ian Tirso Cini
+ *
+ */
 public class Model {
 	
+	/**
+	 * Istanza di WikiImperatoriPagina
+	 */
 	WikiImperatoriRomaniPagina paginaImperatori;
 	
-	public Model() {}
-	
+	/**
+	 * Istanzia la pagina contenente l'elenco delle dinastie degli imperatori romani.
+	 */
 	public void startModel() {
 		paginaImperatori = WikiImperatoriRomaniPagina.getInstance();
 	}
 	
+	/**
+	 * Ritorna la lista delle dinastie.
+	 * 
+	 * @return L'array con le dinastie.
+	 */
 	public String[] getListaDinastie() {
 		return WikiImperatoriRomaniPagina.getInstance().getElencoDinastie();
 	}
 	
-	public void alberoGenealogicoDinastia(String nomeDinastia) {
-		// chiamare iromani.algoritmi
-	}
-	
-	public static void main(String[] args) {
-		Model pagina = new Model();
-		pagina.startModel();
-		String[] dinastie = pagina.getListaDinastie();
+	/**
+	 * Ritorna gli alberi genealogici della dinastia che viene passata come argomento.
+	 * 
+	 * @param nomeDinastia Il nome della dinastia desiderata.
+	 * @return La lista con gli AlberiGenealogici scelti.
+	 * @throws DinastiaNonTrovataException
+	 */
+	public List<AlberoGenealogico> alberoGenealogicoDinastia(String nomeDinastia) throws DinastiaNonTrovataException {
+
+
+		CostruisciAlberoGenealogico generatore = new CostruisciAlberoGenealogico(nomeDinastia);
 		
-		for (String dinastia : dinastie) {
-			try {
-				CostruisciAlberoGenealogico albero = new CostruisciAlberoGenealogico(dinastia);
-				albero.init();
-			} catch (DinastiaNonTrovataException error) {
-				error.printStackTrace();
-			}
-		}
+		// Costruisco l'albero genealogico della dinastia tramite scraping
+		generatore.init();
+		
+		return generatore.getAlberiGenealogici();
+		
 	}
 	
 }

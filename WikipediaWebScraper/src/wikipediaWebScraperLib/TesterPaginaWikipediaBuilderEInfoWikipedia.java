@@ -10,12 +10,12 @@ package wikipediaWebScraperLib;
  * @author Ian Tirso Cini
  *
  */
-public class PaginaWikipediaBuilderEInfoWikipediaTester {
+public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 	
 	public static void main(String args[]) {
 		
 		WikipediaNavigator navigator = new WikipediaNavigator();
-		String sorgente = navigator.getHtmlPagina("https://it.wikipedia.org/wiki/Licinio");
+		String sorgente = navigator.getHtmlPagina("https://it.wikipedia.org/wiki/Domiziano");
 //		navigator.closeBrowser();
 		
 		// Utilizzo del builder

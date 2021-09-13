@@ -136,5 +136,5 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 		}
 		throw new DinastiaNonTrovataException();
 	}
-	
+
 }

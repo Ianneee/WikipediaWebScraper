@@ -1,7 +1,7 @@
 package iRomaniModel;
 import java.util.List;
 
-public class WikiImperatoriRomaniPaginaTester {
+public class TesterWikiImperatoriRomaniPagina {
 	
 	public static void main(String args[]) {
 		WikiImperatoriRomaniPagina pagDinastie = WikiImperatoriRomaniPagina.getInstance();
@@ -40,6 +40,6 @@ public class WikiImperatoriRomaniPaginaTester {
 			 errore.printStackTrace();
 		 }
 		 
-		 System.out.println("Test Concluso");
+		 System.out.println("******** Test Concluso");
 	}
 }

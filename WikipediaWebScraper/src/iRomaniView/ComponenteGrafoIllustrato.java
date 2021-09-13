@@ -13,7 +13,6 @@ import com.mxgraph.swing.mxGraphComponent;
 import alberoGenealogicoLib.AlberoGenealogico;
 import alberoGenealogicoLib.Archi;
 import alberoGenealogicoLib.Persona;
-import iRomaniModel.AnticoRomano;
 
 import java.awt.Color;
 import java.util.Map;
@@ -22,52 +21,70 @@ import java.util.Map;
 /**
  * La classe costruisce un Component con l'albero genealogico passato come argomento
  * disegnato.
+ * Per ogni oggetto presente all'interno dell'albero genealogico vengono scelti i colori
+ * della rappresentazione.
+ * La classe ritorna il mxGraphComponent che è il componente da aggiungere al JFrame o ad un
+ * JPanel per avere la rappresentazione grafica.
  * 
  * @author Ian Tirso Cini
  *
  */
-public class ComponenteGrafo {
+public class ComponenteGrafoIllustrato {
 	
 	/**
 	 * Il wrapper per il grafo.
 	 */
 	private JGraphXAdapter<Persona, Archi> grafo;
 	
+	/**
+	 * Componente con visualizzazione dell'albero genealogico.
+	 */
 	private mxGraphComponent component;
 	
 	/**
 	 * Lo stile di visualizzazione degli imperatori.
 	 */
-	private final String styleImperatore = "shape=ellipse;"
-			+ "rounded=true;fontColor=080808;" 
-			+ "fillColor=fde7b3;"
-			+ "shadow=true;"
-			+ "strokeColor=293133";
+	private final String STYLE_IMPERATORE = "shape=rectangle;"
+			+ "rounded=true;"
+			+ "fontColor=080808;" 
+			+ "fillColor=FF6961;"
+			+ "shadow=false;"
+			+ "strokeColor=FF6961";
 	
 	/**
 	 * Lo stile di visualizzazione dei romani.
 	 */
-	private final String styleRomano = "shape=rectangle;"
-			+ "rounded=true;"
+	private final String STYLE_ROMANO = "shape=rectangle;"
+			+ "rounded=false;"
 			+ "fontColor=080808;"	
-			+ "fillColor=7cccbe;"
-			+ "shadow=true;"
-			+ "strokeColor=293133";
+			+ "fillColor=BFC7E2;"
+			+ "shadow=false;"
+			+ "strokeColor=BFC7E2";
 	
 	/**
-	 * Lo stile di visualizzazione degli archi
+	 * Il colore degli archi degli archi.
 	 */
-	private final String edgeStyle = "strokeColor=#000000;";
+	private final String STYLE_ARCHI = "strokeColor=#000000;";
+	
+	/**
+	 * Il colore degli archi per gli imperatori.
+	 */
+	private final String STYLE_ARCHI_IMP = "strokeColor=C23B22";
+	
+	/**
+	 * Il grafo della dinastia.
+	 */
+	private	Graph<Persona, Archi> grafoOriginale;
 	
 	/**
 	 * Costruisci il componente a partire da un albero genealogico.
 	 * @param albero
 	 */
-	public ComponenteGrafo(AlberoGenealogico albero) {
+	public ComponenteGrafoIllustrato(AlberoGenealogico albero) {
 		
-		Graph<Persona, Archi> grafo = albero.getAlbero();
+		grafoOriginale = albero.getAlbero();
 		
-		this.grafo = new JGraphXAdapter<Persona, Archi>(grafo);
+		this.grafo = new JGraphXAdapter<Persona, Archi>(grafoOriginale);
 	}
 	
 	/**
@@ -82,6 +99,7 @@ public class ComponenteGrafo {
 		Map<Archi, mxICell> archi = grafo.getEdgeToCellMap();
 		coloraArchiGrafo(archi);
 		
+		// Costruisci il componente grafico
 		component =  settaComponente();
 	}
 	
@@ -91,9 +109,13 @@ public class ComponenteGrafo {
 	 * @return Il componente.
 	 */
 	public mxGraphComponent getComponente() {
+
 		if (component != null) {
+			
 			return component;
+			
 		}
+		
 		init();
 		return component;
 	}
@@ -109,20 +131,19 @@ public class ComponenteGrafo {
 		
 		vertici.forEach((persona, cella) ->{
 			
-			AnticoRomano romano = (AnticoRomano)persona;
+//			AnticoRomano romano = (AnticoRomano)persona;
 
-			// Controllo se il romano è un imperatore o no e do uno stile diverso
-			if (romano.isImperatore()) {
-				model.setStyle(cella, styleImperatore);
+			// Controllo se il romano è un imperatore (polimorfismo p.thisPersonIs)  
+			if (persona.thisPersonIs()) {
+				model.setStyle(cella, STYLE_IMPERATORE);
 			} else {
-				model.setStyle(cella, styleRomano);
+				model.setStyle(cella, STYLE_ROMANO);
 			}
 
-			// Cambia le misure del vertice
+			// Cambia le misure del rettangolo appartenente del vertice
 			mxGeometry geometriaCella = cella.getGeometry();
-			geometriaCella.setWidth(geometriaCella.getWidth() + 30);
-			geometriaCella.setHeight(40);
-			geometriaCella.translate(20.0, 60.0);
+			geometriaCella.setWidth(geometriaCella.getWidth() + 10);
+			geometriaCella.setHeight(30);
 		});
 		
 	}
@@ -134,12 +155,22 @@ public class ComponenteGrafo {
 	 */
 	private void coloraArchiGrafo(Map<Archi, mxICell> archi) {
 		mxIGraphModel model = grafo.getModel();
-		
-		for (mxICell cella : archi.values()) {
+
+		archi.forEach((arco, cella) -> {
 			
-				model.setStyle(cella, edgeStyle);
+			Persona romano = grafoOriginale.getEdgeSource(arco);
+			
+			// Controllo se è un imperatore (polimorfismo p.thisPersonIs)
+			if (romano.thisPersonIs()) {
 				
-		}
+				model.setStyle(cella, STYLE_ARCHI_IMP);
+				
+			} else {
+				
+				model.setStyle(cella, STYLE_ARCHI);
+				
+			}
+		});
 	}
 
 	/**
@@ -151,12 +182,13 @@ public class ComponenteGrafo {
 		
 		// Scelta layout grafico
 		mxIGraphLayout layout = new mxHierarchicalLayout(grafo);
+		
 		layout.execute(grafo.getDefaultParent());
 		
-		// Inizializzo il componente
+		// Inizializzo il componente contenente il grafo
 		mxGraphComponent componente = new mxGraphComponent(grafo);
 		
-		// Impostsazioni del componente
+		// Impostazioni visualizzazione del componente
 		componente.getViewport().setOpaque(true);
 		componente.getViewport().setBackground(new Color(243, 241, 233));
 		componente.setEnabled(false);

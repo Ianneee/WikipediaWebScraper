@@ -1,9 +1,14 @@
 package alberoGenealogicoLib;
 
-import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.DefaultEdge;
 
-public class Archi extends DefaultWeightedEdge{
-	
+/**
+ * Estensione di DefaultEdge con toString vuoto.
+ * 
+ * @author Ian Tirso Cini
+ *
+ */
+public class Archi extends DefaultEdge{
 	
 	@Override
 	public String toString() {

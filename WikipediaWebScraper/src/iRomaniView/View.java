@@ -1,130 +1,106 @@
 package iRomaniView;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.util.List;
+import alberoGenealogicoLib.AlberoGenealogico;
 
+/**
+ * La classe contiene l'interfaccia grafica dell'applicazione.
+ * Possiede i metodi per comunicare con i vari pannelli e componenti che la costituiscono.
+ * 
+ * @author Ian Tirso Cini
+ *
+ */
 public class View {
 	
-	private JComboBox<String> listaDinastie;
+
+	/**
+	 * JFrame della classe
+	 */
 	private JFrame frame;
-	private JLabel scegliLabel;
-	private JLabel caricamento;
-	private JPanel menuSx;
-	private JButton scegliDinastia;
+
+	/**
+	 * Il panel con l'elenco delle dinastie
+	 */
+	private panelMenuDinastie panelMenuDinastie;
+	
+	/**
+	 * Il panel dove vengono visualizzate le dinastie
+	 */
+	private panelPrincipale panelCentrale;
+	
 	
 	public View() {
 		
 		// Creazione frame
 		frame = new JFrame("Alberi genealogici imperatori romani");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(900, 600);
+		frame.setSize(1350, 750);
 		frame.setLayout(null);
 		
-		scegliLabel();
-		labelCaricamento();
-		menuDinastie();
-		bottoneScegli();
-		menuSx();
+		panelMenuDinastie = new panelMenuDinastie();
+		frame.add(panelMenuDinastie);
 		
-		JPanel schermata = new JPanel();
-		schermata.setVisible(true);
-		schermata.setBounds(200, 0, 700, 600);
+		panelCentrale = new panelPrincipale();
+		frame.add(panelCentrale);
 		
-		frame.add(menuSx);
-		frame.add(menuSx);
-		frame.pack();
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 		
 	}
+
+	/**
+	 * Carica le dinastie nel ComboBox.
+	 * 
+	 * @param dinastie Le dinastie.
+	 */
+	public void setDinastie(String[] dinastie) {
+		panelMenuDinastie.setDinastie(dinastie);
+	}
 	
+	/**
+	 * Il metodo istanzia il panel dove vengono illustrati gli alberi genealogici di una dinastia.
+	 * Il metodo accetta una lista contenente gli alberi per disegnare anche più dinastie.
+	 * Il pannello viene poi aggiunto al JFrame per la visualizzazione.
+	 * 
+	 * @param alberi La lista contentente gli alberi genealogici.
+	 */
+	public void tabPanelAlberi(List<AlberoGenealogico> alberi) {
+		panelAlberiGenealogici panel = new panelAlberiGenealogici(alberi);
+		panel.costruisciPannello();
+		
+		panelCentrale.disegnaAlbero(panel);
+		
+		frame.setVisible(false);
+		frame.setVisible(true);
+	}
+	
+	/**
+	 * Ritorna il JFrame
+	 * @return
+	 */
 	public JFrame getJFrame() {
 		return frame;
 	}
 	
-	private void scegliLabel() {
-		// Label sopra elenco dinastie
-		scegliLabel = new JLabel("Scegli una dinastia");
-		scegliLabel.setOpaque(true);
-		scegliLabel.setHorizontalAlignment(JLabel.CENTER);
-		scegliLabel.setFont(new Font(null, Font.PLAIN, 14));
-		scegliLabel.setVisible(true);
-		
-		frame.add(scegliLabel);
+	/**
+	 * Ritorna la JComboBox dove vengono inserite le dinastie.
+	 * 
+	 * @return La JComboBox delle dinastie.
+	 */
+	public JComboBox<String> getBoxListaDinastie(){
+		return panelMenuDinastie.getBoxListaDinastie();
 	}
 	
-	private void labelCaricamento() {
-		// Label caricamento
-		caricamento = new JLabel("Caricamento . . . Scraping dinastie in corso");
-		caricamento.setOpaque(true);
-		caricamento.setHorizontalAlignment(JLabel.CENTER);
-		caricamento.setVerticalAlignment(JLabel.VERTICAL);
-		caricamento.setVisible(true);
-		
-		frame.add(caricamento);
+	/**
+	 * Ritorna il bottone presente sotto la JComboBox.
+	 * 
+	 * @return Il bottone.
+	 */
+	public JButton getButtonSeleziona() {
+		return panelMenuDinastie.getButtonSeleziona();
 	}
-	
-	private void menuSx() {
-		// Pannello
-		menuSx = new JPanel();
-		menuSx.setLayout(new GridBagLayout());
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(5, 5, 5, 5);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		menuSx.add(scegliLabel, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		menuSx.add(listaDinastie, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		menuSx.add(scegliDinastia, gbc);
-		
-		menuSx.setBackground(Color.WHITE);
-		menuSx.setBounds(0, 0, 200, 600);
-		menuSx.setVisible(true);
-	}
-	
-	private void menuDinastie() {
-		// Menu dinastie
-		listaDinastie = new JComboBox<String>();
-		listaDinastie.setSize(155, 25);
-		listaDinastie.addItem("Caricamento . . .");
-	}
-	
-	private void bottoneScegli() {
-		// Bottone
-		scegliDinastia = new JButton("Seleziona");
-		scegliDinastia.setFocusable(false);
-	}
-	
-	public void setDinastie(String[] dinastie) {
-		for (String dinastia : dinastie) {
-			listaDinastie.addItem(dinastia);
-		}
-		listaDinastie.removeItemAt(0);
-		caricamento.setVisible(false);
-		System.out.println(listaDinastie.getSize());
-	}
-	
-	public JComboBox<String> getListaDinastie(){
-		return listaDinastie;
-	}
-	
 	
 }

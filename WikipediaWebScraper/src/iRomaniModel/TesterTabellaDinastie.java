@@ -1,7 +1,7 @@
 package iRomaniModel;
 import java.util.List;
 
-public class TabellaDinastieTester {
+public class TesterTabellaDinastie {
 	
 	public static void main(String args[]) {
 

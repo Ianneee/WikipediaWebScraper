@@ -10,7 +10,7 @@ public class MVCtester {
 		View v = new View();
 		Controller controller = new Controller(m, v);
 		controller.initView();
-//		controller.initController();
+		controller.initController();
 
 	}
 

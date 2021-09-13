@@ -35,7 +35,7 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	 * @param url L'url della pagina Wikipedia.
 	 */
 	public AnticoRomano(String nome, String url) {
-		super(nome, Sesso.UOMO);
+		super(nome);
 		this.url = url;
 	}
 	
@@ -146,9 +146,19 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	@Override
 	public String toString() {
 		if (isImperatore) {
-			return "Imperatore\n" + super.getNome();
+			return "\uD83D\uDC51\n" + super.getNome();
 		}
 		return super.getNome();
+	}
+	
+	/**
+	 * Ritorna thisPersonIs an Imperator
+	 * 
+	 * @return Ritorna se è un'imperatore o no.
+	 */
+	@Override
+	public Boolean thisPersonIs() {
+		return isImperatore();
 	}
 
 }

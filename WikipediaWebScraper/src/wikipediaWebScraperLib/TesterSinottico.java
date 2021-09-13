@@ -1,6 +1,6 @@
 package wikipediaWebScraperLib;
 
-public class SinotticoTester {
+public class TesterSinottico {
 	
 	public static void main(String args[]) {
 		Sinottico sinottico = new Sinottico();
