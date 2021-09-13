@@ -21,24 +21,30 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	/**
 	 * Analizza il codice Html contenente il sinottico parsando ogni riga della tabella una alla volta. 
 	 * Il ciclo finisce quando non ci sono più righe, quindi quando non ci sono più tag contententi <tr ...>.
-	 * End+5 è il conteggio per andare oltre al tag di chiusura </tr>
+	 * End+5 è il conteggio per andare oltre al tag di chiusura <\/tr>
 	 * 
 	 * @param sinottico della pagina Wikipedia.
 	 * @return Classe Sinottico con le informazioni ricavate.
 	 */
 	private Sinottico createSinottico(String sinottico) {
 		Sinottico sin = new Sinottico();
+		
 		// Scorro il sorgente e analizzo righe finchè ne trovo
 		while (sinottico.contains("<tr")) {
+			
 			int start = sinottico.indexOf("<tr");
 			int end = sinottico.indexOf("</tr");
+			
 			// Passo al metodo analizzaRiga una riga per volta
 			RigaSinottico nuovaRiga = analizzaRiga(sinottico.substring(start, end));
+			
 			if (nuovaRiga != null) {
 				sin.addRiga(nuovaRiga);
 			}
-			// Taglio la stringa con il sorgente eliminando la riga appena analizzata
+			
+			// Escludo dal sorgente la riga appena analizzata
 			sinottico = sinottico.substring(end + 5);
+			
 		}
 		return sin;
 	}
@@ -54,16 +60,21 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @return Sinottico.info con le informazioni della riga.
 	 */
 	private RigaSinottico analizzaRiga(String riga) {
+		
 		// Se la riga ha i tag <th ...> e <td ...> ha sia la cella sinistra(th) che destra(td) (è un pattern di Wikipedia per il sinottico)
 		if (riga.contains("<th") && riga.contains("<td")) {
+			
 			// Recupero il testo nella cella sinistra
 			String categoria = estraiTestoEsternoTag(riga);
+			
 			// Creo una nuova riga con la categoria appena trovata
 			RigaSinottico nuovaRiga = new RigaSinottico(categoria);
+			
 			// Analizzo la cella a destra della riga
 			analisiCella(riga, nuovaRiga);
 			return nuovaRiga;
 		}
+		
 		// La riga era composta da una sola cella
 		return null;
 	}
@@ -92,19 +103,26 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 		if (riga.length() == 0) {
 			return null;
 		}
+		
 		riga = riga.trim();
+		
 		int start = 0;
+		
 		// Sono fuori dal tag, cerco l'inizio del tag successivo o fino alla parentesi tonda (caso particolare).
 		if (riga.charAt(start) != '<') {
+			
 			while (start < riga.length() && riga.charAt(start) != '<' && riga.charAt(start) != '(') {
 				start++;
 			}
+			
 			return riga.substring(0, start).trim();
 		}
+		
 		// Sono dentro ad un tag, cerco la fine di questo per uscirne.
 		while (riga.charAt(start) != '>') {
 			start++;
 		}
+		
 		start++;
 		// Continuo la ricerca ricorsivamente
 		return estraiTestoEsternoTag(riga.substring(start));
@@ -133,16 +151,21 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 */
 	static private String estraiLink(String riga) {
 		int start = 0;
+		
 		// Cerco la fine di href=
 		while (riga.charAt(start) != '"') {
 			start++;
 		}
+		
 		start++;
 		int end = start;
+		
 		// Cerco la fine dell'url
 		while(riga.charAt(end) != '"') {
 			end++;
 		}
+		
+		// Aggiungo la parte mancante per avere un url valido per il WikipediaNavigator
 		return "https://it.wikipedia.org" + riga.substring(start, end);
 	}
 	
@@ -153,15 +176,21 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param rigaSinottico La riga dove inserire i risultati dell'analisi.
 	 */
 	private void analisiCella(String riga, RigaSinottico rigaSinottico) {
+		
 		int start = riga.indexOf("<td");
 		int end = riga.indexOf("</td>"); 
+		
 		// Rimozione del primo tag <td .. >
 		while (riga.charAt(start) != '>') {
 			start++;
 		}
+		
 		start++;
+		
 		while (start < end) {
+			
 			char letteraIniziale = riga.charAt(start);
+			
 			if (letteraIniziale == '<') {
 				start = internoTag(riga, start, end, rigaSinottico);
 			} else {
@@ -190,6 +219,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 		while (riga.charAt(start) != ')') {
 			start++;
 		}
+		
 		return ++start;
 	}
 	
@@ -203,19 +233,29 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 */
 	private int internoTag(String riga, int start, int end, RigaSinottico rigaSinottico) {
 		int endTag = start;
+		
 		// Prelevo il tag trovato
 		while(riga.charAt(endTag) != '>') {
 			endTag++;
 		}
+		
 		endTag++;
+		
 		String tag = riga.substring(start, endTag);
-		// Se il tag ha un link questo appartiene ad un dato utile
+		
+		// Se il tag è di un link, questo è ad un dato utile
 		if (tag.contains("href") && tag.contains("/wiki")) {
+			
 			// Estraggo link e testo associato
 			String link = estraiLink(tag);
+			
 			start = endTag;
+			
 			String nomeLink = estraiTestoEsternoTag(riga.substring(start));
+			
+			// Salvo l'informazione ottenuta
 			rigaSinottico.addInformazione(nomeLink, link);
+			
 			// Puntatore start all'inizio del tag successivo
 			while(riga.charAt(start) != '<' && start <= end){
 			start++;
@@ -223,9 +263,11 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 						start = testoTraParentesi(riga, start);
 				} 
 			}
+			
 		} else {
 			return endTag;
 		}	
+		
 		return start;
 	}
 	
@@ -243,13 +285,16 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	private int esternoTag(String riga, int start, int end, RigaSinottico rigaSinottico) {
 			// Prelevo il testo fuori dai tag (fra i tag)
 			String elemento = estraiTestoEsternoTag(riga.substring(start));
+			
 			// Controllo casi particolari di testo che non voglio prelevare (note, congiunzioni, casi particolari)
 			if (elemento != null && elemento.length() > 1 && elemento.charAt(0) != '[' && elemento.charAt(0) != '"') {
 				rigaSinottico.addInformazione(elemento);
 			}
+			
 			// Posiziono il puntatore all'inizio del prossimo tag
 			while (riga.charAt(start) != '<' && start <= end) {
 				start++;
+				
 				// Escludo tutto quello che è dentro alle parentesi tonde
 				if (riga.charAt(start) == '(') {
 					while (riga.charAt(start) != ')') {
@@ -257,6 +302,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 					}
 				} 
 			}
+			
 		return start;
 	}	
 	

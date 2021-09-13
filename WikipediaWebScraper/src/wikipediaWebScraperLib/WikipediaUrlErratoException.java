@@ -2,6 +2,7 @@ package wikipediaWebScraperLib;
 
 /**
  * Errore che segnala il passaggio di un link Wikipedia in formato errato.
+ * 
  * @author Ian Tirso Cini
  */
 public class WikipediaUrlErratoException extends Exception{
