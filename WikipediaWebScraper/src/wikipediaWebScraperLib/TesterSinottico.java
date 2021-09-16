@@ -43,7 +43,6 @@ public class TesterSinottico {
 			}
 		}
 		
-		
 		System.out.println("\ngetRiga test - Expected: Messaggio di errore");
 		try {
 			RigaSinottico getRigaErrata = sinottico.getRiga("42");
@@ -58,8 +57,7 @@ public class TesterSinottico {
 		} catch (RigaNonPresenteException error) {
 			System.out.println(error.getMessage());
 		}
-
-
+		
 	}
 
 }

@@ -1,8 +1,7 @@
 package iRomaniView;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import java.util.List;
 import alberoGenealogicoLib.AlberoGenealogico;
 
@@ -24,40 +23,73 @@ public class View {
 	/**
 	 * Il panel con l'elenco delle dinastie
 	 */
-	private panelMenuDinastie panelMenuDinastie;
+	private PanelMenuDinastie panelMenuDinastie;
 	
 	/**
 	 * Il panel dove vengono visualizzate le dinastie
 	 */
-	private panelPrincipale panelCentrale;
+	private PanelPrincipale panelPrincipale;
+	
+	/**
+	 * Il pannello con le informazioni prese dal sinottico sui personaggi storici.
+	 */
+	private PanelFinestraInfoBox panelInfoBox;
+	
+	/**
+	 * La scelta iniziale dell'utente.
+	 */
+	private int selezioneIniziale;
 	
 	
+	/**
+	 * Costruisce la view istanziando un JFrame.
+	 */
 	public View() {
 		
 		// Creazione frame
-		frame = new JFrame("Alberi genealogici imperatori romani");
+		frame = new JFrame("iRomani - Arbores consanguinitatis ");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1350, 750);
 		frame.setLayout(null);
 		
-		panelMenuDinastie = new panelMenuDinastie();
+		// Creazione dei pannelli ed aggiunta al frame
+		panelMenuDinastie = new PanelMenuDinastie();
 		frame.add(panelMenuDinastie);
 		
-		panelCentrale = new panelPrincipale();
-		frame.add(panelCentrale);
+		panelPrincipale = new PanelPrincipale();
+		frame.add(panelPrincipale);
+		
+		panelInfoBox = new PanelFinestraInfoBox();
+		frame.add(panelInfoBox);
 		
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 		
+		// Messaggio di avviso di apertura
+		messaggioAlert();
 	}
-
+	
 	/**
-	 * Carica le dinastie nel ComboBox.
-	 * 
-	 * @param dinastie Le dinastie.
+	 * Messaggio iniziale di conferma inizio programma.
 	 */
-	public void setDinastie(String[] dinastie) {
-		panelMenuDinastie.setDinastie(dinastie);
+	private void messaggioAlert() {
+		String messaggio = "Il programma, per caricare la lista delle dinastie\n"
+						 + "disponibili, effettuerà uno scrapring da Wikipedia.\n"
+						 + "Devi avere installato sul tuo computer il browser\n"
+						 + "Chrome versione 93 per poter contiuare.\n"
+						 + "Per annullare premere \"No\" ";
+		
+		selezioneIniziale = JOptionPane.showConfirmDialog(frame, messaggio, "Titolo", JOptionPane.YES_NO_OPTION);
+	}
+	
+	
+	/**
+	 * La selezione iniziale dell'utente.
+	 * 
+	 * @return La selezione iniziale.
+	 */
+	public int getSelezioneIniziale() {
+		return selezioneIniziale;
 	}
 	
 	/**
@@ -68,39 +100,43 @@ public class View {
 	 * @param alberi La lista contentente gli alberi genealogici.
 	 */
 	public void tabPanelAlberi(List<AlberoGenealogico> alberi) {
-		panelAlberiGenealogici panel = new panelAlberiGenealogici(alberi);
+		// Istanzia il pannello con i tab con gli alberi genealogici.
+		PanelAlberiGenealogici panel = new PanelAlberiGenealogici(alberi);
+
+		// Inizializza il pannello
 		panel.costruisciPannello();
 		
-		panelCentrale.disegnaAlbero(panel);
-		
-		frame.setVisible(false);
-		frame.setVisible(true);
+		// Aggiungo il pannello con i tab al pannello principale dove visualizzarlo.
+		panelPrincipale.disegnaAlbero(panel);
+
 	}
 	
 	/**
-	 * Ritorna il JFrame
-	 * @return
+	 * Ritorna il JFrame.
+	 * 
+	 * @return Il Jframe.
 	 */
 	public JFrame getJFrame() {
 		return frame;
 	}
 	
 	/**
-	 * Ritorna la JComboBox dove vengono inserite le dinastie.
+	 * Ritorna il pannello con il menu di selezione delle dinastie.
 	 * 
-	 * @return La JComboBox delle dinastie.
+	 * @return Il pannello con il menu.
 	 */
-	public JComboBox<String> getBoxListaDinastie(){
-		return panelMenuDinastie.getBoxListaDinastie();
+	public PanelMenuDinastie getPanelMenuDinastie() {
+		return panelMenuDinastie;
 	}
 	
 	/**
-	 * Ritorna il bottone presente sotto la JComboBox.
+	 * Ritorna il pannello dove viene visualizzato il sinottico del 
+	 * personaggio storico selezionato.
 	 * 
-	 * @return Il bottone.
+	 * @return Il pannello con le informazioni.
 	 */
-	public JButton getButtonSeleziona() {
-		return panelMenuDinastie.getButtonSeleziona();
+	public PanelFinestraInfoBox getPanelInfoBox() {
+		return panelInfoBox;
 	}
 	
 }

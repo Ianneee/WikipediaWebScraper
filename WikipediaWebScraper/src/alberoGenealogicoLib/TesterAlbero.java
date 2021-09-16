@@ -11,7 +11,7 @@ public class TesterAlbero {
 		}
 
 		@Override
-		public Boolean thisPersonIs() {
+		public boolean thisPersonIs() {
 			return true;
 		}
 	}
@@ -62,21 +62,6 @@ public class TesterAlbero {
 		List<Persona> genitoriNipote1 = albero.getGenitori(nipote1);
 		System.out.println(genitoriNipote1);
 	}
-	
-	public void testGenerazioni() {
-
-		albero.aggiungiAGenerazione(0, padre);
-		albero.aggiungiAGenerazione(0, madre);
-		albero.aggiungiAGenerazione(1, figlio1);
-		albero.aggiungiAGenerazione(1, figlio2);
-		albero.aggiungiAGenerazione(2, nipote1);
-		albero.aggiungiAGenerazione(2, nipote2);
-		
-		System.out.println("\nTest aggiungiAGenerazione e getGenerazioniMap");
-		System.out.println("Expected: {0=[Padre, Madre], 1=[Figlio 1, Figlio 2], 2=[Nipote 1, Nipote 2]}");
-		System.out.println(albero.getGenerazioniMap());
-
-	}
 
 
 	public static void main(String args[]) {
@@ -84,8 +69,6 @@ public class TesterAlbero {
 		TesterAlbero test = new TesterAlbero();
 		test.testInserimentoEGet();
 		
-		test.testGenerazioni();
-
 	}
 
 }

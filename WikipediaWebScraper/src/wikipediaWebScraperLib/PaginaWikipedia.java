@@ -22,10 +22,25 @@ public class PaginaWikipedia extends WikipediaWebPage {
 	 */
 	private Sinottico sinottico;
 	
-	public PaginaWikipedia(String url, String titoloPagina, String urlImmagine, Sinottico sinottico) {
+	/**
+	 * Il codice html con il sinottico
+	 */
+	private String sinotticoHtml;
+	
+	/**
+	 * Costruisce una pagina Wikipedia.
+	 * 
+	 * @param url L'url della pagina.
+	 * @param titoloPagina Il titolo della pagina.
+	 * @param urlImmagine L'url dell'immagine.
+	 * @param sinottico Il Sinottico della pagina.
+	 * @param sinotticoHtml Il codice html con del sinottico.
+	 */
+	public PaginaWikipedia(String url, String titoloPagina, String urlImmagine, Sinottico sinottico, String sinotticoHtml) {
 		super(url, titoloPagina);
 		this.urlImmagine = urlImmagine;
 		this.sinottico = sinottico;
+		this.sinotticoHtml = sinotticoHtml;
 	}
 	
 	/**
@@ -85,6 +100,20 @@ public class PaginaWikipedia extends WikipediaWebPage {
 			return null;
 		}
 		
+	}
+	
+	@Override
+	public String toString() {
+		return super.getTitle();
+	}
+	
+	/**
+	 * Ritorna il codice html con il sinottico.
+	 * 
+	 * @return Il codice html con il sinottico.
+	 */
+	public String getSinotticoHtml() {
+		return sinotticoHtml;
 	}
 
 }

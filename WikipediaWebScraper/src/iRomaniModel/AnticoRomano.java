@@ -20,7 +20,7 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	/**
 	 * Booleano che indica se l'antico romano è stato un imperatore.
 	 */
-	private Boolean isImperatore = false;
+	private boolean isImperatore = false;
 	
 	/**
 	 * La PaginaWikipedia del personaggio storico.
@@ -86,7 +86,7 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	 * 
 	 * @return Booleano che indica se fu un imperatore o no.
 	 */
-	public Boolean isImperatore() {
+	public boolean isImperatore() {
 		return this.isImperatore;
 	}
 	
@@ -157,7 +157,7 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	 * @return Ritorna se è un'imperatore o no.
 	 */
 	@Override
-	public Boolean thisPersonIs() {
+	public boolean thisPersonIs() {
 		return isImperatore();
 	}
 

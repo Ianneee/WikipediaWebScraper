@@ -2,6 +2,7 @@ package iRomaniModel;
 
 import java.util.List;
 import alberoGenealogicoLib.AlberoGenealogico;
+import wikipediaWebScraperLib.WikipediaUrlErratoException;
 
 /**
  * Classe model che permette l'interazione con le classi che elaborano i dati
@@ -40,7 +41,7 @@ public class Model {
 	 * @return La lista con gli AlberiGenealogici scelti.
 	 * @throws DinastiaNonTrovataException
 	 */
-	public List<AlberoGenealogico> alberoGenealogicoDinastia(String nomeDinastia) throws DinastiaNonTrovataException {
+	public List<AlberoGenealogico> alberoGenealogicoDinastia(String nomeDinastia) throws DinastiaNonTrovataException, WikipediaUrlErratoException {
 
 
 		CostruisciAlberoGenealogico generatore = new CostruisciAlberoGenealogico(nomeDinastia);

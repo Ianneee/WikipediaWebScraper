@@ -15,11 +15,23 @@ public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 	public static void main(String args[]) {
 		
 		WikipediaNavigator navigator = new WikipediaNavigator();
-		String sorgente = navigator.getHtmlPagina("https://it.wikipedia.org/wiki/Domiziano");
-//		navigator.closeBrowser();
 		
-		// Utilizzo del builder
+		String sorgente = null;
+		
+		try {
+			
+		sorgente = navigator.getHtmlPagina("https://it.wikipedia.org/wiki/Domiziano");
+		
+		} catch (WikipediaUrlErratoException error) {
+			
+			error.printStackTrace();
+			
+		}
+		
+		// Test Costruzione PaginaWikipedia con builder
+		System.out.println("Test PaginaWikipediaBuilder");
 		PaginaWikipediaBuilder builder = new PaginaWikipediaBuilder();
+		
 		PaginaWikipedia paginawpd = 	builder.
 											titoloPagina(InfoWikipedia.titoloPagina(sorgente)).
 											urlImmagine(InfoWikipedia.urlImmagine(sorgente)).
@@ -44,18 +56,39 @@ public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 		System.out.println(InfoWikipedia.urlImmagine("Ciao questo è un test"));
 		System.out.println(InfoWikipedia.urlPagina("Ciao questo è un test"));
 		System.out.println(InfoWikipedia.sinottico("Ciao questo è un test"));
+
+		
+		// Builder reset e PaginaWikipedia null
+		System.out.println("\nTest Reset builder e PaginaWikipedia campi null");
+		
+		builder.reset();
+		
+		PaginaWikipedia buildReset = builder.build();
+		
+		System.out.println("Titolo pagina: " + buildReset.getTitle());
+		System.out.println("Url pagina: " + buildReset.getUrl());
+		System.out.println("Url immagine: " + buildReset.getUrlImmagine());
+		sinottico = buildReset.getSinottico();
+		System.out.println("Sinottico:" + sinottico);;
 		
 		
+		// Test wiki no sinottico e immagine
+		try {
+			
 		sorgente = navigator.getHtmlPagina("https://it.wikipedia.org/wiki/Aiuto:Disambiguazione");
 		
-		// Utilizzo del builder
-		builder.reset();
+		} catch (WikipediaUrlErratoException error) {
+			
+			error.printStackTrace();
+			
+		}
+		
 		paginawpd = builder.
-						titoloPagina(InfoWikipedia.titoloPagina(sorgente)).
-						urlImmagine(InfoWikipedia.urlImmagine(sorgente)).
-						url(InfoWikipedia.urlPagina(sorgente)).
-						sinottico(InfoWikipedia.sinottico(sorgente)).
-						build();
+				titoloPagina(InfoWikipedia.titoloPagina(sorgente)).
+				urlImmagine(InfoWikipedia.urlImmagine(sorgente)).
+				url(InfoWikipedia.urlPagina(sorgente)).
+				sinottico(InfoWikipedia.sinottico(sorgente)).
+				build();
 		
 		
 		navigator.closeBrowser();

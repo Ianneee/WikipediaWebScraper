@@ -12,14 +12,22 @@ import org.openqa.selenium.chrome.ChromeDriver;
  * 
  */
 public class WikipediaNavigator {
+	
+	/**
+	 * Il WebDriver che permette la navigazione.
+	 */
 	private WebDriver webDriver;
 	
+	/**
+	 * Costruisce il WikipediaNavigator utilizzando il browser Chrome.
+	 * Viene aperta una finestra del browser.
+	 */
 	public WikipediaNavigator() {
 		buildChrome();
 	}
 	
 	/**
-	 * Utilizza Chrome come browser di navigazione.
+	 * Utilizza Chrome come browser di navigazione e lancia il browser.
 	 */
 	private void buildChrome() {
 		System.setProperty("webdriver.chrome.driver",  "res/chromedriver.exe");
@@ -34,12 +42,14 @@ public class WikipediaNavigator {
 	 * @param url Url della pagina Wikipedia.
 	 * @return Il sorgente della pagina aperta.
 	 */
-	public String getHtmlPagina(String url) {
+	public String getHtmlPagina(String url) throws WikipediaUrlErratoException{
 		if (urlValido(url)) {
 			webDriver.get(url);
 			return webDriver.getPageSource();
+		} else {
+			throw new WikipediaUrlErratoException();
 		}
-		return null;
+//		return null;
 	}
 	
 	/**
@@ -48,7 +58,7 @@ public class WikipediaNavigator {
 	 * @param url Url di wikipedia che cominci con https://it.wikipedia.org/wiki/
 	 * @return Boolean di conferma.
 	 */
-	private Boolean urlValido(String url) {
+	private boolean urlValido(String url) {
 		if (url.startsWith("https://it.wikipedia.org/wiki/")) {
 			return true;
 		} 

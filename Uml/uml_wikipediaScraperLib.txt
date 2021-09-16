@@ -1,0 +1,187 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+
+package "wikipediaWebScraperLib" {
+class WikipediaWebPage
+class TabellaWikipedia
+class RigaTabella
+class ParserTabellaWikipedia
+class WikipediaNavigator
+
+PaginaWikipedia o-right-> Sinottico
+Sinottico *-right->RigaSinottico
+Sinottico -- RigaNonPresenteException
+PaginaWikipedia -left- RigaNonPresenteException
+
+PaginaWikipedia <.. PaginaWikipediaBuilder
+
+RigaSinottico*-->Informazione
+
+ParserSinotticoWikipedia -up-*Sinottico
+
+InfoWikipedia -up- ParserSinotticoWikipedia
+
+InfoWikipedia -up- Sinottico
+
+ParserSinotticoWikipedia .down.|> ParserTabellaWikipedia
+
+WikipediaNavigator -- WikipediaUrlErratoException
+
+}
+
+' Package wikipediaScraperLib
+
+class WikipediaNavigator{
+-webDriver : WebDriver
+--
++WikipediaNavigator()
+--
+-buildChrome()
++getHtmlPagina(String) : String
+-urlValido(String url) : boolean
++closeBrowser() : void
+}
+
+abstract class WikipediaWebPage {
+-url : String
+-titoloPagina : String
+--
++WikipediaWebPage(String url, String titoloPagina)
+--
++getTitle() : String
++getUrl() : String
+}
+
+abstract class TabellaWikipedia {
++{abstract} getRiga(String)
++{abstract} addRiga(RigaTabella)
++{abstract} getRighe()
+}
+
+class Sinottico extends TabellaWikipedia implements Iterable{
+' Aggregatore di RigaSinottico
+-righe : List<RigaSinottico>
+-CLASSE_RIGA_SINOTTICO : String
+--
++addRiga(RigaTabella riga) : void
++creaRiga(String categoria) : void
++addInfoToRiga(String categoria, String informazione)
++addInfoUrlToRiga(String categoria, String informazione, String url) : void
++addUrlInfoToRiga(String categoria, String informazione, String url) : void
++getRiga(String categoria) : RigaSinottico
++getRighe() : List<RigaSinottico>
++iterator() : Iterator<RigaSinottico>
+}
+
+interface RigaTabella{
+}
+
+class RigaSinottico implements RigaTabella, Iterable{
+-categoria : String
+-cellaDestra : List<Informazione>
+--
++RigaSinottico(String categoria)
+--
++getCategoria() : String
++getInformazioni() : List<Informazione>
++iterator() : Iterator<Informazione>
++addInformazione(String nomeInfo) : void
++addInformazione(String nomeInfo, String url) : void
++addUrl(String nomeInfo, String url) : void
++toString() : String
+}
+
+class Informazione{
+'  Inner class RigaSinottico
+-nomeInfo : String
+-url : String
+--
++Informazione(String nomeInfo)
++Informazione(String nomeInfo, String url)
+--
++setUrl(String url) : void
++getNomeInfo() : String
++getUrl() : String
++toString() String
+}
+
+class RigaNonPresenteException extends Exception{
++RigaNonPresenteException()
+}
+
+interface ParserTabellaWikipedia{
++analizzaTabella(String sorgente) : TabellaWikipedia
+}
+
+class ParserSinotticoWikipedia{
++analizzaTabella(String sinottico) : Sinottico
+-{static}createSinottico(String sinottico) : Sinottico
+-{static}analizzaRiga(String riga) : RigaSinottico
++{static}testoEsternoTag(String riga) : String
+-{static}estraiTestoEsternoTag(String riga) : String
++{static}estrapolaLink(String riga) : String
+-{static}estraiLink(String riga) : String
+-{static}analisiCella(String riga, RigaSinottico rigaSinottico) : void
+-{static}testoTraParentesi(String riga, int start) : int
+-{static}internoTag(String, int, int, RigaSinottico) : int
+-{static}esternoTag(String riga, int start, int end, RigaSinottico rigaSinottico) : int
+}
+
+class PaginaWikipediaBuilder <<Builder>>{
+-url : String
+-titoloPagina : String
+-urlImmagine : String
+-sinottico : Sinottico
+-sinotticoHtml : String
+--
++url(String urlPagina) : PaginaWikipediaBuilder
++titoloPagina(String titoloPagina) : PaginaWikipediaBuilder
++urlImmagine(String urlImmagine) : PaginaWikipediaBuilder
++sinottico(Sinottico sinottico) : PaginaWikipediaBuilder
++sinotticoHtml(String sinotticoHtml) : PaginaWikipediaBuilder
++build() : PaginaWikipedia
++reset() : void
+}
+
+class PaginaWikipedia extends WikipediaWebPage{
+' throws RigaNonTrovataException
+-urlImmagine : String
+-sinottico : Sinottico
+-sinotticoHtml : String
+--
++PaginaWikipedia(String url, String titoloPagina, String urlImmagine, Sinottico sinottico, String sinotticoHtml)
+--
++getUrlImmagine() : String
++getSinottico() : Sinottico
++getRigaSinottico(String categoria) : RigaSinottico
++getInformazioneSinottico(String categoria) : List<Informazione>
++toString() : String
++getSinotticoHtml() : String
+}
+
+class InfoWikipedia{
++urlImmagine(String sorgente) : String
++urlPagina(String sorgente) : String
++titoloPagina(String sorgente) : String
++sinottico(String sorgente) : Sinottico
++sinottico(String sorgente, Supplier<ParserTabellaWikipedia>parser) : Sinottico
++estraiSinottico(String sorgente) : String
++tabella(String sorgente, Supplier<ParserTabellaWikipedia> parser) : TabellaWikipedia
+}
+
+class WikipediaUrlErratoException extends Exception{
++WikipediaUrlErratoException()
++WikipediaUrlErratoException(String)
+}
+
+class Iterable{
+java.lang
+}
+
+class Exception{
+java.lang
+}
+
+@enduml

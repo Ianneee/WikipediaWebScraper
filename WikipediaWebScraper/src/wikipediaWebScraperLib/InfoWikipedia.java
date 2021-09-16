@@ -165,7 +165,7 @@ public class InfoWikipedia {
 	 * @param parser Il parser per analizzare il sorgente.
 	 * @return L'oggetto TabellaWikipedia con i dati corrispondenti.
 	 */
-	public static TabellaWikipedia tabella(String sorgente, Supplier<ParserTabellaWikipedia> parser) {
+	public static TabellaWikipedia tabellaWikipedia(String sorgente, Supplier<ParserTabellaWikipedia> parser) {
 		ParserTabellaWikipedia prs = parser.get();
 		return prs.analizzaTabella(sorgente);
 	}

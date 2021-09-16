@@ -1,0 +1,208 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+
+' package iRomaniModel
+
+package "iRomaniModel" {
+
+
+CostruisciAlberoGenealogico .right.>WikiImperatoriRomaniPagina
+CostruisciAlberoGenealogico .left.>AnticoRomano
+WikiImperatoriRomaniPagina o-down- TabellaDinastie
+
+ParserTabellaDinastie - TabellaDinastie
+ParserTabellaDinastie *-- Record
+TabellaDinastie *-- RigaTabella
+
+Model ..> CostruisciAlberoGenealogico
+Model ..> WikiImperatoriRomaniPagina
+
+CostruisciAlberoGenealogico -- DinastiaNonTrovataException
+WikiImperatoriRomaniPagina  -- DinastiaNonTrovataException
+
+}
+
+WikiImperatoriRomaniPagina -up- WikipediaUrlErratoException
+CostruisciAlberoGenealogico -up- WikipediaUrlErratoException
+
+
+AnticoRomano .right.|> Comparable
+AnticoRomano o-- PaginaWikipedia
+AlberoGenealogico o--> AnticoRomano
+CostruisciAlberoGenealogico ..> PaginaWikipediaBuilder
+ParserTabellaDinastie ..> ParserSinottico
+
+DinastiaNonTrovataException --|> Exception
+
+class AnticoRomano extends Persona{
+-url : String
+-urlImmagine : String
+-isImperatore : Boolean
+-paginaWikipedia : PaginaWikipedia
+--
++AnticoRomano(String nome, String url)
+--
++getUrl() : String
++setUrlImmagine(String) : String
++getUrlImmagine() : String
++setImperatore() : void
++unsetImperatore() : void
++isImperatore() : Boolean
++setPaginaWikipedia(PaginaWikipedia paginaWikipedia) : void
++getPaginaWikipedia() : PaginaWikipedia
++equals(Object o) : boolean
++compareTo(AnticoRomano romano) : int
++hashCode() : int
++toString() : String
++thisPersonIs() : Boolean
+}
+
+class CostruisciAlberoGenealogico{
+-nomeDinastia : String
+-webSurfer : WikipediaNavigator
+-dinastia : TabellaDinastie
+-urlImperatori : LinkedHashMap<String, Integer>
+-alberiGenealogici : List<AlberoGenealogico>
+-paroleVietate : List<String>
+-pagineWikiErrate : List<String>
+-GIULIO_CESARE : String
+-GIULIO_CLAUDIA : String
+--
++CostruisciAlberoGenealogico(String nomeDinastia)
+--
++init() : void
++getAlberiGenealogici() : List<AlberoGenealogico>
+-urlImperatori(List<String> listaUrl) : void
+-costruisciAlberi() : void
+-costruzioneAlberoRicorsiva(String urlWikipedia, AlberoGenealogico albero )
+-costruisciPaginaWikipedia(String sorgente) : PaginaWikipedia
+-costruisciRomano(PaginaWikipedia wiki) : AnticoRomano
+-cercaFigli(PaginaWikipedia wiki) : List<Informazione>
+}
+
+class DinastiaNonTrovataException{
++DinastiaNonTrovataException() : void
+}
+
+class Model{
+paginaImperatori : WikiImperatoriRomaniPagina
+--
+startModel() : void	
+getListaDinastie() : String[]
+alberoGenealogicoDinastia(String nomeDinastia) : List<AlberoGenealogico>
+}
+
+class ParserTabellaDinastie {
+- int LUNGHEZZA_TAG
+- string GUERRA_CIVILE_1
+--
++ analisiSorgente(String sorgente) : List<TabellaDinastie>
+- analisiHtmlTabella(String sorgente) : TabellaDinastie
+-dataDinastia(String riga) : String
+- cercaLink(String sorgente) : String
+- cercaImperatori(String htmlTabella, TabellaDinastie tabellaDinastia) : void
+- analisiRiga(String) : Record
+}
+
+class Record {
+' inner class di ParsertabellaDinastie
+- String nomeImperatore
+- String urlImperatore
+--
++ Record(String, String)
++ getNome() : String
++ getUrl() : String
+}
+
+class TabellaDinastie extends TabellaWikipedia implements Iterable{
+- nomeDinastia : String
+- urlDinastia : String
+- righe : List<Riga>
+--
++ TabellaDinastie(String nomeDinastia)
+--
++ setUrlDinastia(String urlDinastia) : void
++ getUrlDinastia() : String
++ getNomeDinastia() : String
++ nuovaRiga(String nomeImperatore, String urlPagina) : void
++ getRiga(String nomeImperatore) : Riga
++ getRiga(int numeroRiga) : Riga
++ addRiga(RigaTabella riga) : void
++ getRighe() : List<Riga>
++ iterator() : Iterator<Riga>
++ toString() : String
+}
+
+class RigaTabella {
+'inner class tabella dinastie
+- String nomeImperatore
+- String urlPagina
+--
++ Riga(String nomeImperatore, String urlPagina)
+--
++ getNomeImperatore() : String
++ getUrlPagina() : String
++ toString() : String
+}
+
+class WikiImperatoriRomaniPagina << Singleton >>{
+- {static} WikiImperatoriRomaniPagina instance
+- List<TabellaDinastie> instance : 
+- String TITOLO_PAGINA
+- String URL_PAGINA
+--
+- WikiImperatoriRomaniPagina()
+--
++ getInstance() : WikiImperatoriRomaniPagina
++ getTitle() : String
++ getUrl() : String
++ getDinastie() : List<TabellaDinastie>
+- analisiSorgentePagina() : void
++ getElencoDinastie() : String[]
++ getDinastia(String nomeDinastia) : TabellaDinastie
+}
+
+' Classi di altri package
+class TabellaWikipedia{
+wikipediaWebScraperLib
+}
+
+class PaginaWikipediaBuilder{
+wikipediaWebScraperLib
+}
+
+class PaginaWikipedia{
+wikipediaWebScraperLib
+}
+
+class ParserSinottico{
+wikipediaWebScraperLib
+}
+
+class AlberoGenealogico{
+alberoGenealogicoLib
+}
+
+class Persona{
+alberoGenealogicoLib
+}
+
+class WikipediaUrlErratoException{
+wikipediaWebScraperLib
+}
+
+interface Comparable{
+java.lang
+}
+
+interface Iterable{
+java.lang
+}
+
+class Exception{
+java.lang
+}
+
+@enduml

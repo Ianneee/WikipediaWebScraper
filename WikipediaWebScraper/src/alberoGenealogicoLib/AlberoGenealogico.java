@@ -5,9 +5,7 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.Graphs;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 
 /**
  * La classe rappresenta un albero genealogico.
@@ -35,11 +33,6 @@ public class AlberoGenealogico {
 	private Persona capostipite;
 	
 	/**
-	 * Mappa con le generazioni per grado.
-	 */
-	private Map<Integer, List<Persona>> generazioni;
-	
-	/**
 	 * Costruttore di un albero genealogico. Passare come argomento il nome della famiglia.
 	 * 
 	 * @param nomeFamiglia Il nome della famiglia.
@@ -50,7 +43,6 @@ public class AlberoGenealogico {
 		
 		albero = new SimpleDirectedGraph<>(Archi.class);
 		
-		generazioni = new TreeMap<Integer, List<Persona>>();
 	}
 	
 	/**
@@ -112,24 +104,12 @@ public class AlberoGenealogico {
 	}
 	
 	/**
-	 * Aggiungi alle generazioni la Persona passata come argomento. Passare come argomento
-	 * la generazione di appartenenza.
+	 * Ritorna un set con tutte le persone all'interno dell'albero genealogico.
 	 * 
-	 * @param gradoGenerazione Il grado della generazione della persona.
-	 * @param persona La persona da aggiungere.
+	 * @return Il set con tutte le persone.
 	 */
-	public void aggiungiAGenerazione(int gradoGenerazione, Persona persona) {
-		generazioni.computeIfAbsent(gradoGenerazione, k -> new ArrayList<Persona>());
-		generazioni.get(gradoGenerazione).add(persona);
-	}
-	
-	/**
-	 * Ritorna la mappa con le generazioni numerate.
-	 * 
-	 * @return La mappa con le generazioni.
-	 */
-	public Map<Integer, List<Persona>> getGenerazioniMap(){
-		return generazioni;
+	public Set<Persona> getPersone() {
+		return albero.vertexSet();
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package iRomaniModel;
 
+import wikipediaWebScraperLib.WikipediaUrlErratoException;
+
 public class TesterCostruisciAlberoGenealogico {
 	
 	public static void main(String[] args) {
@@ -11,7 +13,12 @@ public class TesterCostruisciAlberoGenealogico {
 			error.printStackTrace();
 		}
 		
-		albero.init();
+		try {
+			albero.init();
+		} catch (WikipediaUrlErratoException error) {
+			error.printStackTrace();
+		}
+		
 		System.out.println("Test guerra civile romana getAlberiGenealogici - Expected:");
 		System.out.println("[([👑 "
 				+ "Flavio Severo, Severiano], [=(👑 "

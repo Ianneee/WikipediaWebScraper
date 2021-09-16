@@ -2,6 +2,7 @@ package wikipediaWebScraperLib;
 
 import java.util.Iterator;
 import java.util.List;
+import wikipediaWebScraperLib.RigaSinottico.Informazione;
 import java.util.LinkedList;
 
 
@@ -17,16 +18,12 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	/**
 	 * Lista che contiene tutte le righe aggiunte
 	 */
-	private List<RigaSinottico> righe;
+	private List<RigaSinottico> righe = new LinkedList<>();
 
 	/**
 	 * La classe delle righe che possono essere accettate da questa classe Sinottico
 	 */
 	private final String CLASSE_RIGA_SINOTTICO = RigaSinottico.class.getName();
-	
-	public Sinottico() {
-		righe = new LinkedList<>();
-	}
 	
 	/**
 	 * Aggiunge una riga già creata.
@@ -141,4 +138,6 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	public Iterator<RigaSinottico> iterator(){
 		return righe.iterator();
 	}
+	
+
 }

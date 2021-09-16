@@ -12,13 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * La classe è il JPanel sinistro dell'applicazione in cui è possibile scegliere
+ * La classe è il JPanel a sinistra dell'applicazione in cui è possibile scegliere
  * dalla lista la dinastia di cui si vuole avere la rappresentazione grafica.
  * 
  * @author Ian Tirso Cini
  *
  */
-public class panelMenuDinastie extends JPanel {
+public class PanelMenuDinastie extends JPanel {
 	
 	/**
 	 * JComboBox contenente l'elenco delle dinastie.
@@ -34,11 +34,31 @@ public class panelMenuDinastie extends JPanel {
 	 * Il pulsante che permette di scegliere la dinastia.
 	 */
 	private JButton buttonSeleziona;
+	
+	/**
+	 * L'altezza.
+	 */
+	private final int ALTEZZA = 150;
+
+	/**
+	 * La larghezza.
+	 */
+	private final int LARGHEZZA = 300;
+	
+	/**
+	 * La posizione orizzontale.
+	 */
+	private final int X = 0;
+	
+	/**
+	 * La posizione verticale
+	 */
+	private final int Y = 10;
 
 	/**
 	 * Costruisce il pannello e posiziona i componenti.
 	 */
-	public panelMenuDinastie() {
+	public PanelMenuDinastie() {
 		
 		labelScegli();
 		boxListaDinastie();
@@ -63,11 +83,10 @@ public class panelMenuDinastie extends JPanel {
 		gbc.gridy = 2;
 		add(buttonSeleziona, gbc);
 		
-		// Impostazioni grafiche per la barra laterale
-		setBackground(Color.WHITE);
-		setBounds(0, 10, 300, 200);
+		setBounds(X, Y, LARGHEZZA, ALTEZZA);
 		setVisible(true);
 	}
+
 	
 	/**
 	 * Istanzia la JComboBox.

@@ -9,7 +9,7 @@ public class TesterPersona {
 		}
 
 		@Override
-		public Boolean thisPersonIs() {
+		public boolean thisPersonIs() {
 			return true;
 		}
 		

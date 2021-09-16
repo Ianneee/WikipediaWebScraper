@@ -26,7 +26,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param sinottico della pagina Wikipedia.
 	 * @return Classe Sinottico con le informazioni ricavate.
 	 */
-	private Sinottico createSinottico(String sinottico) {
+	private static Sinottico createSinottico(String sinottico) {
 		Sinottico sin = new Sinottico();
 		
 		// Scorro il sorgente e analizzo righe finchè ne trovo
@@ -59,7 +59,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param riga del sinottico.
 	 * @return Sinottico.info con le informazioni della riga.
 	 */
-	private RigaSinottico analizzaRiga(String riga) {
+	private static RigaSinottico analizzaRiga(String riga) {
 		
 		// Se la riga ha i tag <th ...> e <td ...> ha sia la cella sinistra(th) che destra(td) (è un pattern di Wikipedia per il sinottico)
 		if (riga.contains("<th") && riga.contains("<td")) {
@@ -175,7 +175,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param riga Riga del sinottico in analisi.
 	 * @param rigaSinottico La riga dove inserire i risultati dell'analisi.
 	 */
-	private void analisiCella(String riga, RigaSinottico rigaSinottico) {
+	private static void analisiCella(String riga, RigaSinottico rigaSinottico) {
 		
 		int start = riga.indexOf("<td");
 		int end = riga.indexOf("</td>"); 
@@ -215,7 +215,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param start Posizione attuale del parser.
 	 * @return Il puntatore start aggiornato.
 	 */
-	private int testoTraParentesi(String riga, int start) {
+	private static int testoTraParentesi(String riga, int start) {
 		while (riga.charAt(start) != ')') {
 			start++;
 		}
@@ -231,7 +231,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param end Posizione finale della riga.
 	 * @return Il puntatore start aggiornato.
 	 */
-	private int internoTag(String riga, int start, int end, RigaSinottico rigaSinottico) {
+	private static int internoTag(String riga, int start, int end, RigaSinottico rigaSinottico) {
 		int endTag = start;
 		
 		// Prelevo il tag trovato
@@ -282,7 +282,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param rigaSinottico Riga dove aggiungere il risultato.
 	 * @return Il puntatore start aggiornato.
 	 */
-	private int esternoTag(String riga, int start, int end, RigaSinottico rigaSinottico) {
+	private static int esternoTag(String riga, int start, int end, RigaSinottico rigaSinottico) {
 			// Prelevo il testo fuori dai tag (fra i tag)
 			String elemento = estraiTestoEsternoTag(riga.substring(start));
 			

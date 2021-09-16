@@ -14,6 +14,6 @@ public interface ThisPersonIs {
 	 * 
 	 * @return É lui o non è lui?!
 	 */
-	Boolean thisPersonIs();
+	boolean thisPersonIs();
 
 }

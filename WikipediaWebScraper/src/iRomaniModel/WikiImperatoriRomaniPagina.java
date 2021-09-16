@@ -1,7 +1,8 @@
 package iRomaniModel;
-import java.util.List;
 
+import java.util.List;
 import wikipediaWebScraperLib.WikipediaNavigator;
+import wikipediaWebScraperLib.WikipediaUrlErratoException;
 import wikipediaWebScraperLib.WikipediaWebPage;
 
 
@@ -96,11 +97,25 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	private void analisiSorgentePagina() {
 	
 		WikipediaNavigator browser = new WikipediaNavigator();
-		String sorgente = browser.getHtmlPagina(URL_PAGINA);
+		
+		String sorgente = null;
+		
+		try {
+		 sorgente = browser.getHtmlPagina(URL_PAGINA);
+		} catch (WikipediaUrlErratoException error) {
+			error.printStackTrace();
+		}
+		
 		browser.closeBrowser();
+		
+		if (sorgente != null) {
+
 		ParserTabellaDinastie parser = new ParserTabellaDinastie();
+		
 		List<TabellaDinastie> dinastie = parser.analisiSorgente(sorgente);
+		
 		this.dinastie = dinastie;
+		}
 	
 	}
 	

@@ -23,7 +23,7 @@ public class TesterComponenteGrafo {
 		}
 		
 		@Override
-		public Boolean thisPersonIs() {
+		public boolean thisPersonIs() {
 			return thisPersonIs;
 		}
 		
