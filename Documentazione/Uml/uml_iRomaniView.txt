@@ -1,0 +1,167 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+
+package iRomaniView{
+
+View o-left- PanelAlberiGenealogici
+ComponenteGrafoIllustrato <-down- PanelAlberiGenealogici
+View o-right- PanelFinestraInfoBox
+View o-- PanelPrincipale
+View o-- PanelMenuDinastie
+PanelFinestraInfoBox -up- ModificaHtmlSinottico
+}
+
+View -- AlberiGenealogici
+PanelAlberiGenealogici o-- AlberiGenealogici
+
+PanelAlberiGenealogici --|> JTabbedPane
+
+ComponenteGrafoIllustrato o--	JGraphXAdapter
+ComponenteGrafoIllustrato o-- mxGraphComponent
+ComponenteGrafoIllustrato o-- Graph
+
+View o-down- JFrame
+
+class ComponenteGrafoIllustrato{
+-component : mxGraphComponent
+-STYLE_IMPERATORE : String
+-STYLE_ROMANO : String
+-STYLE_ARCHI : String
+-STYLE_ARCHI_IMP : String
+--
++ComponenteGrafoIllustrato(Graph<Persona, Archi> grafo)
+--
+-init(GraphXAdapter<Persona, Archi>wrapGrafo,Graph<Persona, Archi>grafo) : void
++getComponente() : mxGraphComponent
+-coloraVerticiGrafo(Map<Persona, mxICell> vertici, JGraphXAdapter<Persona, Archi> wrapGrafo) : void
+-coloraArchiGrafo(Map<Archi, mxICell> archi,JGraphXAdapter<Persona, Archi> wrapGrafo, Graph<Persona, Archi> grafo) : void
+-settaComponente(JGraphXAdapter<Persona, Archi> wrapGrafo) : void
+}
+
+class PanelAlberiGenealogici{
+-alberi : List<AlberoGenealogico>
+-LARGHEZZA : int
+-ALTEZZA : int
+-X : int
+-Y : int
+--
++PanelAlberiGenealogici(List<AlberoGenealogico> alberi)
+--
++costruisciPannello() : void
+-istanziaAlberiVisuali() : List<mxGraphComponent>
+-buildPannello(List<mxGraphComponent> grafi) : void
+}
+
+class PanelFinestraInfoBox extends JPanel{
+-LARGHEZZA : int
+-ALTEZZA : int
+-X : int
+-Y : int
+-box : JComboBox<PaginaWikipedia>
+-seleziona : JButton
+-contenitoreTopPagina : JPanel
+-scrollPaneSinottico : JScrollPane
+-testoSinottico : JTextPane
+--
++PanelFinestraInfoBox()
+--
+-componentiVuoti() : void
+-box() : void
+-private void seleziona() : void
+-contenitoreTopPagina() : void
+-testoSinottico() : void
+-scrollPaneSinottico() : void
++costruisciMenuTendina(List<AlberoGenealogico> alberi) : void
+-istanziaPannelloSinottico(String htmlSinottico) : void
++pulisciSinottico(String htmlSinottico) : String
+-sinotticoIncompleto(String htmlSinottico) : String
++costruisciPannelloInfo(PaginaWikipedia pagina) : void
++getMenuTendina() : JComboBox
++getBottoneSeleziona() : JButton
+}
+
+class PanelMenuDinastie extends JPanel{
+-boxListaDinastie : JComboBox<String>
+-labelScegli : JLabel
+-buttonSeleziona : JButton
+-ALTEZZA : int
+-LARGHEZZA : int
+-X : int
+-Y : int
+--
++PanelMenuDinastie()
+--
+-boxListaDinastie() : void
+-buttonSeleziona() : void
+-labelScegli() : void
++setDinastie(String[]) : void
++getButtonSeleziona() : JButton
++getBoxListaDinastie() : JComboBox<String>
+}
+
+class PanelPrincipale extends JPanel{
+-ALTEZZA : int
+-LARGHEZZA : int
+-X : int
+-Y : int
+--
++PanelPrincipale() 
+--
++disegnaAlbero(PanelAlberiGenealogici alberiGenealogici) : void
+}
+
+class View{
+-frame : JFrame
+-panelMenuDinastie : PanelMenuDinastie
+-panelPrincipale : PanelPrincipale
+-panelInfoBox : PanelFinestraInfoBox
+-selezioneIniziale : int
+--
+View()
+--
+-messaggioAlert() : void
++getSelezioneIniziale() : int
++tabPanelAlberi(List<AlberoGenealogico>) : void
++getJFrame() : JFrame
++getPanelMenuDinastie() : PanelMenuDinastie
++getPanelInfoBox() : PanelFinestraInfoBox
+}
+
+class ModificaHtmlSinottico{
++{static} puliziaSinottico(String htmlSinottico) : String
++{static} rimuoviLink(String htmlSinottico) : String
++{static} riposizionaSinottico(String htmlSinottico) : String
++{static} rimuoviAnnotazioni(String htmlSinottico) : String
+}
+
+
+class AlberiGenealogici{
+alberoGenalogicoLib
+}
+
+class JGraphXAdapter{
+JGraphT
+}
+
+class mxGraphComponent{
+JGraphT
+}
+
+interface Graph{
+JGraphT
+}
+
+class JFrame{
+javax.swing
+}
+
+class JTabbedPane{
+javax.swing
+}
+
+class JPanel{
+javax.swing
+}
+@enduml

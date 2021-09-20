@@ -2,17 +2,22 @@ package alberoGenealogicoLib;
 
 public class TesterPersona {
 	
-	public class PersonaFittizia extends Persona {
-
+	public class PersonaFittizia implements Persona {
+		
+		String nome;
+		
 		public PersonaFittizia(String nome) {
-			super(nome);
-		}
-
-		@Override
-		public boolean thisPersonIs() {
-			return true;
+			this.nome = nome;
 		}
 		
+		public String getNome() {
+			return nome;
+		}
+		
+		@Override
+		public String toString() {
+			return nome;
+		}
 	}
 	
 	public void testPersona() {
@@ -22,10 +27,6 @@ public class TesterPersona {
 		
 		System.out.println("Test getNome - Expected: Rossi Mario");
 		System.out.println(nome);
-		
-		Boolean bool = persona.thisPersonIs();
-		System.out.println("Test thisPersonIs - Expected: true");
-		System.out.println(bool);
 		
 		System.out.println("toString:");
 		System.out.println(persona);

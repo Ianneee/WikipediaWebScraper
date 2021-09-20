@@ -2,9 +2,9 @@ package wikipediaWebScraperLib;
 
 import java.util.Iterator;
 import java.util.List;
-import wikipediaWebScraperLib.RigaSinottico.Informazione;
 import java.util.LinkedList;
 
+import wikipediaWebScraperLib.RigaSinottico.Informazione;
 
 /**
  * La classe rappresenta la tabella sinottico di una pagina Wikipedia da cui sono state
@@ -13,17 +13,12 @@ import java.util.LinkedList;
  * @author Ian Tirso Cini
  *
  */
-public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottico> {
+public class Sinottico extends TabellaWikipedia<RigaSinottico> implements Iterable<RigaSinottico> {
 
 	/**
 	 * Lista che contiene tutte le righe aggiunte
 	 */
 	private List<RigaSinottico> righe = new LinkedList<>();
-
-	/**
-	 * La classe delle righe che possono essere accettate da questa classe Sinottico
-	 */
-	private final String CLASSE_RIGA_SINOTTICO = RigaSinottico.class.getName();
 	
 	/**
 	 * Aggiunge una riga già creata.
@@ -31,14 +26,8 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	 * @param riga del sinottico.
 	 */
 	@Override
-	public void addRiga(RigaTabella riga) {
-		// Il metodo accetta tutte classi che implementano l'interfaccia RigaTabella
-		// ma per essere valide controllo che appartengano alla classe RigaSinottico richiedendo il tipo
-		// alla riga ricevuta dal metodo e lo controllo.
-		if (riga.getClass().getName().equals(CLASSE_RIGA_SINOTTICO)) {
-			righe.add((RigaSinottico)riga);	
-		}
-		
+	public void addRiga(RigaSinottico riga) {
+		righe.add((RigaSinottico)riga);	
 	}
 	
 	/**
@@ -77,7 +66,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	 * @param informazione da aggiungere alla categoria.
 	 * @param url associato a quell'informazione.
 	 */
-	public void addInfoUrlToRiga(String categoria, String informazione, String url) {
+	public void addInfoEUrlToRiga(String categoria, String informazione, String url) {
 		for (RigaSinottico riga : righe) {
 			if (riga.getCategoria().toLowerCase().equals(categoria.toLowerCase())) {
 				riga.addInformazione(informazione, url);
@@ -94,7 +83,7 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	 * @param informazione contenuta nella cella destra per la specifica categoria.
 	 * @param url da aggiungere a quell'informazione.
 	 */
-	public void addUrlInfoToRiga(String categoria, String informazione, String url) {
+	public void addUrlToInfoToRiga(String categoria, String informazione, String url) {
 		for (RigaSinottico riga : righe) {
 			if (riga.getCategoria().toLowerCase().equals(categoria.toLowerCase())) {
 				riga.addUrl(informazione, url);
@@ -109,13 +98,32 @@ public class Sinottico extends TabellaWikipedia implements Iterable<RigaSinottic
 	 * 
 	 * @param categoria da cercare.
 	 * @return la riga corrispondente a quella categoria.
-	 * @throws RigaNonPresenteException
+	 * @throws RigaNonPresenteException La riga cercata non è presente.
 	 */
 	@Override
 	public RigaSinottico getRiga(String categoria) throws RigaNonPresenteException {
 		for (RigaSinottico riga : righe) {
 			if (riga.getCategoria().toLowerCase().equals(categoria.toLowerCase())) {
 				return riga;
+			}
+		}
+		throw new RigaNonPresenteException();
+	}
+	
+	/**
+	 * Cerca la riga dal nome della categoria dell'informazione. Viene ritornata la Lista di Informazione
+	 * corrispondenti a quella riga.
+	 * Se la categoria non viene trovata tra le righe presenti nel sinottico viene lanciato
+	 * un errore di tipo RigaNonPresenteException.
+	 * 
+	 * @param categoria La categoria presente nella cella sinistra della riga.
+	 * @return La lista di oggetti Informazione della riga trovata.
+A	 * @throws RigaNonPresenteException La riga cercata non è presente.
+	 */
+	public List<Informazione> getInformazioneSinottico(String categoria) throws RigaNonPresenteException {
+		for (RigaSinottico riga : righe) {
+			if (riga.getCategoria().toLowerCase().equals(categoria.toLowerCase())) {
+				return riga.getInformazioni();
 			}
 		}
 		throw new RigaNonPresenteException();

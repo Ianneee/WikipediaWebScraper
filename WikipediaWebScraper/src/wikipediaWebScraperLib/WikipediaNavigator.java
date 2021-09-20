@@ -41,6 +41,7 @@ public class WikipediaNavigator {
 	 * 
 	 * @param url Url della pagina Wikipedia.
 	 * @return Il sorgente della pagina aperta.
+	 * @throws WikipediaUrlErratoException Errore lanciato per url errato.
 	 */
 	public String getHtmlPagina(String url) throws WikipediaUrlErratoException{
 		if (urlValido(url)) {
@@ -49,7 +50,6 @@ public class WikipediaNavigator {
 		} else {
 			throw new WikipediaUrlErratoException();
 		}
-//		return null;
 	}
 	
 	/**

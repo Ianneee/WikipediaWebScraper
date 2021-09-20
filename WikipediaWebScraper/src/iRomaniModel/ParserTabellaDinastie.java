@@ -1,12 +1,13 @@
 package iRomaniModel;
 
 import java.util.List;
-import wikipediaWebScraperLib.ParserSinotticoWikipedia;
 import java.util.ArrayList;
+
+import wikipediaWebScraperLib.ParserSinotticoWikipedia;
 
 /**
  * La classe è uno scraper per la pagina di Wikipedia con la lista delle dinastie degli
- * imperatori romani (https://it.wikipedia.org/wiki/Imperatori_romani#Guerra_civile_romana_%2868-69%29).
+ * imperatori romani (https://it.wikipedia.org/wiki/Imperatori_romani).
  * 
  * La procedura di analisi del codice è totalmente automatizzata, deve ricevere solo il
  * codice sorgente della pagina.
@@ -27,7 +28,7 @@ public class ParserTabellaDinastie {
 	 */
 	private final String GUERRA_CIVILE_1 = "https://it.wikipedia.org/wiki/Guerra_civile_romana_(193-197)";
 	
-	/*	
+	
 	/**
 	 * Il metodo riceve il sorgente della pagina Wikipedia degli imperatori romani
 	 * e ritorna una Lista contenente le tabelle delle dinastie come oggetti TabellaDinastia.
@@ -53,9 +54,9 @@ public class ParserTabellaDinastie {
 
 			// Caso particolare per non saltare la dinastia dei Severi
 			if (tabella.getUrlDinastia().equals(GUERRA_CIVILE_1)) {
-				
+
+				// Dinastia dei severi ha il titolo con formato diverso
 				inizioTabella = sorgente.indexOf("<h3>");
-				
 			} else {
 				
 				inizioTabella = sorgente.indexOf("<h4>");
@@ -79,7 +80,7 @@ public class ParserTabellaDinastie {
 	
 	/**
 	 * Il metodo riceve la parte di codice html in cui viene rappresentata una dinastia,
-	 * dal nome della dinastia, compreso tra i tag <\h4><\/h4> e la tabella sottostante.
+	 * dal nome della dinastia, compreso tra i tag con h4 e la tabella sottostante.
 	 * La porzione di codice deve essere già stata sezionata prima, eventuali controlli 
 	 * devono essere fatti esternamente.
 	 * 
@@ -88,7 +89,7 @@ public class ParserTabellaDinastie {
 	 */
 	private TabellaDinastie analisiHtmlTabella(String sorgente) {
 		
-		// Il nome della dinastia è fra il tag <h4> </h4>
+		// Prendo il nome della dinastia che è fra il tag h4
 		int fineRigaTitolo = sorgente.indexOf("</h4>");
 		
 		// Se sono nel caso particolare della dinastia dei Severi
@@ -96,6 +97,7 @@ public class ParserTabellaDinastie {
 			fineRigaTitolo = sorgente.indexOf("</h3>");
 		}
 		
+		// Taglio la riga con il nome della dinastia
 		String riga = sorgente.substring(0, fineRigaTitolo);
 		
 		// Riutilizzo il metodo della classe parserSinottico per estrarre il testo
@@ -130,7 +132,7 @@ public class ParserTabellaDinastie {
 	}
 
 	/**
-	 * Cerca ed estrae il primo link trovato contenuto all'interno del tag <a href=" ... ">.
+	 * Cerca ed estrae il primo link trovato contenuto all'interno del tag con href.
 	 * 
 	 * @param sorgente Il codice Html da cui estrarre il link.
 	 * @return Il link alla pagina Wikipedia.
@@ -140,6 +142,7 @@ public class ParserTabellaDinastie {
 		if (sorgente.length() == 0) {
 			return null;
 		}
+		
 		int start = 0;
 		int end = 1;
 		
@@ -171,19 +174,30 @@ public class ParserTabellaDinastie {
 		// Scarto le prime due righe contenenti i titoli delle colonne
 		htmlTabella = htmlTabella.substring(htmlTabella.indexOf("</tr>"));
 		htmlTabella = htmlTabella.substring(htmlTabella.indexOf("</tr>") + LUNGHEZZA_TAG);
-
+		
+		// Posiziono gli indici di inizio e fine
 		int inizioRiga = htmlTabella.indexOf("<tr>");
 		int fineRiga = htmlTabella.indexOf("</tr>");
 		
+		// Ciclo finchè non ci sono più righe
 		while (inizioRiga != -1) {
+			
+			// Taglio una riga della tabella
 			String riga = htmlTabella.substring(inizioRiga, fineRiga);
+			
+			// Salvo le informazioni necessarie
 			Record informazioni = analisiRiga(riga);
 
 			if (informazioni != null) {
+				
+				// Aggiungo alla tabella il nome e l'url dell'imperatore trovato
 				tabellaDinastia.nuovaRiga(informazioni.getNome(), informazioni.getUrl());
 			}
 			
+			// Taglio il codice della tabella
 			htmlTabella = htmlTabella.substring(fineRiga + LUNGHEZZA_TAG);
+			
+			// Aggiorno le posizioni degli indici
 			inizioRiga = htmlTabella.indexOf("<tr>");
 			fineRiga = htmlTabella.indexOf("</tr>");
 		}
@@ -206,11 +220,12 @@ public class ParserTabellaDinastie {
 		codiceRiga = codiceRiga.substring(codiceRiga.indexOf("</td>") + LUNGHEZZA_TAG);
 		
 		// Se all'interno della cella c'è "Associato al trono" prima del
-		// nome dell'imperatore.
+		// nome dell'imperatore lo scarto.
 		if (codiceRiga.contains("Associato al trono")) {
 			codiceRiga = codiceRiga.substring(codiceRiga.indexOf("<a href"));
 		}
 		
+		// Salvo le informazioni trovate
 		return new Record(ParserSinotticoWikipedia.testoEsternoTag(codiceRiga),
 						  ParserSinotticoWikipedia.estrapolaLink(codiceRiga));
 	}

@@ -74,12 +74,24 @@ public class AlberoGenealogico {
 	
 	/**
 	 * Aggiungi un figlio al genitore passato come argomento.
+	 * Se genitore e figlio vengono inseriti in maniera invertita la relazione sarà tale.
 	 * 
 	 * @param genitore Il genitore.
 	 * @param figlio Il figlio.
 	 */
 	public void addFiglio(Persona genitore, Persona figlio) {
 		Graphs.addEdgeWithVertices(albero, genitore, figlio);
+	}
+	
+
+	/**
+	 * Rimuove una relazione padre-figlio o figlio-padre tra due persone.
+	 * 
+	 * @param persona1 La prima persona.
+	 * @param persona2 La seconda persona.
+	 */
+	public void deletePadreFiglio(Persona persona1, Persona persona2) {
+		albero.removeAllEdges(persona1, persona2);
 	}
 	
 	/**

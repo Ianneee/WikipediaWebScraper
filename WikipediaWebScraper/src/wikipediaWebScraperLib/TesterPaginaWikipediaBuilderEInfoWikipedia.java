@@ -20,7 +20,7 @@ public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 		
 		try {
 			
-		sorgente = navigator.getHtmlPagina("https://it.wikipedia.org/wiki/Domiziano");
+		sorgente = navigator.getHtmlPagina("https://it.wikipedia.org/wiki/Gaio_Giulio_Cesare");
 		
 		} catch (WikipediaUrlErratoException error) {
 			
@@ -33,10 +33,10 @@ public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 		PaginaWikipediaBuilder builder = new PaginaWikipediaBuilder();
 		
 		PaginaWikipedia paginawpd = 	builder.
-											titoloPagina(InfoWikipedia.titoloPagina(sorgente)).
-											urlImmagine(InfoWikipedia.urlImmagine(sorgente)).
-											url(InfoWikipedia.urlPagina(sorgente)).
-											sinottico(InfoWikipedia.sinottico(sorgente)).
+											titoloPagina(AnalisiInfoWikipedia.titoloPagina(sorgente)).
+											urlImmagine(AnalisiInfoWikipedia.urlImmagine(sorgente)).
+											url(AnalisiInfoWikipedia.urlPagina(sorgente)).
+											sinottico(AnalisiInfoWikipedia.sinottico(sorgente)).
 											build();
 		
 		// Utilizzo di tutti i metodi di PaginaWikipedia
@@ -44,7 +44,7 @@ public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 		System.out.println("Url pagina: " + paginawpd.getUrl());
 		System.out.println("Url immagine: " + paginawpd.getUrlImmagine());
 		Sinottico sinottico = paginawpd.getSinottico();
-		System.out.println("Sinottico:\n" + sinottico);
+		System.out.println("\nStampa del sinottico di Giulio Cesare");
 
 		
 		for (RigaSinottico riga : sinottico) {
@@ -52,10 +52,10 @@ public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 		}
 		
 		System.out.println("Test dei metodi di InfoSinotticoWikipedia - Expected: null (x4)");
-		System.out.println(InfoWikipedia.titoloPagina("Ciao questo è un test"));
-		System.out.println(InfoWikipedia.urlImmagine("Ciao questo è un test"));
-		System.out.println(InfoWikipedia.urlPagina("Ciao questo è un test"));
-		System.out.println(InfoWikipedia.sinottico("Ciao questo è un test"));
+		System.out.println(AnalisiInfoWikipedia.titoloPagina("Ciao questo è un test"));
+		System.out.println(AnalisiInfoWikipedia.urlImmagine("Ciao questo è un test"));
+		System.out.println(AnalisiInfoWikipedia.urlPagina("Ciao questo è un test"));
+		System.out.println(AnalisiInfoWikipedia.sinottico("Ciao questo è un test"));
 
 		
 		// Builder reset e PaginaWikipedia null
@@ -84,10 +84,10 @@ public class TesterPaginaWikipediaBuilderEInfoWikipedia {
 		}
 		
 		paginawpd = builder.
-				titoloPagina(InfoWikipedia.titoloPagina(sorgente)).
-				urlImmagine(InfoWikipedia.urlImmagine(sorgente)).
-				url(InfoWikipedia.urlPagina(sorgente)).
-				sinottico(InfoWikipedia.sinottico(sorgente)).
+				titoloPagina(AnalisiInfoWikipedia.titoloPagina(sorgente)).
+				urlImmagine(AnalisiInfoWikipedia.urlImmagine(sorgente)).
+				url(AnalisiInfoWikipedia.urlPagina(sorgente)).
+				sinottico(AnalisiInfoWikipedia.sinottico(sorgente)).
 				build();
 		
 		

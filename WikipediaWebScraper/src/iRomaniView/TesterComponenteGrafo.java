@@ -10,21 +10,21 @@ import alberoGenealogicoLib.Persona;
 
 public class TesterComponenteGrafo {
 
-	public class PersonaTest extends Persona {
-		
-		private Boolean thisPersonIs = false;
+	public class PersonaTest implements Persona {
+
+		String nome;
 		
 		public PersonaTest(String nome) {
-			super(nome);
+			this.nome = nome;
 		}
-
-		public void setThisPersonIs(Boolean thisPersonIs) {
-			this.thisPersonIs = thisPersonIs;
+		
+		public String getNome() {
+			return nome;
 		}
 		
 		@Override
-		public boolean thisPersonIs() {
-			return thisPersonIs;
+		public String toString() {
+			return nome;
 		}
 		
 	}
@@ -53,29 +53,12 @@ public class TesterComponenteGrafo {
 		
 	}
 	
-	public mxGraphComponent testGrafoPadreRosso() {
+	public mxGraphComponent test() {
 		
-		
-		padre.setThisPersonIs(true);
 		ComponenteGrafoIllustrato componente = new ComponenteGrafoIllustrato(albero);
-		componente.init();
 		return componente.getComponente();
 		
 	}	
-	
-	public mxGraphComponent testGrafoAllRosso() {
-		
-		madre.setThisPersonIs(true);
-		figlio1.setThisPersonIs(true);
-		figlio2.setThisPersonIs(true);
-		nipote1.setThisPersonIs(true);
-		nipote2.setThisPersonIs(true);
-		
-		ComponenteGrafoIllustrato componente = new ComponenteGrafoIllustrato(albero);
-		componente.init();
-		return componente.getComponente();
-		
-	}
 	
 	public void costruisciFinestra(String titoloFinestra, mxGraphComponent component) {
 		// Costruzione JFrame
@@ -97,8 +80,7 @@ public class TesterComponenteGrafo {
 		
 		TesterComponenteGrafo test = new TesterComponenteGrafo();
 		
-		test.costruisciFinestra("Padre Rosso", test.testGrafoPadreRosso());
-		test.costruisciFinestra("Tutto Rosso", test.testGrafoAllRosso());
+		test.costruisciFinestra("Padre Rosso", test.test());
 		
 	}
 

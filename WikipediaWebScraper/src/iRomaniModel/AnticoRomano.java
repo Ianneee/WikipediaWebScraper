@@ -1,26 +1,29 @@
 package iRomaniModel;
 
 import java.util.Objects;
+
 import wikipediaWebScraperLib.PaginaWikipedia;
 
 import alberoGenealogicoLib.Persona;
 
-public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
+/**
+ * La classe rappresenta un antico romano, personaggio storico, costruito in base
+ * alle informazioni reperite su Wikipedia.
+ * 
+ * @author Ian Tirso Cini
+ *
+ */
+public class AnticoRomano implements Persona, Comparable<AnticoRomano>{
+
+	/**
+	 * Il nome dell'antico romano.
+	 */
+	private String nome;
 	
 	/**
 	 * L'url della pagina Wikipedia dell'antico romano corrispondente.
 	 */
 	private String url;
-	
-	/**
-	 * L'url dell'immagine su Wikipedia.
-	 */
-	private String urlImmagine;
-	
-	/**
-	 * Booleano che indica se l'antico romano è stato un imperatore.
-	 */
-	private boolean isImperatore = false;
 	
 	/**
 	 * La PaginaWikipedia del personaggio storico.
@@ -35,59 +38,24 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	 * @param url L'url della pagina Wikipedia.
 	 */
 	public AnticoRomano(String nome, String url) {
-		super(nome);
+		this.nome = nome;
 		this.url = url;
 	}
 	
 	/**
 	 * Ritorna l'url della pagina Wikipedia dell'antico romano.
 	 * 
-	 * @return
+	 * @return L'url.
 	 */
 	public String getUrl() {
 		return url;
 	}
 	
 	/**
-	 * Registra l'url dell'immagine di Wikipedia.
-	 * 
-	 * @param urlImmagine L'url dell'immagine.
+	 * Ritorna il nome dell'antico romano.
 	 */
-	public void setUrlImmagine(String urlImmagine) {
-		this.urlImmagine = urlImmagine;
-	}
-	
-	/**
-	 * Ritorna l'url dell'immagine.
-	 * 
-	 * @return L'url dell'immagine.
-	 */
-	public String getUrlImmagine() {
-		return urlImmagine;
-	}
-	
-	/**
-	 * Imposta l'AnticoRomano come imperatore.
-	 */
-	public void setImperatore() {
-		isImperatore = true;
-	}
-	
-	/**
-	 * Mette falso allo stato di imperatore.
-	 */
-	public void unsetImperatore() {
-		isImperatore = false;
-	}
-	
-	/**
-	 * Ritorna vero se il personaggio storico è stato segnato come imperatore,
-	 * falso altrimenti.
-	 * 
-	 * @return Booleano che indica se fu un imperatore o no.
-	 */
-	public boolean isImperatore() {
-		return this.isImperatore;
+	public String getNome() {
+		return nome;
 	}
 	
 	/**
@@ -131,7 +99,7 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	 */
 	@Override
 	public int compareTo(AnticoRomano romano) {
-		return this.getNome().compareTo(romano.getNome());
+		return nome.compareTo(romano.getNome());
 	}
 	
 	/**
@@ -145,20 +113,7 @@ public class AnticoRomano extends Persona implements Comparable<AnticoRomano>{
 	
 	@Override
 	public String toString() {
-		if (isImperatore) {
-			return "\uD83D\uDC51\n" + super.getNome();
-		}
-		return super.getNome();
-	}
-	
-	/**
-	 * Ritorna thisPersonIs an Imperator
-	 * 
-	 * @return Ritorna se è un'imperatore o no.
-	 */
-	@Override
-	public boolean thisPersonIs() {
-		return isImperatore();
+		return nome;
 	}
 
 }

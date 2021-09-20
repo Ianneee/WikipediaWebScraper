@@ -1,7 +1,9 @@
 package iRomaniModel;
 
 import java.util.List;
+
 import alberoGenealogicoLib.AlberoGenealogico;
+
 import wikipediaWebScraperLib.WikipediaUrlErratoException;
 
 /**
@@ -39,7 +41,8 @@ public class Model {
 	 * 
 	 * @param nomeDinastia Il nome della dinastia desiderata.
 	 * @return La lista con gli AlberiGenealogici scelti.
-	 * @throws DinastiaNonTrovataException
+	 * @throws DinastiaNonTrovataException L'errore con il nome della dinastia errata.
+	 * @throws WikipediaUrlErratoException L'errore con il sito Wikipedia passato in formato errato.
 	 */
 	public List<AlberoGenealogico> alberoGenealogicoDinastia(String nomeDinastia) throws DinastiaNonTrovataException, WikipediaUrlErratoException {
 

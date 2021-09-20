@@ -1,9 +1,11 @@
 package iRomaniView;
 
 import java.util.List;
+import java.util.ArrayList;
+
 import alberoGenealogicoLib.AlberoGenealogico;
 import alberoGenealogicoLib.Persona;
-import java.util.ArrayList;
+
 import javax.swing.JTabbedPane;
 
 import com.mxgraph.swing.mxGraphComponent;
@@ -28,12 +30,22 @@ public class PanelAlberiGenealogici extends JTabbedPane {
 	/**
 	 * La larghezza della finestra
 	 */
-	private final int LARGHEZZA = 1010;
+	private final int LARGHEZZA = 890;
 	
 	/**
 	 * L'altezza della finestra
 	 */
 	private final int ALTEZZA = 670;
+
+	/**
+	 * La posizione orizzontale.
+	 */
+	private final int X = 0;
+	
+	/**
+	 * La posizione verticale.
+	 */
+	private final int Y = 0;
 	
 	/** 
 	 * Costruisce il panel con la lista degli alberi genealogici
@@ -43,7 +55,7 @@ public class PanelAlberiGenealogici extends JTabbedPane {
 	 */
 	public PanelAlberiGenealogici(List<AlberoGenealogico> alberi) {
 		this.alberi = alberi;
-		setBounds(0, 0, LARGHEZZA, ALTEZZA);	
+		setBounds(X, Y, LARGHEZZA, ALTEZZA);	
 	}
 	
 	/**
@@ -73,7 +85,6 @@ public class PanelAlberiGenealogici extends JTabbedPane {
 
 			// Passo ogni AlberoGenealogico alla classe che costruisce il componente che illustra i grafi.
 			ComponenteGrafoIllustrato grafo = new ComponenteGrafoIllustrato(albero);
-			grafo.init();
 			
 			// Aggiungo alla lista da ritornare
 			alberiVisual.add(grafo.getComponente());

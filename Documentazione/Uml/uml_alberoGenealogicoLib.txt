@@ -1,0 +1,50 @@
+'https://plantuml.com/class-diagram
+
+@startuml
+
+'  Package alberoGenealogicoLib
+
+package alberoGenealogicoLib{
+AlberoGenealogico o-left- Persona
+AlberoGenealogico o-right- Archi
+}
+
+Graph --o AlberoGenealogico
+
+class AlberoGenealogico{
+-albero : Graph<Persona, Archi>
+-nomeFamiglia : String
+-capostipite : Persona
+--
++AlberoGenealogico(String nomeFamiglia)
+--
++addPersona(Persona persona) : void
++setCapostipite(Persona capostipite) : void
++getCapostipite() : Persona
++addFiglio(Persona genitore, Persona figlio) : void
++deletePadreFiglio(Persona persona1, Persona persona2) : void
++getFigli(Persona genitore) : List<Persona>
++getGenitori(Persona figlio) : List<Persona> 
++getPersone() : Set<Persona>
++getNomeFamiglia() : String
++toString() : String
++getAlbero() : Graph<Persona, Archi>
+}
+
+class Archi extends DefaultEdge{
+toString() : String
+}
+
+interface Persona{
++getNome() : String
++toString() : String;
+}
+
+class Graph{
+JGraphT
+}
+
+class DefaultEdge{
+JGraphT
+}
+@enduml

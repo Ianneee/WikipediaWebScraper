@@ -10,29 +10,31 @@ import java.util.Collection;
  * @author Ian Tirso Cini
  *
  */
-public abstract class TabellaWikipedia {
+public abstract class TabellaWikipedia<T extends RigaTabella> {
 	
 	/**
 	 * Ritorna la riga contenuta all'interno della tabella mediante ricerca tramite stringa
 	 * passata come argomento.
 	 * 
 	 * @param identificativoRiga La chiave di ricerca della riga.
-	 * @return La riga trovata.
+	 * @return La riga trovata.A
+	 * @throws RigaNonPresenteException Errore lanciato per riga non trovata.
 	 */
-	public abstract RigaTabella getRiga(String identificativoRiga) throws RigaNonPresenteException;
+	public abstract T getRiga(String identificativoRiga) throws RigaNonPresenteException;
+
 	
 	/**
 	 * Aggiungi una riga alla tabella, riga che implementi l'interfaccia RigaTabella.
 	 * 
 	 * @param riga La riga da aggiungere.
 	 */
-	public abstract void addRiga(RigaTabella riga);
+	public abstract void addRiga(T riga);
 	
 	/**
 	 * Ritorna tutte le righe contenute all'interno della tabella.
 	 * 
 	 * @return Collection contentente le righe.
 	 */
-	public abstract Collection<?> getRighe();
+	public abstract Collection<T> getRighe();
 
 }

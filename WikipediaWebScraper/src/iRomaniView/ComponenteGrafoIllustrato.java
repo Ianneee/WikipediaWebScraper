@@ -13,6 +13,7 @@ import com.mxgraph.swing.mxGraphComponent;
 import alberoGenealogicoLib.AlberoGenealogico;
 import alberoGenealogicoLib.Archi;
 import alberoGenealogicoLib.Persona;
+import iRomaniModel.Imperatore;
 
 import java.awt.Color;
 import java.util.Map;
@@ -30,11 +31,6 @@ import java.util.Map;
  *
  */
 public class ComponenteGrafoIllustrato {
-	
-	/**
-	 * Il wrapper per il grafo.
-	 */
-	private JGraphXAdapter<Persona, Archi> grafo;
 	
 	/**
 	 * Componente con visualizzazione dell'albero genealogico.
@@ -71,36 +67,42 @@ public class ComponenteGrafoIllustrato {
 	 */
 	private final String STYLE_ARCHI_IMP = "strokeColor=C23B22";
 	
-	/**
-	 * Il grafo della dinastia.
-	 */
-	private	Graph<Persona, Archi> grafoOriginale;
-	
+
 	/**
 	 * Costruisci il componente a partire da un albero genealogico.
-	 * @param albero
+	 * 
+	 * @param albero L'albero genealogico.
 	 */
 	public ComponenteGrafoIllustrato(AlberoGenealogico albero) {
+		// Grafo con l'albero genealogico
+		Graph<Persona, Archi> grafo = albero.getAlbero();
 		
-		grafoOriginale = albero.getAlbero();
+		// Wrapper del Graph in mxGraph
+		JGraphXAdapter<Persona, Archi> wrapGrafo = new JGraphXAdapter<Persona, Archi>(grafo);
 		
-		this.grafo = new JGraphXAdapter<Persona, Archi>(grafoOriginale);
+		
+		init(wrapGrafo, grafo);
 	}
 	
+
 	/**
-	 * Costruisci il componente con il grafo disegnato.
+	 * Costruisci il componente con il grafo disegnato impostando
+	 * i colori per i vertici e gli archi.
+	 * 
+	 * @param wrapGrafo Il grafo con il wrapper.
+	 * @param grafo Il grafo.
 	 */
-	public void init() {
+	private void init(JGraphXAdapter<Persona, Archi> wrapGrafo, Graph<Persona, Archi> grafo) {
 		// Prendo e coloro i vertici del grafo
-		Map<Persona, mxICell> vertici = grafo.getVertexToCellMap();
-		coloraVerticiGrafo(vertici);
+		Map<Persona, mxICell> vertici = wrapGrafo.getVertexToCellMap();
+		coloraVerticiGrafo(vertici, wrapGrafo);
 		
 		// Prendo e coloro gli archi del grafo
-		Map<Archi, mxICell> archi = grafo.getEdgeToCellMap();
-		coloraArchiGrafo(archi);
+		Map<Archi, mxICell> archi = wrapGrafo.getEdgeToCellMap();
+		coloraArchiGrafo(archi, wrapGrafo, grafo);
 		
 		// Costruisci il componente grafico
-		component =  settaComponente();
+		component =  settaComponente(wrapGrafo);
 	}
 	
 	/**
@@ -109,32 +111,24 @@ public class ComponenteGrafoIllustrato {
 	 * @return Il componente.
 	 */
 	public mxGraphComponent getComponente() {
-
-		if (component != null) {
-			
 			return component;
-			
-		}
-		
-		init();
-		return component;
 	}
 	
 	/**
 	 * Colora i vertici del grafo a seconda se i vertici sono imperatori o no.
 	 * 
 	 * @param vertici I vertici del grafo.
+	 * @param wrapGrafo Il wrapper con il grafo.
 	 */
-	private void coloraVerticiGrafo(Map<Persona, mxICell> vertici) {
-
-		mxIGraphModel model = grafo.getModel();
+	private void coloraVerticiGrafo(Map<Persona, mxICell> vertici, JGraphXAdapter<Persona, Archi> wrapGrafo) {
+		// La classe di mxGraph che si occupa degli stili di colore
+		mxIGraphModel model = wrapGrafo.getModel();
 		
 		vertici.forEach((persona, cella) ->{
 			
-//			AnticoRomano romano = (AnticoRomano)persona;
-
-			// Controllo se il romano è un imperatore (polimorfismo p.thisPersonIs)  
-			if (persona.thisPersonIs()) {
+			// Controllo se il romano è un imperatore
+			// e decido quale colorazione
+			if (persona instanceof Imperatore) {
 				model.setStyle(cella, STYLE_IMPERATORE);
 			} else {
 				model.setStyle(cella, STYLE_ROMANO);
@@ -152,23 +146,23 @@ public class ComponenteGrafoIllustrato {
 	 * Colora gli archi del grafo.
 	 * 
 	 * @param archi Gli archi del grafo.
+	 * @param wrapGrafo Il wrapper con il grafo.
+	 * @param grafo Il grafo.
 	 */
-	private void coloraArchiGrafo(Map<Archi, mxICell> archi) {
-		mxIGraphModel model = grafo.getModel();
+	private void coloraArchiGrafo(Map<Archi, mxICell> archi, JGraphXAdapter<Persona, Archi> wrapGrafo, Graph<Persona, Archi> grafo) {
+		// La classe di mxGraph che si occupa degli stili di colore
+
+		mxIGraphModel model = wrapGrafo.getModel();
 
 		archi.forEach((arco, cella) -> {
 			
-			Persona romano = grafoOriginale.getEdgeSource(arco);
+			Persona romano = grafo.getEdgeSource(arco);
 			
-			// Controllo se è un imperatore (polimorfismo p.thisPersonIs)
-			if (romano.thisPersonIs()) {
-				
+			// Controllo se è un imperatore e decido lo stile di colore
+			if (romano instanceof Imperatore) {
 				model.setStyle(cella, STYLE_ARCHI_IMP);
-				
 			} else {
-				
 				model.setStyle(cella, STYLE_ARCHI);
-				
 			}
 		});
 	}
@@ -176,17 +170,19 @@ public class ComponenteGrafoIllustrato {
 	/**
 	 * Costruisce il componente con il grafo.
 	 * 
+	 * @param wrapGrafo Il wrapper con il grafo.
 	 * @return Il componente.
 	 */
-	private mxGraphComponent settaComponente() {
+	private mxGraphComponent settaComponente(JGraphXAdapter<Persona, Archi> wrapGrafo) {
 		
 		// Scelta layout grafico
-		mxIGraphLayout layout = new mxHierarchicalLayout(grafo);
+		mxIGraphLayout layout = new mxHierarchicalLayout(wrapGrafo);
 		
-		layout.execute(grafo.getDefaultParent());
+		// Applica il layot al grafo
+		layout.execute(wrapGrafo.getDefaultParent());
 		
-		// Inizializzo il componente contenente il grafo
-		mxGraphComponent componente = new mxGraphComponent(grafo);
+		// Inizializzo il componente con il grafo
+		mxGraphComponent componente = new mxGraphComponent(wrapGrafo);
 		
 		// Impostazioni visualizzazione del componente
 		componente.getViewport().setOpaque(true);

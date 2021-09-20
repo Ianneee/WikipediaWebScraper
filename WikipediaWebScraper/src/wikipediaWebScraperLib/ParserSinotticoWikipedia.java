@@ -20,8 +20,8 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	
 	/**
 	 * Analizza il codice Html contenente il sinottico parsando ogni riga della tabella una alla volta. 
-	 * Il ciclo finisce quando non ci sono più righe, quindi quando non ci sono più tag contententi <tr ...>.
-	 * End+5 è il conteggio per andare oltre al tag di chiusura <\/tr>
+	 * Il ciclo finisce quando non ci sono più righe, quindi quando non ci sono più tag contententi tr.
+	 * End+5 è il conteggio per andare oltre al tag di chiusura tr.
 	 * 
 	 * @param sinottico della pagina Wikipedia.
 	 * @return Classe Sinottico con le informazioni ricavate.
@@ -32,12 +32,14 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 		// Scorro il sorgente e analizzo righe finchè ne trovo
 		while (sinottico.contains("<tr")) {
 			
+			// Inizio e fine della riga
 			int start = sinottico.indexOf("<tr");
 			int end = sinottico.indexOf("</tr");
 			
 			// Passo al metodo analizzaRiga una riga per volta
 			RigaSinottico nuovaRiga = analizzaRiga(sinottico.substring(start, end));
 			
+			// Se è stata ritornata una riga valida la aggiungo al Sinottico
 			if (nuovaRiga != null) {
 				sin.addRiga(nuovaRiga);
 			}
@@ -61,7 +63,8 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 */
 	private static RigaSinottico analizzaRiga(String riga) {
 		
-		// Se la riga ha i tag <th ...> e <td ...> ha sia la cella sinistra(th) che destra(td) (è un pattern di Wikipedia per il sinottico)
+		// Se la riga ha i tag <th ...> e <td ...> ha sia la cella sinistra(th) 
+		//che destra(td) (è un pattern di Wikipedia per il sinottico)
 		if (riga.contains("<th") && riga.contains("<td")) {
 			
 			// Recupero il testo nella cella sinistra
@@ -126,10 +129,11 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 		start++;
 		// Continuo la ricerca ricorsivamente
 		return estraiTestoEsternoTag(riga.substring(start));
+
 	}
 	
 	/**
-	 * Metodo statico per estrarre il link nel tag <a href= ...> e gli concatena 
+	 * Metodo statico per estrarre il link nel tag href e gli concatena 
 	 * la parte https://it.wikipedia.org che non è non presente.
 	 * Il metodo estrae il link, non controlla la validità della stringa passata, il controllo
 	 * deve essere fatto prima.
@@ -142,7 +146,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	}
 	
 	/**
-	 * Estrae il link nel tag <a href= ...> e gli concatena la parte https://it.wikipedia.org che non è non presente.
+	 * Estrae il link nel tag href e gli concatena la parte https://it.wikipedia.org che non è non presente.
 	 * Il metodo estrae il link, non controlla la validità della stringa passata, il controllo
 	 * deve essere fatto prima.
 	 * 
@@ -150,23 +154,29 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @return il link di Wikipedia valido.
 	 */
 	static private String estraiLink(String riga) {
-		int start = 0;
 		
-		// Cerco la fine di href=
-		while (riga.charAt(start) != '"') {
+		if (riga.contains("href")) {
+			
+			int start = 0;
+			
+			// Cerco la fine di href=
+			while (riga.charAt(start) != '"') {
+				start++;
+			}
+			
 			start++;
+			int end = start;
+			
+			// Cerco la fine dell'url
+			while(riga.charAt(end) != '"') {
+				end++;
+			}
+			
+			// Aggiungo la parte mancante per avere un url valido per il WikipediaNavigator
+			return "https://it.wikipedia.org" + riga.substring(start, end);
 		}
 		
-		start++;
-		int end = start;
-		
-		// Cerco la fine dell'url
-		while(riga.charAt(end) != '"') {
-			end++;
-		}
-		
-		// Aggiungo la parte mancante per avere un url valido per il WikipediaNavigator
-		return "https://it.wikipedia.org" + riga.substring(start, end);
+		return null;
 	}
 	
 	/**
@@ -191,6 +201,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 			
 			char letteraIniziale = riga.charAt(start);
 			
+			// C'è un tag all'inizio della linea
 			if (letteraIniziale == '<') {
 				start = internoTag(riga, start, end, rigaSinottico);
 			} else {
@@ -201,6 +212,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 					// Casi particolari, li scavalco per trovare un altro caso utile
 					start++;
 				} else {
+					// Mi trovo all'esterno dei tag
 					start = esternoTag(riga, start, end, rigaSinottico);
 				}
 			} 
@@ -229,18 +241,20 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 	 * @param riga Riga del sinottico in analisi.
 	 * @param start Posizione attuale del parser.
 	 * @param end Posizione finale della riga.
+	 * @param rigaSinottico La riga in costruzione.
 	 * @return Il puntatore start aggiornato.
 	 */
 	private static int internoTag(String riga, int start, int end, RigaSinottico rigaSinottico) {
 		int endTag = start;
 		
-		// Prelevo il tag trovato
+		// Posiziono endTag alla fine del tag
 		while(riga.charAt(endTag) != '>') {
 			endTag++;
 		}
 		
 		endTag++;
 		
+		// Taglio solo la parte con il tag
 		String tag = riga.substring(start, endTag);
 		
 		// Se il tag è di un link, questo è ad un dato utile
@@ -249,8 +263,10 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 			// Estraggo link e testo associato
 			String link = estraiLink(tag);
 			
+			// Posiziono star alla fine del tag
 			start = endTag;
 			
+			// Cerco il testo a cui era collegato il link
 			String nomeLink = estraiTestoEsternoTag(riga.substring(start));
 			
 			// Salvo l'informazione ottenuta
@@ -265,6 +281,7 @@ public class ParserSinotticoWikipedia implements ParserTabellaWikipedia {
 			}
 			
 		} else {
+			// Il tag non era di un link
 			return endTag;
 		}	
 		

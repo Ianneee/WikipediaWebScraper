@@ -1,0 +1,47 @@
+'https://plantuml.com/class-diagram
+
+@startuml
+
+package iRomaniController{
+class Controller
+iRomaniMain o- Controller
+}
+
+
+Controller o-- View
+Controller o-- Model
+Controller -- wikipediaUrlErratoException
+
+
+class Controller{
+-model : Model
+-view : View
+-infoBoxAttivo : boolean
+--
++Controller(Model model, View view)
+--
++init() : void
+-initController() : void
+-dinastiaSelezionata() : void
+-costruisciInfoBox(List<AlberoGenealogico> alberi) : void
+-aggiornaInfoBox() : void
+-attivaPulsanteInfoBox() : void
+}
+
+class iRomaniMain{
+main(String[]) : void
+}
+
+class View{
+iRomaniView
+}
+
+class Model{
+iRomaniModel
+}
+
+class wikipediaUrlErratoException{
+wikipediaScraperLib
+}
+
+@enduml

@@ -1,27 +1,21 @@
 package iRomaniView;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.JComboBox;
 
 import alberoGenealogicoLib.AlberoGenealogico;
 import alberoGenealogicoLib.Persona;
+
 import iRomaniModel.AnticoRomano;
+
 import wikipediaWebScraperLib.PaginaWikipedia;
 
 /**
@@ -37,7 +31,7 @@ public class PanelFinestraInfoBox extends JPanel {
 	/**
 	 * La larghezza del pannello.
 	 */
-	private final int LARGHEZZA = 290;
+	private final int LARGHEZZA = 420;
 
 	/**
 	 * L'altezza del pannello.
@@ -47,7 +41,7 @@ public class PanelFinestraInfoBox extends JPanel {
 	/**
 	 * La posizione orizzontale.
 	 */
-	private final int X = 5;
+	private final int X = 7;
 	
 	/**
 	 * La posizione verticale.
@@ -88,25 +82,46 @@ public class PanelFinestraInfoBox extends JPanel {
 		
 		setLayout(new BorderLayout());
 		
-		// Istanzio i componenti all'interno del pannello.
-		componentiVuoti();
+		// Menu tendina
+		box();
+		
+		// Pulsante
+		seleziona();
+		
+		// Pannello che contiene bottone e menu.
+		contenitoreTopPagina();
+		
+		// Schermata testo
+		testoSinottico();
+		
+		// Pannello scrollabile dove inserire il testo.
+		scrollPaneSinottico();
 		
 	}
 	
 	/**
-	 * Il metodo istanzia ed inserisce tutti i componenti del pannello al suo interno.
+	 * Istanzia il JComboBox
 	 */
-	private void componentiVuoti() {
-		
+	private void box() {
 		// Menu tendina
 		box = new JComboBox<PaginaWikipedia>();
 		box.setBounds(0, 0, LARGHEZZA, 25);
-		
+	}
+	
+	/**
+	 * Istanzia il bottone seleziona
+	 */
+	private void seleziona() {
 		// Pulsante
 		seleziona = new JButton("Seleziona");
+		seleziona.setFocusable(false);
 		seleziona.setBounds(0, 25, LARGHEZZA, 25);
-		
-		// Pannello che contiene bottone e menu.
+	}
+	
+	/**
+	 * Istanzia il panello con menu e bottone
+	 */
+	private void contenitoreTopPagina() {
 		contenitoreTopPagina = new JPanel();
 		
 		contenitoreTopPagina.setPreferredSize(new Dimension(LARGHEZZA, 50));
@@ -116,15 +131,23 @@ public class PanelFinestraInfoBox extends JPanel {
 		contenitoreTopPagina.add(seleziona);
 		
 		add(contenitoreTopPagina, BorderLayout.PAGE_START);
-		
-		// Schermata testo
+	}
+	
+	/**
+	 * Istanzia il JTextPane dove appare il testo del sinottico
+	 */
+	private void testoSinottico() {
 		testoSinottico = new JTextPane();
 		testoSinottico.setText("Scegli un nome nel menù per avere le informazioni\n"
 						+ "su quel personaggio storico.");
 		
 		testoSinottico.setEditable(false);
-		
-		// Pannello scrollabile dove inserire il testo.
+	}
+	
+	/**
+	 * Istanzia il pannello scrollabile dove inserire il pannello con il testo del sinottico
+	 */
+	private void scrollPaneSinottico() {
 		scrollPaneSinottico = new JScrollPane(testoSinottico);
 		
 		scrollPaneSinottico.setPreferredSize(new Dimension(LARGHEZZA, ALTEZZA));
@@ -175,36 +198,13 @@ public class PanelFinestraInfoBox extends JPanel {
 		
 	}
 	
-//	public void setImage(String urlImmagine) {
-//		
-//		// ImageIcon con l'immagine presa dall'url
-//		ImageIcon immagine = new ImageIcon(preparaImmagine(urlImmagine));
-//		
-//		
-//
-//		// Inserisci l'immagine
-//		labelImmagine.setIcon(immagine);
-//		labelImmagine.setBackground(Color.WHITE);
-//
-//		labelImmagine.setOpaque(true);
-//		
-//		// Testo al centro e sotto l'immagine
-//		labelImmagine.setHorizontalTextPosition(JLabel.CENTER);
-//		labelImmagine.setVerticalTextPosition(JLabel.BOTTOM);
-//
-//		labelImmagine.setHorizontalAlignment(JLabel.CENTER);
-//		labelImmagine.setBounds(0, 0, LARGHEZZA, ALTEZZA);
-//		add(labelImmagine, BorderLayout.CENTER);
-//		
-//	}
-	
 	/**
 	 * Il metodo riceve il codice html di un sinottico e crea il 
 	 * JTextPane dalle informazioni ricevute.
 	 * 
-	 * @param testo Il sinottico
+	 * @param htmlSinottico Il sinottico.
 	 */
-	private void istanziaPannelloSinottico(String htmlSinottico, String urlImmagine) {
+	private void istanziaPannelloSinottico(String htmlSinottico) {
 		
 		// Al sinottico aggiungo la parte mancante del codice (quella finale) 
 		htmlSinottico += "</tbody></table></html>";
@@ -212,16 +212,11 @@ public class PanelFinestraInfoBox extends JPanel {
 		// Cancello i componenti da sostituire
 		testoSinottico.removeAll();
 		
-		// Inserimento immagine da rivedere
-		
-//		ImageIcon image = new ImageIcon(preparaImmagine(urlImmagine));
-		
-//		testoSinottico.insertIcon(image);
 		
 		testoSinottico.setContentType("text/html");
 		
 		// Ripulisco il sinottico dagli elementi non necessari.
-		testoSinottico.setText(pulisciSinottico(htmlSinottico));
+		testoSinottico.setText(ModificaHtmlSinottico.puliziaSinottico(htmlSinottico));
 		
 		testoSinottico.setBounds(0, 0, LARGHEZZA, ALTEZZA);
 		
@@ -230,88 +225,6 @@ public class PanelFinestraInfoBox extends JPanel {
 		testoSinottico.repaint();
 		testoSinottico.setVisible(false);
 		testoSinottico.setVisible(true);
-		
-	}
-	
-	/**
-	 * Il metodo rimuove dal sorgente contente il sinottico le parti del codice
-	 * non necessarie e/o non correttamente funzionanti offline.
-	 * 
-	 * @param htmlSinottico Il sorgente contenente il sinottico.
-	 * @return Il sinottico pulito.
-	 */
-	private String pulisciSinottico(String htmlSinottico) {
-		// Buffer che conterrà il nuovo sinottico.
-		StringBuffer sb = new StringBuffer();
-
-		// Aggiungo la parte di inizio tabella utile
-		sb.append("<html><table class=\"sinottico\" style=\"width:300px;\"><tbody>");
-		
-		// Cerco la prima riga del sinottico che iniza con Nome
-		int indexNome = htmlSinottico.indexOf("Nome");
-		
-		if (indexNome == -1) {
-			// Il sinottico non ha una riga nome
-			htmlSinottico =  sinotticoIncompleto(htmlSinottico);
-			
-		} else {
-		// Taglio la testa del sinottico con le immagini
-		sb.append("<tr><th style=\"\">");
-		
-		// Taglio fino ad inizio della parte con le informazioni
-		htmlSinottico= htmlSinottico.substring(htmlSinottico.indexOf("Nome"));
-		}
-		
-		// Certo i tag con i link per eliminarli
-		int end = htmlSinottico.indexOf("<a href");
-		
-		while (end != -1) {
-			// Attacco allo string buffer la parte di sinottico "buona"
-			sb.append(htmlSinottico.substring(0, end));
-			
-			// Cerco la fine del tag
-			while (htmlSinottico.charAt(end) != '>') {
-				end++;
-			}
-			
-			// Rimuovo il tag
-			htmlSinottico = htmlSinottico.substring(end + 1);
-			
-			// Cerco la chiusura del tag
-			end = htmlSinottico.indexOf("</a>");
-			
-			// Al buffer attacco la parte contenuta tra i tag
-			sb.append(htmlSinottico.substring(0, end));
-			
-			// Taglio la stringa a fine chiusura del tag </a>
-			htmlSinottico = htmlSinottico.substring(end + 4);
-						// Cerco il prossimo tag
-			end = htmlSinottico.indexOf("<a href");
-		}		
-		// Ritorno il nuovo sinottico
-		return sb.toString();
-	}
-	
-	/**
-	 * Il metodo posiziona al punto di inizio delle righe il sinottico che
-	 * ha una composizione diversa, con meno informazioni, rispetto a quello
-	 * solitamente trovato in altri imperatori romani.
-	 * 
-	 * @param htmlSinottico Il sorgente con il sinottico da analizzare.
-	 * @return Il sinottico nella corretta posizione.
-	 */
-	private String sinotticoIncompleto(String htmlSinottico) {
-		// Cerco la riga subito prima di quelle con le informazioni.
-		int start = htmlSinottico.indexOf("<tr class=\"sinottico_divisione\">");
-		
-		// Taglio il sinottico a quella posizione
-		htmlSinottico = htmlSinottico.substring(start);
-		
-		// Escludo la riga subito prima delle informazioni
-		start = htmlSinottico.indexOf("</tr>");
-		
-		// Ritorno la stringa con il sinottico correttamente posizionato.
-		return htmlSinottico.substring(start + 5);
 		
 	}
 	
@@ -325,44 +238,10 @@ public class PanelFinestraInfoBox extends JPanel {
 	public void costruisciPannelloInfo(PaginaWikipedia pagina) {
 
 		// Costrisce il pannello contenente le informazioni prese dal sinottico
-		istanziaPannelloSinottico("<html>" + pagina.getSinotticoHtml(), pagina.getUrlImmagine());
+		istanziaPannelloSinottico("<html>" + pagina.getSinotticoHtml());
 
 	}
 	
-	/**
-	 * Ridimensiona l'immagine presa dall'url.
-	 * 
-	 * @param urlImmagine L'immagine da ridimensionare.
-	 * @return L'immagine ridimensionata.
-	 */
-//	private Image preparaImmagine(String urlImmagine) {
-//		
-//		BufferedImage immagine = null;
-//				
-//		URL url = null;
-//		
-//		try {
-//			url = new URL(urlImmagine);
-//			immagine = ImageIO.read(url);
-//		} catch (MalformedURLException error) {
-//			// TODO scegli catch
-//		} catch (IOException error) {
-//			// TODO scegli catch
-//		}
-//		
-//		
-//		// Dimensioni originali
-//		int altezza = immagine.getHeight();
-//		int larghezza = immagine.getWidth();
-//		
-//		// Nuove dimensioni
-//		int nuovaLarghezza = (LARGHEZZA / 3) * 2;
-//		int nuovaAltezza = (nuovaLarghezza * altezza) / larghezza;
-//
-//		// Ritorno l'immagine ridimensionata
-//		return immagine.getScaledInstance(nuovaLarghezza, nuovaAltezza, BufferedImage.SCALE_SMOOTH);
-//		
-//	}
 	
 	/**
 	 * Ritorna la JComboBox con i nomi.

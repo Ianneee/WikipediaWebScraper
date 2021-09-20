@@ -4,16 +4,23 @@ import java.util.List;
 
 public class TesterAlbero {
 	
-	public class PersonaFittizia extends Persona {
-
+	public class PersonaFittizia implements Persona {
+		
+		String nome;
+		
 		public PersonaFittizia(String nome) {
-			super(nome);
+			this.nome = nome;
+		}
+		
+		public String getNome() {
+			return nome;
+		}
+		
+		@Override
+		public String toString() {
+			return nome;
 		}
 
-		@Override
-		public boolean thisPersonIs() {
-			return true;
-		}
 	}
 	
 	// Oggetti per il test

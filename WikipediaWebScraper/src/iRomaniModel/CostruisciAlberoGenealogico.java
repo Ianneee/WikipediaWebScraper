@@ -1,15 +1,18 @@
 package iRomaniModel;
 
-import wikipediaWebScraperLib.InfoWikipedia;
+import wikipediaWebScraperLib.AnalisiInfoWikipedia;
 import wikipediaWebScraperLib.PaginaWikipedia;
 import wikipediaWebScraperLib.PaginaWikipediaBuilder;
 import wikipediaWebScraperLib.RigaNonPresenteException;
 import wikipediaWebScraperLib.WikipediaNavigator;
 import wikipediaWebScraperLib.WikipediaUrlErratoException;
 import wikipediaWebScraperLib.RigaSinottico.Informazione;
+import wikipediaWebScraperLib.Sinottico;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+
 import alberoGenealogicoLib.AlberoGenealogico;
 
 
@@ -73,6 +76,11 @@ public class CostruisciAlberoGenealogico {
 	private final String GIULIO_CLAUDIA = "Dinastia giulio-claudia (27_a.C.-68_d.C.)";
 	
 	/**
+	 * L'imerpatore Clausio.
+	 */
+	private final String CLAUDIO = "https://it.wikipedia.org/wiki/Claudio";
+	
+	/**
 	 * Dinastia imperatori adottivi.
 	 */
 	private final String IMPERATORI_ADOTTIVI = "Imperatori adottivi (96-192)";
@@ -86,6 +94,7 @@ public class CostruisciAlberoGenealogico {
 	 * Faustina Minore figlia Antonino Pio.
 	 */
 	private final String FAUSTINA_MINORE = "Annia Galeria Faustina";
+	
 	/**
 	 * Inizializza la classe con il nome di una dinastia presente nella pagina Wikipedia
 	 * degli imperatori romani.
@@ -93,27 +102,36 @@ public class CostruisciAlberoGenealogico {
 	 * l'eccezione DinastiaNonTrovataException.
 	 * 
 	 * @param nomeDinastia Il nome della dinastia.
-	 * @throws DinastiaNonTrovataException
+	 * @throws DinastiaNonTrovataException Errore di inserimento parametro errato.
 	 */
 	public CostruisciAlberoGenealogico(String nomeDinastia) throws DinastiaNonTrovataException{
+		// Recupero la tabella l'elenco degli imperatori romani
 		dinastia = WikiImperatoriRomaniPagina.getInstance().getDinastia(nomeDinastia);
 		
+		// Creo la mappa con i link degli imperatori
 		urlImperatori = new LinkedHashMap<String, Integer>();
-
 		urlImperatori(dinastia.getUrlImperatori());
+		
 		nomeDinastia = dinastia.getNomeDinastia();
 		
-
+		// Se inizio dalla discendenza di Giulio Cesare aggiungo anche la dinastia di Augusto
 		if (dinastia.getNomeDinastia().equals(GIULIO_CESARE)) {
 			
 			TabellaDinastie giulioClaudia = WikiImperatoriRomaniPagina.getInstance().getDinastia(GIULIO_CLAUDIA);
+			
+			// Unisco agli url degli imperatori
 			urlImperatori(giulioClaudia.getUrlImperatori());
+			
+			// Rimuovo Claudio che non fa parte della discendenza di Giulio Cesare
+			urlImperatori.remove(CLAUDIO);
 			
 		}
 	}
 	
 	/**
 	 * Da il via allo scraping delle pagine Wikipedia della dinastia scelta.
+	 * 
+	 * @throws WikipediaUrlErratoException Errore di inserimento parametro errato.
 	 */
 	public void init() throws WikipediaUrlErratoException{
 		// Attiva il browser
@@ -158,6 +176,8 @@ public class CostruisciAlberoGenealogico {
 	 * se il valore della chiave è settato a 0 o l'imperatore è il primo della dinastia
 	 * altrimenti non fa parte della linea di sangue dell'imperatore precedente, viene
 	 * quindi inserito in un diverso albero genealogico.
+	 * 
+	 * @throws WikipediaUrlErratoException Errore di inserimento parametro errato.
 	 */
 	private void costruisciAlberi() throws WikipediaUrlErratoException{
 		urlImperatori.forEach((key, value) -> {
@@ -171,37 +191,54 @@ public class CostruisciAlberoGenealogico {
 				
 				try {
 					
-				// Passo l'url dell'imperatore e l'AlberoGenealogico vuoto per la creazione
-				capostipite = costruzioneAlberoRicorsiva(key, albero);
+					// Passo l'url dell'imperatore e l'AlberoGenealogico vuoto per la creazione
+					capostipite = costruzioneAlberoRicorsiva(key, albero);
 				
 				} catch (WikipediaUrlErratoException error) {
 					new WikipediaUrlErratoException();
 				}
-				
-				capostipite.setImperatore();
-				
-				// Imposto il capostipite dell'albero genealogico.
+
+				// Includo il capostipite nell'albero
 				albero.addPersona(capostipite);
+				
+				// Imposto il capostipite dell'albero genealogico
 				albero.setCapostipite(capostipite);
+				
+				// Aggiungo l'albero alla lista
 				alberiGenealogici.add(albero);
 			}
 		});
 	}
 	
+	/**
+	 * Il metodo si occupa di visitare in maniera ricorsiva tutti i figli e figli dei figli di ogni persona 
+	 * finchè è possibile trovare pagine Wikipedia, per poter così popolare l'albero genealogico a 
+	 * partire dall'imperatore passato per primo.
+	 * 
+	 * @param urlWikipedia L'url di Wikipedia del personaggio storico
+	 * @param albero L'albero genealogico.
+	 * @return L'albero genealogico.
+	 * @throws WikipediaUrlErratoException Errore se viene inserito l'url errato.
+	 */
 	private AnticoRomano costruzioneAlberoRicorsiva(String urlWikipedia, AlberoGenealogico albero) throws WikipediaUrlErratoException{
 		// Da url di wiki preleva il sorgente e costruisce la pagina
 		String sorgente = webSurfer.getHtmlPagina(urlWikipedia);
 		PaginaWikipedia wikiPersonaggio = costruisciPaginaWikipedia(sorgente);
 		
 		// Dalla pagina costruisce l'antico romano
-		AnticoRomano romano = costruisciRomano(wikiPersonaggio);
 		
-		// Controllo se AnticoRomano appena istanziato è stato un imperatore
-		if (urlImperatori.containsKey(romano.getUrl())) {
-			romano.setImperatore();
+		AnticoRomano romano = null;
+
+		// Controllo se la pagina è di un imperatore romano
+		if (urlImperatori.containsKey(wikiPersonaggio.getUrl())) {
+			
+			romano = costruisciImperatore(wikiPersonaggio);
 			
 			// Nella mappa degli url metto l'imperatore visitato ad 1
 			urlImperatori.replace(romano.getUrl(), 1);
+		} else {
+			
+			romano = costruisciRomano(wikiPersonaggio);
 		}
 		
 		// Cerca i figli dalla PaginaWikipedia e ritorna la lista di questi.
@@ -267,11 +304,11 @@ public class CostruisciAlberoGenealogico {
 		PaginaWikipediaBuilder builder = new PaginaWikipediaBuilder();
 		
 		PaginaWikipedia paginaWiki = builder.
-								     	titoloPagina(InfoWikipedia.titoloPagina(sorgente)).
-									    urlImmagine(InfoWikipedia.urlImmagine(sorgente)).
-									    url(InfoWikipedia.urlPagina(sorgente)).
-										sinottico(InfoWikipedia.sinottico(sorgente)).
-										sinotticoHtml(InfoWikipedia.estraiSinottico(sorgente)).
+								     	titoloPagina(AnalisiInfoWikipedia.titoloPagina(sorgente)).
+									    urlImmagine(AnalisiInfoWikipedia.urlImmagine(sorgente)).
+									    url(AnalisiInfoWikipedia.urlPagina(sorgente)).
+										sinottico(AnalisiInfoWikipedia.sinottico(sorgente)).
+										sinotticoHtml(AnalisiInfoWikipedia.estraiSinottico(sorgente)).
 										build();
 		
 		return paginaWiki;
@@ -288,6 +325,7 @@ public class CostruisciAlberoGenealogico {
 		String nome = wiki.getTitle();
 		
 		// Escludi eventuale testo presente tra parentesi
+		// per avere un risultato più pulito
 		if (nome.contains("(")) {
 			nome = nome.substring(0, nome.indexOf("(")).trim();
 		}
@@ -296,7 +334,30 @@ public class CostruisciAlberoGenealogico {
 		
 		AnticoRomano romano = new AnticoRomano(nome, url);
 		
-		romano.setUrlImmagine(wiki.getUrlImmagine());
+		romano.setPaginaWikipedia(wiki);
+		
+		return romano;
+	}
+	
+	/**
+	 * Costruisce l'Imperatore dalla PaginaWikipedia passata.
+	 * 
+	 * @param wiki La pagina Wikipedia.
+	 * @return L'AnticoRomano costruito dai dati della pagina Wikipedia.
+	 */
+	private AnticoRomano costruisciImperatore(PaginaWikipedia wiki) {
+		
+		String nome = wiki.getTitle();
+		
+		// Escludi eventuale testo presente tra parentesi
+		// per avere un risultato più pulito
+		if (nome.contains("(")) {
+			nome = nome.substring(0, nome.indexOf("(")).trim();
+		}
+		
+		String url = wiki.getUrl();
+		
+		Imperatore romano = new Imperatore(nome, url);
 		
 		romano.setPaginaWikipedia(wiki);
 		
@@ -311,15 +372,18 @@ public class CostruisciAlberoGenealogico {
 	 * @return La lista con i figli.
 	 */
 	private List<Informazione> cercaFigli(PaginaWikipedia wiki) {
+		Sinottico sinottico = wiki.getSinottico();
 		
-		try {
-			
-			return wiki.getInformazioneSinottico("Figli");
-			
-			} catch (RigaNonPresenteException error){
-				
-			return null;
+		if (sinottico != null) {
+			try {
+				return sinottico.getInformazioneSinottico("Figli");
+			} catch (RigaNonPresenteException error) {
+				return null;
+			}
 		}
+		
+		return null;
+
 	}
 
 }

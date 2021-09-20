@@ -1,8 +1,5 @@
 package wikipediaWebScraperLib;
 
-import java.util.List;
-import wikipediaWebScraperLib.RigaSinottico.Informazione;
-
 /**
  * La classe rappresenta una pagina di Wikipedia Italia e salva le informazioni principali
  * della pagina registrata.
@@ -11,6 +8,16 @@ import wikipediaWebScraperLib.RigaSinottico.Informazione;
  *
  */
 public class PaginaWikipedia extends WikipediaWebPage {
+
+	/**
+	 * L'indirizzo url della pagina.
+	 */
+	private String url;
+	
+	/**
+	 * Il titolo della pagina senza sigla Wikipedia.
+	 */
+	private String titoloPagina;
 
 	/**
 	 * L'url dell'immagine principale della pagina, se presente.
@@ -37,11 +44,32 @@ public class PaginaWikipedia extends WikipediaWebPage {
 	 * @param sinotticoHtml Il codice html con del sinottico.
 	 */
 	public PaginaWikipedia(String url, String titoloPagina, String urlImmagine, Sinottico sinottico, String sinotticoHtml) {
-		super(url, titoloPagina);
+		this.url = url;
+		this.titoloPagina = titoloPagina;
 		this.urlImmagine = urlImmagine;
 		this.sinottico = sinottico;
 		this.sinotticoHtml = sinotticoHtml;
 	}
+	
+	/**
+	 * Ritorna il titolo della pagina.
+	 * 
+	 * @return Il titolo.
+	 */
+	@Override
+	public String getTitle() {
+		return titoloPagina;
+	};
+	
+	/**
+	 * Ritorna l'url della pagina.
+	 * 
+	 * @return L'url della pagina.
+	 */
+	@Override
+	public String getUrl() {
+		return url;
+	};
 	
 	/**
 	 * Ritorna l'url dell'immagine.
@@ -59,52 +87,9 @@ public class PaginaWikipedia extends WikipediaWebPage {
 		return sinottico;
 	}
 	
-	/**
-	 * Cerca la riga all'interno del sinottico dal nome della categoria dell'informazione.
-	 * Viene ritornata tutta la riga come oggetto di tipo RigaSinottico.
-	 * Se la riga non è presente viene lanciato un errore RigaNonPresenteException.
-	 * Se la PaginaWikipedia non contiene un sinottico viene ritornato null.
-	 * 
-	 * @param categoria La categoria presente nella cella sinistra della riga.
-	 * @return La RigaSinottico corrispondente.
-	 * @throws RigaNonPresenteException
-	 */
-	public RigaSinottico getRigaSinottico(String categoria) throws RigaNonPresenteException {
-		if (sinottico != null) {
-			return sinottico.getRiga(categoria);
-		} else {
-			return null;
-		}
-	}
-	
-	/**
-	 * Cerca la riga dal nome della categoria dell'informazione. Viene ritornata la Lista di Informazione
-	 * corrispondenti a quella riga.
-	 * Se la categoria non viene trovata tra le righe presenti nel sinottico viene lanciato
-	 * un errore di tipo RigaNonPresenteException.
-	 * Se la PaginaWikipedia non contiene un sinottico viene ritornato null.
-	 * 
-	 * @param categoria La categoria presente nella cella sinistra della riga.
-	 * @return La lista di oggetti Informazione della riga trovata.
-	 * @throws RigaNonPresenteException
-	 */
-	public List<Informazione> getInformazioneSinottico(String categoria) throws RigaNonPresenteException {
-		if (sinottico != null) {
-			RigaSinottico riga = sinottico.getRiga(categoria);
-			if (riga != null) {
-				return riga.getInformazioni();
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
-		
-	}
-	
 	@Override
 	public String toString() {
-		return super.getTitle();
+		return titoloPagina;
 	}
 	
 	/**

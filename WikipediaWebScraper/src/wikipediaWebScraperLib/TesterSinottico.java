@@ -15,7 +15,7 @@ public class TesterSinottico {
 		
 		sinottico.creaRiga("Riga n2");
 		sinottico.addInfoToRiga("Riga n2", "Tester 1");
-		sinottico.addUrlInfoToRiga("Riga n2", "Tester 2", "https://it.wikipedia.org/wiki/testerrrr");
+		sinottico.addUrlToInfoToRiga("Riga n2", "Tester 2", "https://it.wikipedia.org/wiki/testerrrr");
 		
 		sinottico.creaRiga("Riga n3");
 		sinottico.addInfoToRiga("Riga n3", "Tester 22");

@@ -7,10 +7,18 @@ package wikipediaWebScraperLib;
  */
 public class WikipediaUrlErratoException extends Exception{
 	
+	/**
+	 * Errore con messaggio di url errato.
+	 */
 	public WikipediaUrlErratoException() {
 		super("Url di Wikipedia passato in formato errato, non inizia con https://it.wikipedia.org/wiki/");
 	}
 	
+	/**
+	 * Errore con messaggio personalizzato.
+	 * 
+	 * @param message Il messaggio da visualizzare.
+	 */
 	public WikipediaUrlErratoException(String message) {
 		super(message);
 	}

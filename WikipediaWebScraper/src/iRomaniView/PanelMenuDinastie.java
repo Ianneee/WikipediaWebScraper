@@ -1,6 +1,5 @@
 package iRomaniView;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -43,7 +42,7 @@ public class PanelMenuDinastie extends JPanel {
 	/**
 	 * La larghezza.
 	 */
-	private final int LARGHEZZA = 300;
+	private final int LARGHEZZA = 420;
 	
 	/**
 	 * La posizione orizzontale.

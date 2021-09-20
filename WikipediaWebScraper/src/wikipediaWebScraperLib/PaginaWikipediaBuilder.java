@@ -38,7 +38,7 @@ public class PaginaWikipediaBuilder {
 	/**
 	 * Imposta l'url della pagina Wikipedia.
 	 * 
-	 * @param url L'url della pagina.
+	 * @param urlPagina L'url della pagina.
 	 * @return Il builder stesso.
 	 */
 	public PaginaWikipediaBuilder url(String urlPagina) {
@@ -79,6 +79,12 @@ public class PaginaWikipediaBuilder {
 		return this;
 	}
 	
+	/**
+	 * Il sorgente con il sinottico della pagina.
+	 * 
+	 * @param sinotticoHtml Il sinottico.
+	 * @return Il builder stesso.
+	 */
 	public PaginaWikipediaBuilder sinotticoHtml(String sinotticoHtml) {
 		this.sinotticoHtml = sinotticoHtml;
 		return this;

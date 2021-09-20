@@ -6,9 +6,6 @@ public class TesterAnticoRomano {
 		AnticoRomano personaggio = new AnticoRomano("Cesare", null);
 		System.out.println(personaggio);
 		
-		personaggio.setImperatore();
-		System.out.println(personaggio);
-		
 	}
 
 }

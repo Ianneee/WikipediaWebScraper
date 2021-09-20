@@ -1,11 +1,11 @@
 package iRomaniModel;
-import java.util.List;
 
 import wikipediaWebScraperLib.RigaTabella;
 import wikipediaWebScraperLib.TabellaWikipedia;
 
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * La classe rappresenta una tabella relativa ad una sola dinastia presente nella pagina Wikipedia
@@ -15,7 +15,8 @@ import java.util.ArrayList;
  * @author Ian Tirso Cini
  *
  */
-public class TabellaDinastie extends TabellaWikipedia implements Iterable<TabellaDinastie.Riga> {
+public class TabellaDinastie extends TabellaWikipedia<TabellaDinastie.Riga> 
+							 implements Iterable<TabellaDinastie.Riga> {
 	
 	/**
 	 * Nome della dinastia.
@@ -32,12 +33,10 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	 */
 	private List<TabellaDinastie.Riga> righe;
 	
-//	private Riga rigaEsempio = new Riga();
-	
 	/**
 	 * Costruisce una TabellaDinastie fornendo il nome della dinastia.
 	 * 
-	 * @param nomeDinastia
+	 * @param nomeDinastia Il nome della dinastia.
 	 */
 	public TabellaDinastie(String nomeDinastia) {
 		this.nomeDinastia = nomeDinastia;
@@ -47,7 +46,7 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	/**
 	 * Imposta l'url della dinastia rappresentata nella tabella.
 	 * 
-	 * @param urlDinastia
+	 * @param urlDinastia L'url della dinastia.
 	 */
 	public void setUrlDinastia(String urlDinastia) {
 		this.urlDinastia = urlDinastia;
@@ -118,12 +117,8 @@ public class TabellaDinastie extends TabellaWikipedia implements Iterable<Tabell
 	 * Se la riga fornita come argomento è del tipo sbagliato questa non viene aggiunta.
 	 */
 	@Override
-	public void addRiga(RigaTabella riga) {
-		// TODO raise errore tipo della riga aggiunta errata
-		
-		if (riga.getClass() ==  Riga.class ) {
+	public void addRiga(TabellaDinastie.Riga riga) {
 			righe.add((Riga) riga);
-		}
 	}
 	
 	/**

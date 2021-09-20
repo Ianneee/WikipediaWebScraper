@@ -1,7 +1,6 @@
 package iRomaniView;
 
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 /**
  * La classe è il pannello centrale dell'applicazione, dove vengono visualizzati
@@ -21,12 +20,12 @@ public class PanelPrincipale extends JPanel {
 	/**
 	 * La larghezza.
 	 */
-	private final int LARGHEZZA = 1020;
+	private final int LARGHEZZA = 900;
 	
 	/**
 	 * La posizione orizzontale.
 	 */
-	private final int X = 300;
+	private final int X = 435;
 	
 	/**
 	 * La posizione verticale.

@@ -1,6 +1,7 @@
 package iRomaniModel;
 
 import java.util.List;
+
 import wikipediaWebScraperLib.WikipediaNavigator;
 import wikipediaWebScraperLib.WikipediaUrlErratoException;
 import wikipediaWebScraperLib.WikipediaWebPage;
@@ -46,20 +47,17 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	public static WikiImperatoriRomaniPagina getInstance() {
 		if (instance == null) {
 			instance = new WikiImperatoriRomaniPagina();
-			instance.analisiSorgentePagina();
 		}
 		return instance;
 	}
 	
 	/**
-	 * Costruttore privato per l'utilizzo del design pattern singleton.
-	 * Al super costruttore vengono passati l'url della pagina corretta ed
-	 * il titolo.
+	 * Istanzia l'oggetto dallo scraping della pagina.
 	 */
-	private WikiImperatoriRomaniPagina() {
-		super(URL_PAGINA, TITOLO_PAGINA);
+	private  WikiImperatoriRomaniPagina() {
+		analisiSorgentePagina();
 	}
-	
+
 	/**
 	 * Ritorna il titolo della pagina.
 	 * 
@@ -67,7 +65,7 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	 */
 	@Override
 	public String getTitle() {
-		return super.getTitle();
+		return TITOLO_PAGINA;
 	}
 	
 	/**
@@ -77,7 +75,7 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	 */
 	@Override
 	public String getUrl() {
-		return super.getUrl();
+		return URL_PAGINA;
 	}
 	
 	/**
@@ -96,6 +94,7 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	 */
 	private void analisiSorgentePagina() {
 	
+		// Prende il sorgente dalla pagina wiki
 		WikipediaNavigator browser = new WikipediaNavigator();
 		
 		String sorgente = null;
@@ -108,6 +107,7 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 		
 		browser.closeBrowser();
 		
+		// Parsing del sorgente e creazione delle tabelle
 		if (sorgente != null) {
 
 		ParserTabellaDinastie parser = new ParserTabellaDinastie();
@@ -141,7 +141,7 @@ public class WikiImperatoriRomaniPagina extends WikipediaWebPage {
 	 * 
 	 * @param nomeDinastia Il nome della dinastia desiderata.
 	 * @return TabellaDinastie della dinastia cercata.
-	 * @throws DinastiaNonTrovataException
+	 * @throws DinastiaNonTrovataException Errore lanciato per nome dinastia errata.
 	 */
 	public TabellaDinastie getDinastia(String nomeDinastia) throws DinastiaNonTrovataException {
 		for (TabellaDinastie dinastia : dinastie) {

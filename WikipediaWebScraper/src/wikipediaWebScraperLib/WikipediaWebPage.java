@@ -6,45 +6,21 @@ package wikipediaWebScraperLib;
  * @author Ian Tirso Cini
  *
  */
-public class WikipediaWebPage { 
-	/**
-	 * L'indirizzo url della pagina.
-	 */
-	private String url;
-	
-	/**
-	 * Il titolo della pagina senza sigla Wikipedia.
-	 */
-	private String titoloPagina;
-	
-	/**
-	 * Costruisce una WikipediaWebPage dall'url e dal titolo della pagina
-	 * passati come argomento.
-	 * 
-	 * @param url L'url della pagina.
-	 * @param titoloPagina Il Titolo della pagina.
-	 */
-	public WikipediaWebPage(String url, String titoloPagina) {
-		this.url = url;
-		this.titoloPagina = titoloPagina;
-	}
+public abstract class WikipediaWebPage { 
+
 	
 	/**
 	 * Ritorna il titolo della pagina.
 	 * 
-	 * @return Il titolo.
+	 * @return Il titolo della pagina.
 	 */
-	public String getTitle() {
-		return titoloPagina;
-	};
+	public abstract String getTitle();
 	
 	/**
 	 * Ritorna l'url della pagina.
 	 * 
 	 * @return L'url della pagina.
 	 */
-	public String getUrl() {
-		return url;
-	};
+	public abstract String getUrl();
 
 }
