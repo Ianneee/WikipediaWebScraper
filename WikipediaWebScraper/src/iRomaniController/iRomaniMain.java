@@ -1,7 +1,7 @@
 package iRomaniController;
 
 import iRomaniModel.Model;
-import iRomaniView.TesterView;
+import iRomaniView.View;
 
 /**
  * Lancia il programma iRomani.
@@ -18,7 +18,7 @@ public class iRomaniMain {
 	 */
 	public static void main(String[] args) {
 		Model m = new Model();
-		TesterView v = new TesterView();
+		View v = new View();
 		Controller controller = new Controller(m, v);
 		controller.init();
 	}

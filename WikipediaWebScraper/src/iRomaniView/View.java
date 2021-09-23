@@ -15,7 +15,7 @@ import alberoGenealogicoLib.AlberoGenealogico;
  * @author Ian Tirso Cini
  *
  */
-public class TesterView {
+public class View {
 	
 
 	/**
@@ -47,7 +47,7 @@ public class TesterView {
 	/**
 	 * Costruisce la view istanziando un JFrame.
 	 */
-	public TesterView() {
+	public View() {
 		
 		// Creazione frame
 		frame = new JFrame("iRomani - Arbores consanguinitatis ");

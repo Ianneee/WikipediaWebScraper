@@ -2,7 +2,7 @@ package iRomaniController;
 
 import iRomaniModel.DinastiaNonTrovataException;
 import iRomaniModel.Model;
-import iRomaniView.TesterView;
+import iRomaniView.View;
 
 import wikipediaWebScraperLib.PaginaWikipedia;
 import wikipediaWebScraperLib.WikipediaUrlErratoException;
@@ -30,7 +30,7 @@ public class Controller {
 	/**
 	 * La GUI del progetto.
 	 */
-	private TesterView view;
+	private View view;
 	
 	/**
 	 * Booleano che indica se il bottone dell'infoBox è attivo
@@ -43,7 +43,7 @@ public class Controller {
 	 * @param model Il model.
 	 * @param view La view.
 	 */
-	public Controller(Model model, TesterView view) {
+	public Controller(Model model, View view) {
 		this.model = model;
 		this.view = view;
 	}
