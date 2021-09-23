@@ -1,4 +1,3 @@
-#Wikipedia Web Scraper
 
 ░░░░░░░░ File README ░░░░░░░░
 
