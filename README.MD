@@ -7,16 +7,29 @@ The code is all in italian, i will release an english version in the near future
 
 The practical exam consist to write a web scraper for Wikipedia and build the genealogical tree for each dinasty of roman emperors listed in this [page](https://it.wikipedia.org/wiki/Imperatori_romani).
 Most of the processes need be automatic.
+<br/><br/>
+## Progetto web scraper 
+La repo contiene il codice scritto per l'esame di metodologie di programmazione del corso di informatica @La Sapienza di Roma.
 
+La richiesta dell'esame è quella di creare un web scraper per ricostruire gli alberi genealogici degli imperatori romani presenti in questa [pagina](https://it.wikipedia.org/wiki/Imperatori_romani).
+Il processo deve essere il più automatica possibile.
 
+Tutto il codice è stato scritto da me, in totale autonomia.
+L'ideazione e creazione è stata frutto di studio, riflessione ed approfondimento degli argomenti proposti durante il corso; in nessuna parte è stato fatto uso di codice proveniente da fonti esterne.
+<br/><br/>
+### Struttura /src
 
-# Progetto web scraper - File README
+Nella prima fase ho scritto due librerie: una che permette lo scraping di grossa parte delle informazioni presenti nel box laterale di una qualsiasi pagina di Wikipedia (detto sinottico), la seconda che permette di creare un albero genealogico di qualsiasi classe implementi una interfaccia.
 
-## 1) Sorgenti:
+Nella seconda fase ho creato "iRomani", ovvero il programma che effettua lo scraping da Wikipedia e mostra gli alberi genealogici delle dinastie/periodo storico degli imperatori.
+<br/><br/>
+## File README
+
+### 1) Sorgenti:
 Tutti i sorgenti del progetto sono all'interno della cartella WikipediaWebScraper. Tutto il codice è stato scritto su Eclipse.
 
 
-## 2)Tools necessari:
+### 2)Tools necessari:
 Tutte le librerie ed i tool necessari alla corretta esecuzione del programma sono presenti all'interno della cartella.
 Le librerie sono all'interno della cartella WikipediaWebScraper/lib.
 
@@ -27,13 +40,13 @@ Per utilizzare una versione precedente di Chrome è necessario sostituire il Chr
 
 Il codice è stato scritto con Java 15
 
-## 3) Lancio del codice:
+### 3) Lancio del codice:
 Il main del programma si trova all'interno della cartella src/iRomaniController/iRomani/iRomaniMain.java
 
 
-## 4) Sorgenti:
+### 4) Sorgenti:
 Tutti i sorgenti del progetto sono all'interno della cartella WikipediaWebScraper.
 
 
-## 5) Documentazione:
+### 5) Documentazione:
 La relazione, l'uml delle classi ed il manuale della gui si trovano all'interno della cartella Documentazione.
