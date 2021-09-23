@@ -23,5 +23,5 @@
 hs_err_pid*
 
 .metadata/*
-.settings/*
-bin/*
+WikipediaWebScraper/.settings/*
+WikipediaWebScraper/bin/*
