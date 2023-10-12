@@ -1,7 +1,8 @@
 # Wikipedia Web Scraper
 
-This Java project was created for the exam of "programming methodologies", a course in the first year of computer science at La Sapienza University in Rome.  
-The code is in Italian because the language of the exam was Italian.
+This Java project was created for the exam of "programming methodologies", a course in the first year of computer science at La Sapienza University in Rome. The course covered object-oriented programming through the teaching of Java.  
+The code is in Italian because the language of the exam was Italian.  
+When I built the project, I had no knowledge of HTML, CSS, DOM, and parsing as I was at the beginning of my academic career. Therefore, I ingeniously worked independently to first understand what needed to be done and then figure out how to do it.
 
 ## Interface
 
